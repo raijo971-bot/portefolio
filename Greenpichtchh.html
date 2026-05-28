@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Green Pitch — Raïssa Gradel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* ══ NAVIGATION FONCTIONNELLE (burger — repris de Totally Style) ══ */
+    #main-nav ul { list-style:none; margin:0; padding:0; display:flex; gap:2rem; }
+    #main-nav a { font-size:.85rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#8a7070); text-decoration:none; padding:.5rem 0; border-bottom:2px solid transparent; transition:color .2s, border-color .2s; }
+    #main-nav a:hover, #main-nav a.active { color:var(--brand-light,#f472b6); border-bottom-color:var(--brand,#ec4899); text-decoration:none; }
+    #burger-btn { display:none; background:var(--surface,#111); color:var(--text-primary,#e8d5d5); border:1px solid var(--border,#2a1a1a); font-size:1.6rem; line-height:1; padding:.3rem .75rem; border-radius:10px; cursor:pointer; }
+    #burger-btn:hover { border-color:var(--brand,#ec4899); color:var(--brand-light,#f472b6); }
+    @media (max-width: 768px) {
+      #burger-btn { display:block; }
+      #main-nav { display:none; position:fixed; top:68px; left:12px; right:12px; background:#111111; border:2px solid #ec4899; border-radius:14px; padding:.75rem; z-index:9999; box-shadow:0 8px 40px rgba(236,72,153,.4); }
+      #main-nav.open { display:block; }
+      #main-nav ul { flex-direction:column; gap:0; }
+      #main-nav li { width:100%; }
+      #main-nav a { display:block; padding:1rem 1.2rem; border-bottom:1px solid rgba(236,72,153,.2); border-radius:8px; color:#e8d5d5; font-size:1rem; }
+      #main-nav li:last-child a { border-bottom:none; }
+      #main-nav a:hover { background:rgba(236,72,153,.1); color:#f472b6; border-bottom-color:transparent; }
+      #main-nav a.active { color:#f472b6; background:rgba(236,72,153,.12); border-left:3px solid #ec4899; }
+    }
+
+    /* ══ SPÉCIFIQUE GREEN PITCH ══ */
+
+    /* Palette de couleurs */
+    .palette { display:flex; gap:1.1rem; flex-wrap:wrap; margin:1rem 0 2.5rem; }
+    .palette-swatch { flex:1; min-width:120px; border-radius:var(--radius); overflow:hidden; border:1px solid var(--border); }
+    .palette-swatch__color { height:64px; }
+    .palette-swatch__info { background:var(--surface); padding:.65rem 1rem; }
+    .palette-swatch__info strong { display:block; font-size:.85rem; color:var(--text-primary); margin-bottom:.15rem; }
+    .palette-swatch__info span { font-size:.75rem; color:var(--muted); }
+
+    /* Tableau arborescence */
+    .arbo-table { width:100%; border-collapse:collapse; margin:1rem 0 2.5rem; }
+    .arbo-table th, .arbo-table td { padding:.8rem 1rem; text-align:left; border-bottom:1px solid var(--border); font-size:.88rem; }
+    .arbo-table thead tr { background:var(--surface-2); }
+    .arbo-table th { font-size:.75rem; letter-spacing:.12em; text-transform:uppercase; color:var(--brand-light); font-weight:600; }
+    .arbo-table tr:hover td { background:rgba(236,72,153,.04); }
+    .arbo-table td { color:var(--text-secondary); }
+    .arbo-table td:first-child { color:var(--text-primary); font-weight:500; }
+    .arbo-table code { font-size:.78rem; background:var(--surface-2); padding:.15rem .45rem; border-radius:4px; color:var(--brand); border:1px solid var(--border); }
+
+    /* Personas */
+    .personas { display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:1.25rem; margin:1rem 0 2.5rem; }
+    .persona-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; position:relative; overflow:hidden; box-shadow:var(--shadow-sm); transition:transform var(--transition), box-shadow var(--transition); }
+    .persona-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-md); }
+    .persona-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--brand), var(--brand-light)); }
+    .persona-card__label { font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--brand); margin-bottom:.5rem; }
+    .persona-card h3 { margin:0 0 1rem; }
+    .persona-card dl { display:grid; grid-template-columns:auto 1fr; gap:.3rem .75rem; }
+    .persona-card dt { font-size:.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; padding-top:.1rem; }
+    .persona-card dd { font-size:.85rem; color:var(--text-secondary); }
+
+    /* Grille ergo / apprentissages */
+    .ergo-grid, .apprentissages {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+      gap:1.1rem;
+      margin:1rem 0 2.5rem;
+    }
+    .ergo-item, .apprentissage-item {
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:1.25rem 1.4rem;
+      display:flex; flex-direction:column; gap:.4rem;
+      transition:transform var(--transition), box-shadow var(--transition);
+    }
+    .ergo-item:hover, .apprentissage-item:hover { transform:translateY(-3px); box-shadow:var(--shadow-md); }
+    .ergo-item .icon, .apprentissage-item .icon { font-size:1.3rem; }
+    .ergo-item strong, .apprentissage-item strong { font-size:.88rem; color:var(--brand-light); }
+    .ergo-item p, .apprentissage-item p { font-size:.83rem; color:var(--text-secondary); margin:0; line-height:1.55; max-width:none; }
+
+    /* Galerie en grille pour les screenshots */
+    .projet-galerie--grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+      gap:1rem;
+      margin:1.5rem 0 2.5rem;
+      align-items:start;
+    }
+    .projet-galerie--grid img {
+      border-radius:var(--radius);
+      box-shadow:var(--shadow-sm);
+      width:100%;
+      height:auto;
+      transition:box-shadow var(--transition), transform var(--transition);
+      border:1px solid var(--border);
+    }
+    .projet-galerie--grid img:hover { box-shadow:var(--shadow-md); transform:translateY(-3px); }
+  
+    #lang-btn {
+      background: transparent;
+      color: var(--brand-light, #f472b6);
+      border: 1px solid var(--brand, #ec4899);
+      font-size: .78rem;
+      letter-spacing: .12em;
+      padding: .3rem .7rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      font-family: inherit;
+    }
+    #lang-btn:hover { background: var(--brand, #ec4899); color: #fff; }
+
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header>
+    <a href="index.html" class="logo">
+      <img src="img/mylogo.png" alt="Logo Raïssa Gradel" />
+      <span class="logo-name" data-fr="RAÏSSA GRADEL" data-en="RAÏSSA GRADEL">RAÏSSA GRADEL</span>
+    </a>
+    <button id="lang-btn" aria-label="Switch language">🇬🇧 EN</button>
+    <button id="toggle-theme" aria-label="Basculer thème">☀️ Mode clair</button>
+    <button id="burger-btn" aria-label="Ouvrir le menu">☰</button>
+    <nav id="main-nav">
+      <ul>
+        <li><a href="index.html" data-fr="Accueil" data-en="Home">Accueil</a></li>
+        <li><a href="projets.html" class="active" data-fr="Projets" data-en="Projects">Projets</a></li>
+        <li><a href="Apropos.html" data-fr="À propos" data-en="About">À propos</a></li>
+        <li><a href="Competence.html" data-fr="Compétences" data-en="Skills">Compétences</a></li>
+        <li><a href="contact.html" data-fr="Contact" data-en="Contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <!-- ── CONTENU PRINCIPAL ── -->
+  <main class="projet-detail">
+
+    <!-- HERO -->
+    <div class="projet-hero">
+      <p class="projet-hero__retour"><a href="projets.html" data-fr="← Retour aux projets" data-en="← Back to projects">← Retour aux projets</a></p>
+      <h1 data-fr="Green Pitch" data-en="Green Pitch">Green Pitch</h1>
+      <p class="projet-hero__meta" data-fr="⚽ Projet académique · Site web vitrine · SAE 1.05 · 2025" data-en="⚽ Academic project · Showcase website · SAE 1.05 · 2025">⚽ Projet académique · Site web vitrine · SAE 1.05 · 2025</p>
+      <p>Conception et développement d'un site web vitrine pour <strong>GREEN PITCH</strong>,
+        une association sportive multi-sports fictive basée à Saint-Claude, en Guadeloupe.
+        Le projet couvre l'architecture du site, la définition des personas,
+        les choix ergonomiques et le développement HTML/CSS complet.</p>
+    </div>
+
+
+    <!-- ── LE PROJET ── -->
+    <section aria-labelledby="titre-projet-gp">
+      <h2 id="titre-projet-gp" data-fr="Le projet" data-en="The project">Le projet</h2>
+      <div class="projet-texte-card">
+        <p>GREEN PITCH est une <strong>association sportive multi-sports fictive</strong>
+          dont la devise est <em>« Une famille, une passion »</em>. Basée à Saint-Claude
+          en Guadeloupe, elle accueille tous les niveaux et toutes les catégories d'âge
+          dans un environnement bienveillant et structuré.</p>
+        <p>Le site vitrine couvre <strong>6 disciplines</strong> — football, tennis,
+          natation, volleyball, basketball et athlétisme — ainsi qu'une section e-sport
+          dédiée aux jeux vidéo. Il propose également une <strong>version anglophone</strong>
+          de la page d'accueil pour élargir l'audience au-delà de la Guadeloupe.</p>
+          <a href="https://github.com/Stxvn97114" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+  GitHub →
+</a>
+
+      </div>
+    </section>
+
+
+    <!-- ── CAPTURES D'ÉCRAN ── -->
+    <section aria-labelledby="titre-captures-gp">
+      <h2 id="titre-captures-gp" data-fr="Pages du site" data-en="Website pages">Pages du site</h2>
+      <div class="projet-galerie--grid">
+        <img src="img/GP_acc.png"        alt="Page d'accueil — Hero Green Pitch avec slogan Une famille, une passion" />
+        <img src="img/GP_nosvaleurs.png" alt="Page Nos Valeurs — Philosophie du club Green Pitch" />
+        <img src="img/GP_nosequipes.png" alt="Page Nos Équipes — Catégories U6 à Séniors" />
+        <img src="img/GP_actu.png"       alt="Page Actualités — Dernières nouvelles et événements du club" />
+        <img src="img/GP_contact.png"    alt="Page Contact — Formulaire de pré-inscription et bénévolat" />
+      </div>
+    </section>
+
+
+    <!-- ── ARBORESCENCE ── -->
+    <section aria-labelledby="titre-arbo-gp">
+      <h2 id="titre-arbo-gp" data-fr="Architecture du site" data-en="Site architecture">Architecture du site</h2>
+      <div class="projet-texte-card">
+        <p>Le site est structuré en <strong>8 pages HTML distinctes</strong>,
+          dont une version anglophone de l'accueil. La navigation est assurée par
+          un menu fixe (<em>sticky</em>) présent sur toutes les pages, avec un sélecteur
+          de langue FR / EN intégré dans le header.</p>
+      </div>
+      <table class="arbo-table">
+        <thead>
+          <tr><th data-fr="Page" data-en="Page">Page</th><th data-fr="Fichier" data-en="File">Fichier</th><th data-fr="Contenu" data-en="Content">Contenu</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Accueil (FR)</td><td><code>index.html</code></td><td>Hero, vidéo de motivation, appel à l'action</td></tr>
+          <tr><td>Accueil (EN)</td><td><code>index-en.html</code></td><td>Version anglaise de l'accueil</td></tr>
+          <tr><td>Nos Sports</td><td><code>sports.html</code></td><td>Présentation des 6 sports, vidéos intégrées</td></tr>
+          <tr><td>Nos Valeurs</td><td><code>valeurs.html</code></td><td>Philosophie, objectifs et valeurs du club</td></tr>
+          <tr><td>Nos Équipes</td><td><code>equipes.html</code></td><td>Catégories d'âge, horaires d'entraînement</td></tr>
+          <tr><td>Jeux Vidéo</td><td><code>jeux.html</code></td><td>Section e-sport, 3 jeux, vidéos YouTube</td></tr>
+          <tr><td>Actualités</td><td><code>actualites.html</code></td><td>News et événements du club</td></tr>
+          <tr><td data-fr="Contact" data-en="Contact">Contact</td><td><code>contact.html</code></td><td>Formulaire de pré-inscription, carte, mentions légales</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+
+    <!-- ── PERSONAS ── -->
+    <section aria-labelledby="titre-personas-gp">
+      <h2 id="titre-personas-gp" data-fr="Personas &amp; parcours utilisateurs" data-en="Personas &amp; user journeys">Personas &amp; parcours utilisateurs</h2>
+      <div class="projet-texte-card">
+        <p>Deux parcours utilisateurs prioritaires ont été définis pour répondre aux besoins
+          principaux des visiteurs. Ces personas ont guidé toutes les décisions
+          d'ergonomie et de hiérarchie de l'information.</p>
+      </div>
+      <div class="personas">
+
+        <div class="persona-card">
+          <p class="persona-card__label" data-fr="Parcours 1 — Parent" data-en="Journey 1 — Parent">Parcours 1 — Parent</p>
+          <h3 data-fr="Marie-Louise Nabajoth" data-en="Marie-Louise Nabajoth">Marie-Louise Nabajoth</h3>
+          <dl>
+            <dt>Âge</dt>       <dd>42 ans — Infirmière au CHU de Pointe-à-Pitre</dd>
+            <dt>Lieu</dt>       <dd>Saint-Claude, Guadeloupe</dd>
+            <dt>Objectif</dt>   <dd>Inscrire ses deux enfants (9 et 12 ans) à un sport le mercredi</dd>
+            <dt>Numérique</dt>  <dd>Niveau intermédiaire, principalement smartphone</dd>
+            <dt>Parcours</dt>   <dd>Accueil → Nos Sports → Nos Équipes → Contact</dd>
+          </dl>
+        </div>
+
+        <div class="persona-card">
+          <p class="persona-card__label" data-fr="Parcours 2 — Bénévole" data-en="Journey 2 — Volunteer">Parcours 2 — Bénévole</p>
+          <h3 data-fr="Jean-Marc Dorleans" data-en="Jean-Marc Dorleans">Jean-Marc Dorleans</h3>
+          <dl>
+            <dt>Âge</dt>       <dd>58 ans — Retraité de la fonction publique</dd>
+            <dt>Lieu</dt>       <dd>Basse-Terre (commune voisine)</dd>
+            <dt>Objectif</dt>   <dd>S'investir comme bénévole, transmettre sa passion du football</dd>
+            <dt>Numérique</dt>  <dd>Niveau basique, préfère une information claire</dd>
+            <dt>Parcours</dt>   <dd>Accueil → Nos Valeurs → Actualités → Contact</dd>
+          </dl>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ── IDENTITÉ VISUELLE ── -->
+    <section aria-labelledby="titre-palette-gp">
+      <h2 id="titre-palette-gp" data-fr="Identité visuelle" data-en="Visual identity">Identité visuelle</h2>
+      <div class="projet-texte-card">
+        <p>L'identité visuelle de GREEN PITCH repose sur un <strong>thème sombre</strong>
+          avec un vert lumineux comme couleur d'accent principale. Ce choix rappelle les
+          terrains de sport nocturnes et renforce l'univers sportif, dynamique et moderne
+          du club guadeloupéen.</p>
+      </div>
+      <div class="palette">
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background:#00e5a0;"></div>
+          <div class="palette-swatch__info"><strong>Vert accent</strong><span>#00E5A0</span></div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background:#0a0a0a; border-bottom:1px solid #333;"></div>
+          <div class="palette-swatch__info"><strong>Noir profond</strong><span>#0A0A0A</span></div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background:#1e1e1e;"></div>
+          <div class="palette-swatch__info"><strong>Surface sombre</strong><span>#1E1E1E</span></div>
+        </div>
+        <div class="palette-swatch">
+          <div class="palette-swatch__color" style="background:#f0f0f0;"></div>
+          <div class="palette-swatch__info"><strong>Blanc texte</strong><span>#F0F0F0</span></div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── ERGONOMIE & ACCESSIBILITÉ ── -->
+    <section aria-labelledby="titre-ergo-gp">
+      <h2 id="titre-ergo-gp" data-fr="Ergonomie &amp; accessibilité" data-en="Ergonomics &amp; accessibility">Ergonomie &amp; accessibilité</h2>
+      <div class="ergo-grid">
+        <div class="ergo-item">
+          <span class="icon">📌</span>
+          <strong>Navigation sticky</strong>
+          <p data-fr="Menu fixe en haut de page pour un accès rapide à toutes les sections sans perdre le contexte de navigation." data-en="Fixed top menu for quick access to all sections without losing navigation context.">Menu fixe en haut de page pour un accès rapide à toutes les sections sans perdre le contexte de navigation.</p>
+        </div>
+        <div class="ergo-item">
+          
+          <strong>Design responsive</strong>
+          <p>Adapté mobiles, tablettes et desktops — crucial car le public cible consulte principalement sur smartphone.</p>
+        </div>
+        <div class="ergo-item">
+         
+          <strong>Bilingue FR / EN</strong>
+          <p data-fr="Sélecteur de langue dans le header pour élargir l'audience au-delà de la Guadeloupe francophone." data-en="Language selector in the header to reach audiences beyond French-speaking Guadeloupe.">Sélecteur de langue dans le header pour élargir l'audience au-delà de la Guadeloupe francophone.</p>
+        </div>
+        <div class="ergo-item">
+          
+          <strong>Accessibilité HTML5</strong>
+          <p data-fr="Structure sémantique, attributs alt pertinents, hiérarchie H1 &gt; H2 &gt; H3 et navigation au clavier." data-en="Semantic structure, relevant alt attributes, H1 &gt; H2 &gt; H3 hierarchy and keyboard navigation.">Structure sémantique, attributs alt pertinents, hiérarchie H1 &gt; H2 &gt; H3 et navigation au clavier.</p>
+        </div>
+        <div class="ergo-item">
+         
+          <strong>CTA explicites</strong>
+          <p>Appels à l'action clairs : « Rejoindre le club », « Nous contacter » pour guider chaque profil d'utilisateur.</p>
+        </div>
+        <div class="ergo-item">
+         
+          <strong>Contraste élevé</strong>
+          <p>Vert lumineux sur fond noir — ratio de contraste suffisant pour une lisibilité optimale en toutes conditions.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── CE QUE J'AI APPRIS ── -->
+    <section aria-labelledby="titre-bilan-gp">
+      <h2 id="titre-bilan-gp" data-fr="Ce que j'ai appris" data-en="What I learned">Ce que j'ai appris</h2>
+      <div class="apprentissages">
+        <div class="apprentissage-item">
+          <span class="icon">🗂️</span>
+          <strong>Conception centrée utilisateur</strong>
+          <p>Construire un site autour de personas réels m'a appris à hiérarchiser les informations selon les besoins réels des visiteurs.</p>
+        </div>
+        <div class="apprentissage-item">
+          <span class="icon">🌍</span>
+          <strong>Internationalisation</strong>
+          <p>Gérer deux versions linguistiques nécessite d'anticiper la structure et le contenu dès la phase de conception.</p>
+        </div>
+        <div class="apprentissage-item">
+          <span class="icon">📐</span>
+          <strong>Architecture d'information</strong>
+          <p>Définir une arborescence claire et cohérente est fondamental avant d'écrire la moindre ligne de code HTML.</p>
+        </div>
+        <div class="apprentissage-item">
+          <span class="icon">♿</span>
+          <strong>Accessibilité en pratique</strong>
+          <p>Intégrer l'accessibilité dès la conception est bien plus efficace que de l'ajouter comme correctif en fin de projet.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── CTA ── -->
+    <div class="cta-center">
+      <a href="projets.html" class="btn" data-fr="← Retour aux projets" data-en="← Back to projects">← Retour aux projets</a>
+      <a href="Totally_style.html" class="btn btn-outline">Totally Style →</a>
+    </div>
+
+  </main>
+
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <small>© <span id="annee"></span> <span data-fr="Raïssa Gradel — BUT MMI" data-en="Raïssa Gradel — BUT MMI">Raïssa Gradel — BUT MMI</span></small>
+  </footer>
+
+
+  <script>
+    /* ── Année ── */
+    document.getElementById('annee').textContent = new Date().getFullYear();
+
+    /* ── Thème ── */
+    var btnTheme = document.getElementById('toggle-theme');
+    var saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+    btnTheme.textContent = saved === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    btnTheme.addEventListener('click', function () {
+      var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+      btnTheme.textContent = t === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    });
+
+    /* ── Burger (classe .open — même logique que Totally Style) ── */
+    var btn = document.getElementById('burger-btn');
+    var nav = document.getElementById('main-nav');
+    btn.addEventListener('click', function () {
+      if (nav.classList.contains('open')) { nav.classList.remove('open'); btn.textContent = '☰'; }
+      else { nav.classList.add('open'); btn.textContent = '✕'; }
+    });
+    nav.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { nav.classList.remove('open'); btn.textContent = '☰'; });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { nav.classList.remove('open'); btn.textContent = '☰'; }
+    });
+  </script>
+
+
+  <!-- ── SYSTÈME BILINGUE FR/EN ── -->
+  <script>
+    (function() {
+      var currentLang = localStorage.getItem('lang') || 'fr';
+      var langBtn = document.getElementById('lang-btn');
+
+      function applyLang(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+        document.documentElement.setAttribute('lang', lang);
+        document.querySelectorAll('[data-fr]').forEach(function(el) {
+          el.innerHTML = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-fr');
+        });
+        if (langBtn) langBtn.textContent = lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR';
+        // Update page title
+        var titleEl = document.querySelector('title[data-fr]');
+        if (!titleEl) titleEl = document.querySelector('title');
+        if (titleEl && titleEl.getAttribute('data-en')) {
+          titleEl.textContent = lang === 'en' ? titleEl.getAttribute('data-en') : titleEl.getAttribute('data-fr');
+        }
+      }
+
+      if (langBtn) {
+        langBtn.addEventListener('click', function() {
+          applyLang(currentLang === 'fr' ? 'en' : 'fr');
+        });
+      }
+      applyLang(currentLang);
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>À propos — Raïssa Gradel</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    #main-nav ul { list-style:none; margin:0; padding:0; display:flex; gap:2rem; }
+    #main-nav a { font-size:.85rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#8a7070); text-decoration:none; padding:.5rem 0; border-bottom:2px solid transparent; transition:color .2s, border-color .2s; }
+    #main-nav a:hover, #main-nav a.active { color:var(--brand-light,#f472b6); border-bottom-color:var(--brand,#ec4899); text-decoration:none; }
+    #burger-btn { display:none; background:var(--surface,#111); color:var(--text-primary,#e8d5d5); border:1px solid var(--border,#2a1a1a); font-size:1.6rem; line-height:1; padding:.3rem .75rem; border-radius:10px; cursor:pointer; }
+    #burger-btn:hover { border-color:var(--brand,#ec4899); color:var(--brand-light,#f472b6); }
+    @media (max-width: 768px) {
+      #burger-btn { display:block; }
+      #main-nav { display:none; position:fixed; top:68px; left:12px; right:12px; background:#111111; border:2px solid #ec4899; border-radius:14px; padding:.75rem; z-index:9999; box-shadow:0 8px 40px rgba(236,72,153,.4); }
+      #main-nav.open { display:block; }
+      #main-nav ul { flex-direction:column; gap:0; }
+      #main-nav li { width:100%; }
+      #main-nav a { display:block; padding:1rem 1.2rem; border-bottom:1px solid rgba(236,72,153,.2); border-radius:8px; color:#e8d5d5; font-size:1rem; }
+      #main-nav li:last-child a { border-bottom:none; }
+      #main-nav a:hover { background:rgba(236,72,153,.1); color:#f472b6; border-bottom-color:transparent; }
+      #main-nav a.active { color:#f472b6; background:rgba(236,72,153,.12); border-left:3px solid #ec4899; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      <img src="img/mylogo.png" alt="Logo Raïssa Gradel" />
+      <span class="logo-name">RAÏSSA GRADEL</span>
+    </a>
+    <button id="toggle-theme" aria-label="Basculer thème">🌙 Mode sombre</button>
+    <button id="burger-btn" aria-label="Ouvrir le menu">☰</button>
+    <nav id="main-nav">
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="projets.html">Projets</a></li>
+        <li><a href="Apropos.html" class="active">À propos</a></li>
+        <li><a href="Competence.html">Compétences</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <main>
+
+    <div class="page-hero">
+      <h1>À propos</h1>
+      <p class="page-hero__sub">Étudiante en BUT MMI · Passionnée de design &amp; d'audiovisuel</p>
+    </div>
+
+    <section class="apropos-layout" aria-labelledby="titre-presentation">
+      <figure class="apropos-figure">
+        <img src="img/moi.png" alt="Portrait de Raïssa Gradel" width="260" height="260" />
+      </figure>
+      <div class="apropos-texte">
+        <h2 id="titre-presentation">Qui suis-je ?</h2>
+        <p>Je m'appelle Raïssa Gradel, étudiante en 1ère année de BUT MMI (Métiers du Multimédia
+          et de l'Internet). Passionnée par tout ce qui touche à l'esthétisme — dessin, peinture,
+          design — je cherche à combiner créativité et technique dans chacun de mes projets.</p>
+        <p>Mes outils du quotidien : <strong>Canva</strong>, <strong>Cap Cut</strong>,
+          <strong>Photoshop</strong>. Je m'adapte facilement à de nouveaux logiciels et j'aime
+          explorer de nouvelles méthodes de création.</p>
+        <p>Mon objectif : devenir <strong>infographiste</strong> ou <strong>designer</strong>,
+          tout en restant ouverte à tout métier qui mêle design et audiovisuel.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="titre-parcours">
+      <h2 id="titre-parcours">Mon parcours</h2>
+      <div class="timeline">
+        <article class="timeline-item">
+          <div class="timeline-date">2026 — Aujourd'hui</div>
+          <div class="timeline-content">
+            <h3>BUT MMI — Université</h3>
+            <p>Métiers du Multimédia et de l'Internet. Conception web, audiovisuel, design,
+               communication et stratégie numérique.</p>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <div class="timeline-date">2025</div>
+          <div class="timeline-content">
+            <h3>Baccalauréat + Cambridge — Lycée</h3>
+            <p>Obtention du baccalauréat avec spécialités littératurature anglaise et NSI (numérique science de l'informatique) avec option euro anglais.</p>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <div class="timeline-date">Depuis toujours</div>
+          <div class="timeline-content">
+            <h3>Pratique artistique personnelle</h3>
+            <p>Dessin, peinture acrylique, fresques murales, photographie — une passion
+               cultivée en dehors du cadre scolaire.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="titre-passions">
+      <h2 id="titre-passions">Mes passions</h2>
+      <div class="passion-grid">
+        <div class="passion-card">
+          <span class="passion-icon" aria-hidden="true">🎨</span>
+          <h3>Art &amp; Design</h3>
+          <p>Dessin, peinture, illustration numérique — l'expression visuelle sous toutes ses formes.</p>
+        </div>
+        <div class="passion-card">
+          <span class="passion-icon" aria-hidden="true">🎬</span>
+          <h3>Audiovisuel</h3>
+          <p>Montage vidéo, photographie, conception de spots — raconter des histoires par l'image.</p>
+        </div>
+        <div class="passion-card">
+          <span class="passion-icon" aria-hidden="true">💻</span>
+          <h3>Web &amp; Numérique</h3>
+          <p>HTML, CSS, accessibilité — construire des interfaces soignées pensées pour l'utilisateur.</p>
+        </div>
+        <div class="passion-card">
+          <span class="passion-icon" aria-hidden="true">✨</span>
+          <h3>Branding</h3>
+          <p>Identité visuelle, logos, chartes graphiques — créer une cohérence esthétique de marque.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="cta-center">
+      <a href="projets.html" class="btn">Voir mes projets</a>
+      <a href="Competence.html" class="btn btn-outline">Mes compétences →</a>
+    </div>
+
+  </main>
+
+
+  <footer>
+    <small>© <span id="annee"></span> Raïssa Gradel — BUT MMI</small>
+  </footer>
+
+
+  <script>
+    var btnTheme = document.getElementById('toggle-theme');
+    var saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+    btnTheme.textContent = saved === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    btnTheme.addEventListener('click', function() {
+      var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+      btnTheme.textContent = t === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    });
+
+    var btn = document.getElementById('burger-btn');
+    var nav = document.getElementById('main-nav');
+    btn.addEventListener('click', function() {
+      if (nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.textContent = '☰';
+      } else {
+        nav.classList.add('open');
+        btn.textContent = '✕';
+      }
+    });
+    nav.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() { nav.classList.remove('open'); btn.textContent = '☰'; });
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { nav.classList.remove('open'); btn.textContent = '☰'; }
+    });
+
+    document.getElementById('annee').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

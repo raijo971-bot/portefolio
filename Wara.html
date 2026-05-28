@@ -1,0 +1,854 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WARA — SAE 2.02 — Raïssa Gradel</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ══ NAVIGATION ══ */
+    #main-nav ul { list-style:none; margin:0; padding:0; display:flex; gap:2rem; }
+    #main-nav a { font-size:.85rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#8a7070); text-decoration:none; padding:.5rem 0; border-bottom:2px solid transparent; transition:color .2s, border-color .2s; }
+    #main-nav a:hover, #main-nav a.active { color:var(--brand-light,#f472b6); border-bottom-color:var(--brand,#ec4899); text-decoration:none; }
+    #burger-btn { display:none; background:var(--surface,#111); color:var(--text-primary,#e8d5d5); border:1px solid var(--border,#2a1a1a); font-size:1.6rem; line-height:1; padding:.3rem .75rem; border-radius:10px; cursor:pointer; }
+    #burger-btn:hover { border-color:var(--brand,#ec4899); color:var(--brand-light,#f472b6); }
+    @media (max-width: 768px) {
+      #burger-btn { display:block; }
+      #main-nav { display:none; position:fixed; top:68px; left:12px; right:12px; background:#111111; border:2px solid #ec4899; border-radius:14px; padding:.75rem; z-index:9999; box-shadow:0 8px 40px rgba(236,72,153,.4); }
+      #main-nav.open { display:block; }
+      #main-nav ul { flex-direction:column; gap:0; }
+      #main-nav li { width:100%; }
+      #main-nav a { display:block; padding:1rem 1.2rem; border-bottom:1px solid rgba(236,72,153,.2); border-radius:8px; color:#e8d5d5; font-size:1rem; }
+      #main-nav li:last-child a { border-bottom:none; }
+      #main-nav a:hover { background:rgba(236,72,153,.1); color:#f472b6; border-bottom-color:transparent; }
+      #main-nav a.active { color:#f472b6; background:rgba(236,72,153,.12); border-left:3px solid #ec4899; }
+    }
+
+    /* ══ STATS ══ */
+    .stat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1rem; margin:1.5rem 0; }
+    .stat-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:1.25rem 1rem; text-align:center; position:relative; overflow:hidden; }
+    .stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--brand,#ec4899),#10b981); }
+    .stat-card .num { display:block; font-size:1.6rem; font-weight:700; color:var(--brand,#ec4899); }
+    .stat-card .lbl { display:block; font-size:.73rem; color:var(--muted,#8a7070); text-transform:uppercase; letter-spacing:.08em; margin-top:.35rem; }
+
+    /* ══ PROCESS STEPS ══ */
+    .process-steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .process-step { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:1.5rem; text-align:center; position:relative; }
+    .process-step .step-num { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,var(--brand,#ec4899),#10b981); color:#fff; font-size:.85rem; font-weight:700; margin-bottom:1rem; }
+    .process-step h3 { font-size:.95rem; color:var(--brand-light,#f472b6); margin:0 0 .5rem; }
+    .process-step p { font-size:.85rem; color:var(--text-secondary,#c9a8a8); margin:0; line-height:1.6; }
+
+    /* ══ INFO GRID ══ */
+    .info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .info-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-left:4px solid var(--brand,#ec4899); border-radius:var(--radius,12px); padding:1.25rem 1.5rem; }
+    .info-card h3 { font-size:.95rem; color:var(--brand-light,#f472b6); margin:0 0 .6rem; }
+    .info-card p { font-size:.88rem; color:var(--text-secondary,#c9a8a8); line-height:1.6; margin:0 0 .5rem; }
+    .info-card ul { padding-left:1.1rem; margin:0; }
+    .info-card li { font-size:.88rem; color:var(--text-secondary,#c9a8a8); margin-bottom:.35rem; line-height:1.5; }
+
+    /* ══ CIBLES PERSONAS ══ */
+    .persona-wrap { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); overflow:hidden; margin:1.5rem 0; }
+    .persona-header { display:grid; grid-template-columns:auto 1fr; gap:1.5rem; align-items:center; padding:1.5rem; border-bottom:1px solid var(--border,#2a1a1a); }
+    @media (max-width:580px) { .persona-header { grid-template-columns:1fr; } }
+    .persona-icon { width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,var(--brand,#ec4899),#10b981); display:flex; align-items:center; justify-content:center; font-size:2.2rem; border:3px solid var(--brand,#ec4899); flex-shrink:0; }
+    .persona-meta h3 { font-size:1.05rem; color:var(--brand-light,#f472b6); margin:0 0 .3rem; }
+    .persona-meta p { font-size:.87rem; color:var(--text-secondary,#c9a8a8); margin:0 0 .6rem; }
+    .tag-row { display:flex; flex-wrap:wrap; gap:.4rem; }
+    .tag { background:rgba(236,72,153,.1); border:1px solid rgba(236,72,153,.25); border-radius:100px; padding:.2rem .7rem; font-size:.73rem; color:var(--brand-light,#f472b6); }
+    .empathy-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+    .empathy-cell { padding:1.25rem 1.5rem; border-right:1px solid var(--border,#2a1a1a); border-bottom:1px solid var(--border,#2a1a1a); }
+    @media (min-width:900px) {
+      .empathy-grid { grid-template-columns:repeat(4,1fr); }
+      .empathy-cell { border-bottom:none; }
+      .empathy-cell:last-child { border-right:none; }
+    }
+    .empathy-cell h4 { font-size:.75rem; text-transform:uppercase; letter-spacing:.12em; color:var(--brand,#ec4899); margin:0 0 .6rem; }
+    .empathy-cell ul { padding-left:1rem; margin:0; }
+    .empathy-cell li { font-size:.84rem; color:var(--text-secondary,#c9a8a8); margin-bottom:.35rem; line-height:1.45; }
+
+    /* ══ DOULEURS / GAINS ══ */
+    .dg-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .dg-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:1.25rem 1.5rem; }
+    .dg-card.douleurs { border-top:3px solid #f97316; }
+    .dg-card.gains    { border-top:3px solid #22c55e; }
+    .dg-card h3 { font-size:.88rem; text-transform:uppercase; letter-spacing:.1em; margin:0 0 .75rem; }
+    .dg-card.douleurs h3 { color:#fb923c; }
+    .dg-card.gains h3    { color:#4ade80; }
+    .dg-card ul { padding-left:1.1rem; margin:0; }
+    .dg-card li { font-size:.87rem; color:var(--text-secondary,#c9a8a8); margin-bottom:.4rem; }
+
+    /* ══ TABLEAU COMPARATIF ══ */
+    .compare-table { width:100%; border-collapse:collapse; margin:1.5rem 0; font-size:.87rem; }
+    .compare-table th { background:rgba(236,72,153,.12); color:var(--brand-light,#f472b6); text-align:left; padding:.85rem 1rem; font-size:.78rem; text-transform:uppercase; letter-spacing:.1em; }
+    .compare-table td { padding:.85rem 1rem; color:var(--text-secondary,#c9a8a8); border-bottom:1px solid var(--border,#2a1a1a); }
+    .compare-table tr:last-child td { border-bottom:none; }
+    .compare-table td.good { color:#4ade80; font-weight:600; }
+    .compare-table td.label { color:var(--text-primary,#e8d5d5); font-weight:500; }
+
+    /* ══ SMART BOX ══ */
+    .smart-box { background:linear-gradient(135deg,rgba(236,72,153,.08),rgba(16,185,129,.08)); border:2px solid var(--brand,#ec4899); border-radius:var(--radius,12px); padding:2rem 2.5rem; text-align:center; margin:1.5rem 0; box-shadow:0 0 40px rgba(236,72,153,.18); }
+    .smart-box .label { font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--brand,#ec4899); font-weight:700; display:block; margin-bottom:.85rem; }
+    .smart-box p { font-size:1.1rem; color:var(--text-primary,#e8d5d5); line-height:1.65; margin:0; }
+    .smart-box .hl { color:var(--brand-light,#f472b6); font-weight:600; }
+
+    /* ══ LIEN EXTERNE ══ */
+    .site-link-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:1.5rem 2rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin:1.5rem 0; }
+    .site-link-card .site-info h3 { font-size:1rem; color:var(--brand-light,#f472b6); margin:0 0 .3rem; }
+    .site-link-card .site-info p { font-size:.85rem; color:var(--muted,#8a7070); margin:0; }
+    .site-link-card a.btn { flex-shrink:0; }
+
+    /* ══ RÔLES ══ */
+    .roles-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .role-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-left:4px solid #10b981; border-radius:var(--radius,12px); padding:1.25rem 1.5rem; }
+    .role-card .role-icon { font-size:1.5rem; display:block; margin-bottom:.5rem; }
+    .role-card h3 { font-size:.9rem; color:#4ade80; margin:0 0 .5rem; }
+    .role-card p { font-size:.85rem; color:var(--text-secondary,#c9a8a8); margin:0; line-height:1.6; }
+
+    /* ══ APPRENTISSAGES ══ */
+    .apprentissages { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .apprentissage-item { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:1.25rem 1.5rem; display:flex; flex-direction:column; gap:.4rem; }
+    .apprentissage-item strong { font-size:.9rem; color:var(--brand-light,#f472b6); }
+    .apprentissage-item p { font-size:.85rem; color:var(--text-secondary,#c9a8a8); margin:0; line-height:1.55; }
+
+    /* ══ CIBLE TABS ══ */
+    .cibles-tabs { display:flex; gap:.6rem; margin:1.5rem 0 0; flex-wrap:wrap; }
+    .cible-tab { padding:.5rem 1.1rem; border-radius:100px; border:1px solid var(--border,#2a1a1a); background:var(--surface,#111); color:var(--muted,#8a7070); font-size:.8rem; cursor:pointer; transition:all .2s; }
+    .cible-tab.active, .cible-tab:hover { border-color:var(--brand,#ec4899); background:rgba(236,72,153,.1); color:var(--brand-light,#f472b6); }
+
+    /* ══ BADGE CERTIF ══ */
+    .certif-row { display:flex; gap:1rem; flex-wrap:wrap; margin:1rem 0; }
+    .certif-badge { background:rgba(16,185,129,.1); border:1px solid rgba(16,185,129,.3); border-radius:100px; padding:.3rem .9rem; font-size:.78rem; color:#4ade80; font-weight:600; }
+
+    /* ══ VISUELS WARA ══ */
+    .wara-visual { width:100%; border-radius:var(--radius,12px); overflow:hidden; margin:1.5rem 0; display:block; }
+    .wara-visual img { width:100%; height:auto; display:block; border-radius:var(--radius,12px); }
+    .wara-visual-caption { font-size:.78rem; color:var(--muted,#8a7070); text-align:center; margin-top:.5rem; font-style:italic; }
+    .wara-galerie { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.5rem 0; }
+    .wara-galerie img { width:100%; height:auto; border-radius:var(--radius,12px); display:block; object-fit:cover; }
+    @media (max-width:600px) { .wara-galerie { grid-template-columns:1fr; } }
+    .wara-affiche { max-width:420px; margin:1.5rem auto; display:block; }
+    .wara-affiche img { width:100%; border-radius:var(--radius,12px); box-shadow:0 0 60px rgba(0,0,0,.4); }
+  
+    #lang-btn {
+      background: transparent;
+      color: var(--brand-light, #f472b6);
+      border: 1px solid var(--brand, #ec4899);
+      font-size: .78rem;
+      letter-spacing: .12em;
+      padding: .3rem .7rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      font-family: inherit;
+    }
+    #lang-btn:hover { background: var(--brand, #ec4899); color: #fff; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      <img src="img/mylogo.png" alt="Logo Raïssa Gradel" />
+      <span class="logo-name" data-fr="RAÏSSA GRADEL" data-en="RAÏSSA GRADEL">RAÏSSA GRADEL</span>
+    </a>
+    <button id="lang-btn" aria-label="Switch language">🇬🇧 EN</button>
+    <button id="toggle-theme" aria-label="Basculer thème">🌙 Mode sombre</button>
+    <button id="burger-btn" aria-label="Ouvrir le menu">☰</button>
+    <nav id="main-nav">
+      <ul>
+        <li><a href="index.html" data-fr="Accueil" data-en="Home">Accueil</a></li>
+        <li><a href="projets.html" class="active" data-fr="Projets" data-en="Projects">Projets</a></li>
+        <li><a href="Apropos.html" data-fr="À propos" data-en="About">À propos</a></li>
+        <li><a href="Competence.html" data-fr="Compétences" data-en="Skills">Compétences</a></li>
+        <li><a href="contact.html" data-fr="Contact" data-en="Contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <main class="projet-detail">
+
+    <!-- ══ HERO ══ -->
+    <div class="projet-hero">
+      <p class="projet-hero__retour"><a href="projets.html" data-fr="← Retour aux projets" data-en="← Back to projects">← Retour aux projets</a></p>
+      <h1 data-fr="WARA — Mode régénérative tropicale" data-en="WARA — Regenerative Tropical Fashion">WARA — Mode régénérative tropicale</h1>
+      <p class="projet-hero__meta" data-fr="🎓 SAE 2.02 · Communication internationale · Collectif · 2026" data-en="🎓 SAE 2.02 · International communication · Group project · 2026">🎓 SAE 2.02 · Communication internationale · Collectif · 2026</p>
+      <p>WARA est une marque fictive de vêtements 100 % biodégradables, née d'un fléau écologique : les sargasses qui envahissent les côtes de la Guadeloupe chaque année. Dans le cadre de la SAE 2.02, notre groupe a imaginé une campagne de communication internationale complète pour ce produit innovant : identité visuelle, site vitrine, stratégie marketing et supports de com'.</p>
+    </div>
+
+
+    <!-- ══ CONTEXTE ══ -->
+    <section aria-labelledby="titre-contexte-wara">
+      <h2 id="titre-contexte-wara" data-fr="Contexte de la SAE" data-en="SAE context">Contexte de la SAE</h2>
+      <div class="projet-texte-card">
+        <p>La SAE 2.02 nous demandait de répondre à une question centrale : <strong>Comment communiquer efficacement autour de la création d'un produit ou d'un service pour une audience internationale ?</strong></p>
+        <p>Notre groupe a choisi de concevoir un produit de toutes pièces : une marque de vêtements biodégradables fabriqués à partir de sargasses récoltées en Guadeloupe. Ce projet imaginaire s'inscrit dans la réalité du territoire : les sargasses sont un véritable fléau environnemental aux Antilles, et leur valorisation textile représente une innovation à fort potentiel.</p>
+        <p>Le challenge : concevoir toute la communication comme de vraies chargées de com' juniors — du nom de marque jusqu'au site vitrine, en passant par la stratégie de ciblage et les supports visuels.</p>
+      </div>
+
+      <!-- Chiffres clés WARA -->
+      <div class="stat-grid">
+        <div class="stat-card">
+          <span class="num">3</span>
+          <span class="lbl" data-fr="Cibles définies" data-en="Defined targets">Cibles définies</span>
+        </div>
+        <div class="stat-card">
+          <span class="num">61j</span>
+          <span class="lbl" data-fr="Biodégradabilité" data-en="Biodegradability">Biodégradabilité</span>
+        </div>
+        <div class="stat-card">
+          <span class="num">−83%</span>
+          <span class="lbl" data-fr="Eau vs coton classique" data-en="Water vs conventional cotton">Eau vs coton classique</span>
+        </div>
+        <div class="stat-card">
+          <span class="num">4</span>
+          <span class="lbl" data-fr="Étapes de fabrication" data-en="Manufacturing steps">Étapes de fabrication</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══ LE PRODUIT ══ -->
+    <section aria-labelledby="titre-produit-wara">
+      <h2 id="titre-produit-wara" data-fr="Le produit : qu'est-ce que WARA ?" data-en="The product: what is WARA?">Le produit : qu'est-ce que WARA ?</h2>
+      <div class="projet-texte-card">
+        <p><strong>WARA</strong> est la première ligne de vêtements 100 % biodégradables issue de la valorisation des sargasses en Guadeloupe. L'idée : transformer un désastre écologique en une fibre textile innovante, durable et respectueuse de l'environnement.</p>
+        <p>Les vêtements WARA sont certifiés GOTS, OEKO-TEX et Cradle to Cradle. Ils retournent à la terre en moins de 61 jours contre plusieurs mois pour du coton traité, et leur production consomme 450 L d'eau par t-shirt contre 2 700 L pour le coton classique.</p>
+      </div>
+      <!-- Affiche publicitaire WARA -->
+      <div class="wara-affiche">
+        <img src="wara_affiche.png" alt="Affiche WARA — 47% Sargassum Seaweed, 100% Organic Texture, 0% Plastic" />
+        <p class="wara-visual-caption" data-fr="Affiche publicitaire WARA — support de com' créé pour la SAE 2.02" data-en="WARA advertising poster — communication material created for SAE 2.02">Affiche publicitaire WARA — support de com' créé pour la SAE 2.02</p>
+      </div>
+
+      <div class="certif-row">
+        <span class="certif-badge" data-fr="✓ GOTS" data-en="✓ GOTS">✓ GOTS</span>
+        <span class="certif-badge" data-fr="✓ OEKO-TEX" data-en="✓ OEKO-TEX">✓ OEKO-TEX</span>
+        <span class="certif-badge" data-fr="✓ Cradle to Cradle" data-en="✓ Cradle to Cradle">✓ Cradle to Cradle</span>
+        <span class="certif-badge">✓ Made in Guadeloupe</span>
+      </div>
+
+      <!-- Tableau comparatif -->
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Indicateur</th>
+            <th>Coton classique</th>
+            <th>Fibre WARA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="label">Consommation d'eau (L/T-shirt)</td>
+            <td>2 700 L</td>
+            <td class="good">450 L</td>
+          </tr>
+          <tr>
+            <td class="label">Biodégradabilité</td>
+            <td>Plusieurs mois (si traité)</td>
+            <td class="good">61 jours</td>
+          </tr>
+          <tr>
+            <td class="label">Origine de la matière</td>
+            <td>Agriculture intensive</td>
+            <td class="good">Valorisation de déchet</td>
+          </tr>
+          <tr>
+            <td class="label">Impact carbone</td>
+            <td>Transport international</td>
+            <td class="good">Production locale (Guadeloupe)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+
+    <!-- ══ PROCESSUS DE FABRICATION ══ -->
+    <section aria-labelledby="titre-process-wara">
+      <h2 id="titre-process-wara" data-fr="De la sargasse au vêtement : le processus" data-en="From sargassum to garment: the process">De la sargasse au vêtement : le processus</h2>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-num">1</div>
+          <h3>Collecte</h3>
+          <p data-fr="Ramassage manuel sur les plages pour protéger les fonds marins et les récifs coralliens." data-en="Manual collection on beaches to protect the seabed and coral reefs.">Ramassage manuel sur les plages pour protéger les fonds marins et les récifs coralliens.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">2</div>
+          <h3>Lavage</h3>
+          <p data-fr="Dessalage à l'eau de pluie récupérée pour éliminer le sel et le sable sans gaspillage." data-en="Desalination using collected rainwater to remove salt and sand without waste.">Dessalage à l'eau de pluie récupérée pour éliminer le sel et le sable sans gaspillage.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">3</div>
+          <h3>Filature</h3>
+          <p>Extraction de la cellulose et mélange avec du lin biologique pour obtenir une fibre résistante.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">4</div>
+          <h3>Confection</h3>
+          <p>Tissage et couture dans un atelier local à Basse-Terre, en circuit ultra-court.</p>
+        </div>
+      </div>
+
+      <!-- Infographie du processus de fabrication -->
+      <div class="wara-visual">
+        <img src="img/wara_process.png" alt="Infographie — From Sargassum to Sustainable Textile : les 6 étapes de fabrication WARA" />
+        <p class="wara-visual-caption">Infographie de fabrication réalisée pour la SAE 2.02 — de la sargasse au vêtement en 6 étapes</p>
+      </div>
+    </section>
+    <section aria-labelledby="titre-visuels-wara">
+      <h2 id="titre-visuels-wara">Direction artistique &amp; supports visuels</h2>
+      <div class="projet-texte-card">
+        <p>En parallèle du travail stratégique, nous avons développé une direction artistique cohérente pour WARA : moodboards de collection, affiches et visuels campagne. L'esthétique s'inspire des teintes naturelles de la sargasse — beige sable, kaki, brun organique — et d'une photographie de mode épurée, tournée vers le littoral guadeloupéen.</p>
+      </div>
+      <!-- Galerie moodboards -->
+      <div class="wara-galerie">
+        <img src="wara_moodboard1.png" alt="Moodboard WARA — Collection Sargaïa, teintes organiques et accessoires" />
+        <img src="wara_collection1.png" alt="WARA Sargassum Collection — De l'océan, pour un lendemain différent" />
+      </div>
+      <div class="wara-galerie" style="margin-top:1rem;">
+        <img src="wara_collection2.png" alt="WARA — Collection Sargaïa, Équilibre entre l'océan et la terre" />
+        <img src="wara_collection3.png" alt="WARA — Collection Sargasse, Mode durable inspirée par l'océan" />
+      </div>
+      <p class="wara-visual-caption">Moodboards de la collection SARGAÏA — direction artistique développée pour la SAE 2.02</p>
+    </section>
+
+
+    <section aria-labelledby="titre-cibles-wara">
+      <h2 id="titre-cibles-wara">Stratégie de ciblage — 3 personas</h2>
+      <div class="projet-texte-card">
+        <p>Pour ne pas exclure la population locale tout en finançant une expansion internationale, nous avons adopté une stratégie <strong>hybride à trois niveaux</strong>. La clé : WARA ne doit pas seulement être "vert", il doit être <strong>désirable</strong>. Le vêtement est une pièce de mode que l'on veut porter pour son esthétique, avant même de savoir qu'il est biodégradable.</p>
+      </div>
+
+      <!-- Persona 1 : Alexander -->
+      <h3 style="color:var(--brand-light,#f472b6); font-size:1rem; margin:2rem 0 .75rem;">① Cible principale — L'Avant-Garde Eco-Luxury</h3>
+      <div class="persona-wrap">
+        <div class="persona-header">
+          <div class="persona-icon">🎨</div>
+          <div class="persona-meta">
+            <h3>Alexander, 34 ans — Directeur artistique (Londres / Tokyo)</h3>
+            <p>CSP++, passionné de design et d'innovation matérielle. Adepte du "Quiet Luxury" et des textures organiques.</p>
+            <div class="tag-row">
+              <span class="tag">Eco-Luxury</span>
+              <span class="tag">Material Innovation</span>
+              <span class="tag">Minimalisme futuriste</span>
+              <span class="tag">International</span>
+            </div>
+          </div>
+        </div>
+        <div class="empathy-grid">
+          <div class="empathy-cell">
+            <h4>Il voit</h4>
+            <ul>
+              <li>Des marques de luxe adopter le mycélium et des cuirs d'algues en édition limitée</li>
+            </ul>
+          </div>
+          <div class="empathy-cell">
+            <h4>Il entend</h4>
+            <ul>
+              <li>Les podcasts sur la fin de la fast-fashion et les nouvelles réglementations européennes</li>
+            </ul>
+          </div>
+          <div class="empathy-cell">
+            <h4>Il pense &amp; ressent</h4>
+            <ul>
+              <li>Que porter du polyester est devenu "has-been" et polluant</li>
+            </ul>
+          </div>
+          <div class="empathy-cell">
+            <h4>Il dit &amp; fait</h4>
+            <ul>
+              <li>Achète peu mais investit dans des pièces avec une "narrative" puissante</li>
+            </ul>
+          </div>
+        </div>
+        <div class="dg-grid" style="margin:.75rem 0 0; padding:1rem 1.5rem;">
+          <div class="dg-card douleurs" style="background:transparent; border-left:none; border-right:none; border-bottom:none; border-radius:0; padding:0;">
+            <h3>⚠ Peur</h3>
+            <ul><li>Le greenwashing — il veut des preuves concrètes : certifications GOTS, OEKO-TEX</li></ul>
+          </div>
+          <div class="dg-card gains" style="background:transparent; border-left:none; border-right:none; border-bottom:none; border-radius:0; padding:0;">
+            <h3>✦ Besoin</h3>
+            <ul><li>L'exclusivité — posséder une fibre unique, avec un tombé et une respirabilité rares</li></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 2 : Inès -->
+      <h3 style="color:var(--brand-light,#f472b6); font-size:1rem; margin:2rem 0 .75rem;">② Cible secondaire — La Fashion-Activiste locale</h3>
+      <div class="persona-wrap">
+        <div class="persona-header">
+          <div class="persona-icon">🌴</div>
+          <div class="persona-meta">
+            <h3>Inès, 26 ans — Freelance événementiel & créatrice de contenu, Saint-François</h3>
+            <p>Jeune active, influenceuse locale, amoureuse de son île. Style "Tropical Chic" : couleurs vibrantes, coupes fluides, matières naturelles.</p>
+            <div class="tag-row">
+              <span class="tag">Tropical Chic</span>
+              <span class="tag">Mode circulaire</span>
+              <span class="tag">Fierté locale</span>
+              <span class="tag">Guadeloupe</span>
+            </div>
+          </div>
+        </div>
+        <div class="empathy-grid">
+          <div class="empathy-cell">
+            <h4>Elle voit</h4>
+            <ul>
+              <li>Les sargasses envahir ses plages préférées et les efforts de collecte colossaux</li>
+            </ul>
+          </div>
+          <div class="empathy-cell">
+            <h4>Elle entend</h4>
+            <ul>
+              <li>Que 90 % des algues collectées sont jetées sans être valorisées</li>
+            </ul>
+          </div>
+          <div class="empathy-cell">
+            <h4>Elle pense &amp; ressent</h4>
+            <ul>
+              <li>Une immense fierté à l'idée de transformer un problème local en une robe magnifique</li>
+            </ul>
+          </div>
+          <div class="empathy-cell">
+            <h4>Elle dit &amp; fait</h4>
+            <ul>
+              <li>Prône l'upcycling et la mode circulaire sur ses réseaux sociaux</li>
+            </ul>
+          </div>
+        </div>
+        <div class="dg-grid" style="margin:.75rem 0 0; padding:1rem 1.5rem;">
+          <div class="dg-card douleurs" style="background:transparent; border-left:none; border-right:none; border-bottom:none; border-radius:0; padding:0;">
+            <h3>⚠ Peur</h3>
+            <ul><li>Le prix — elle a besoin d'un "tarif résident" ou d'une gamme "essentielle" accessible</li></ul>
+          </div>
+          <div class="dg-card gains" style="background:transparent; border-left:none; border-right:none; border-bottom:none; border-radius:0; padding:0;">
+            <h3>✦ Besoin</h3>
+            <ul><li>Un vêtement ultra-respirant et antibactérien, parfait pour l'humidité des Antilles</li></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 3 : Clara -->
+      <h3 style="color:var(--brand-light,#f472b6); font-size:1rem; margin:2rem 0 .75rem;">③ Cible tertiaire — Le Globe-Trotteur Éco-Conscient</h3>
+      <div class="persona-wrap">
+        <div class="persona-header">
+          <div class="persona-icon">✈️</div>
+          <div class="persona-meta">
+            <h3>Clara, 42 ans — Responsable RSE en vacances avec sa famille</h3>
+            <p>Voyageuse en quête d'authenticité, sensible aux causes environnementales. Style décontracté haut de gamme, privilégie le lin et les fibres bio.</p>
+            <div class="tag-row">
+              <span class="tag">Tourisme responsable</span>
+              <span class="tag">RSE</span>
+              <span class="tag">Souvenir éthique</span>
+              <span class="tag">Haut de gamme</span>
+            </div>
+          </div>
+        </div>
+        <div class="empathy-grid">
+          <div class="empathy-cell">
+            <h4>Elle voit</h4>
+            <ul>
+              <li>Les panneaux d'information sur les sargasses et les machines de nettoyage sur la plage</li>
+            </ul>
+          </div>
+          <div class="empathy-cell">
+            <h4>Elle entend</h4>
+            <ul>
+              <li>Que l'agriculture et le climat sont au cœur des défis de l'île</li>
+            </ul>
+          </div>
+          <div class="empathy-cell">
+            <h4>Elle pense &amp; ressent</h4>
+            <ul>
+              <li>Qu'acheter un souvenir "Made in China" n'a aucun sens dans ce contexte</li>
+            </ul>
+          </div>
+          <div class="empathy-cell">
+            <h4>Elle dit &amp; fait</h4>
+            <ul>
+              <li>Cherche des boutiques de créateurs locaux et des concepts-stores en zone touristique</li>
+            </ul>
+          </div>
+        </div>
+        <div class="dg-grid" style="margin:.75rem 0 0; padding:1rem 1.5rem;">
+          <div class="dg-card douleurs" style="background:transparent; border-left:none; border-right:none; border-bottom:none; border-radius:0; padding:0;">
+            <h3>⚠ Peur</h3>
+            <ul><li>Que le produit ne tienne pas au lavage ou soit trop "gadget"</li></ul>
+          </div>
+          <div class="dg-card gains" style="background:transparent; border-left:none; border-right:none; border-bottom:none; border-radius:0; padding:0;">
+            <h3>✦ Besoin</h3>
+            <ul><li>Un produit certifié qui prouve son engagement éthique une fois rentrée chez elle</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══ LOGIQUE FINANCIÈRE ══ -->
+    <section aria-labelledby="titre-finance-wara">
+      <h2 id="titre-finance-wara">Logique financière : la subvention croisée</h2>
+      <div class="projet-texte-card">
+        <p>Derrière les trois cibles se cache une logique économique précise : pour que l'innovation écologique survive, elle doit être viable financièrement. La stratégie de WARA repose sur un <strong>système de subvention croisée</strong>.</p>
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <h3>💎 Alexander finance la R&D</h3>
+          <p>Les pièces premium vendes avec un coefficient 5 ou 6 amortissent les frais de recherche et de développement de la fibre. Il achète l'exclusivité et le prestige.</p>
+        </div>
+        <div class="info-card">
+          <h3>🌴 Inès assure le volume local</h3>
+          <p>Vente directe, sans frais d'exportation, avec un "Prix Pays" (coefficient 2 ou 2,5). Une marge plus faible mais un volume qui fait tourner l'atelier toute l'année.</p>
+        </div>
+        <div class="info-card">
+          <h3>✈️ Clara génère les liquidités</h3>
+          <p>Les touristes achètent au "prix boutique" intermédiaire, de manière émotionnelle et impulsive — sans coûts marketing importants. Chaque client devient un ambassadeur international.</p>
+        </div>
+      </div>
+      <div class="smart-box">
+        <span class="label">Cascade financière WARA</span>
+        <p>L'argent gagné grâce au <span class="hl">Luxe (Alexander)</span> et au <span class="hl">Tourisme (Clara)</span> permet de réduire le prix de vente pour le <span class="hl">Marché Local (Inès)</span>. Plus on vend cher à l'international, plus la mode biodégradable devient accessible en Guadeloupe.</p>
+      </div>
+    </section>
+
+
+    <!-- ══ MON RÔLE ══ -->
+    <section aria-labelledby="titre-role-wara">
+      <h2 id="titre-role-wara">Mon rôle dans le projet</h2>
+      <div class="roles-grid">
+        <div class="role-card">
+          <span class="role-icon">🎯</span>
+          <h3>Stratégie de ciblage</h3>
+          <p>Définition des trois personas (Alexander, Inès, Clara), élaboration des cartes d'empathie et structuration de la logique de subvention croisée.</p>
+        </div>
+        <div class="role-card">
+          <span class="role-icon">✍️</span>
+          <h3>Rédaction des contenus</h3>
+          <p>Création des textes de la page concept du site vitrine, des argumentaires produit et des supports de communication en français et en anglais.</p>
+        </div>
+        <div class="role-card">
+         
+          <h3>Coordination éditoriale</h3>
+          <p>Cohérence du discours de marque entre les différents supports : site, affiche, spot et présentation soutenance.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══ SITE VITRINE ══ -->
+    <section aria-labelledby="titre-site-wara">
+      <h2 id="titre-site-wara">Le site vitrine</h2>
+      <div class="projet-texte-card">
+        <p>Le site vitrine de WARA présente la marque, le concept de valorisation des sargasses, et propose une boutique en ligne fictive. Il intègre un style quiz interactif pour orienter les visiteurs vers les pièces correspondant à leurs valeurs, ainsi qu'une connexion base de données pour la gestion des comptes clients.</p>
+        <p>Le site est bilingue (FR / EN) pour répondre à la cible internationale, et optimisé pour tous les écrans.</p>
+      </div>
+      <div class="site-link-card">
+        <div class="site-info">
+          <h3>sae-2-02-wara.vercel.app</h3>
+          <p>Site vitrine WARA · Mode régénérative tropicale · SAE 2.02 BUT MMI</p>
+        </div>
+        <a class="btn" href="https://sae-2-02-wara.vercel.app/" target="_blank" rel="noopener">Visiter le site →</a>
+      </div>
+    </section>
+
+
+    <!-- ══ VIDÉO ══ -->
+    <section aria-labelledby="titre-video-wara">
+      <h2 id="titre-video-wara">Spot vidéo WARA</h2>
+
+      <!-- Synopsis -->
+      <div class="projet-texte-card">
+        <p><strong>Synopsis :</strong> Portée par un rythme de percussions typiquement caribéennes, la vidéo s'ouvre sur le spectacle étouffant des plages antillaises envahies par les sargasses. C'est à travers le témoignage d'une habitante que l'on mesure le vrai choc : la nostalgie d'une mer bleue aujourd'hui inaccessible en été. C'est pour répondre à ce cri du cœur et à cette réalité locale que WARA intervient en toute fin, en ouvrant les portes de son laboratoire. Une conclusion rapide mais forte, pour montrer que la science s'active enfin pour transformer cette crise en solution.</p>
+      </div>
+
+      <!-- Structure narrative -->
+      <div class="info-grid" style="margin:1.5rem 0;">
+        <div class="info-card">
+          <h3>👁 Constat</h3>
+          <p>Plans 01–06 · Introduction visuelle brutale de l'accumulation des sargasses. Panoramiques droite qui miment l'invasion inexorable des algues sur les côtes.</p>
+        </div>
+        <div class="info-card">
+          <h3>🎙 Mémoire</h3>
+          <p>Plan 07 · Ancrage local et émotionnel par le témoignage direct. La nostalgie de la mer bleue contre l'arrière-plan tropical : la rupture écologique vécue par les locaux.</p>
+        </div>
+        <div class="info-card">
+          <h3>🔬 Action</h3>
+          <p>Plans 08–09 · Passage à la valorisation scientifique. Du macro-problème (subi en extérieur) à la micro-analyse (maîtrisée en laboratoire). WARA apporte la solution.</p>
+        </div>
+      </div>
+
+      <!-- Player vidéo -->
+      <div style="position:relative; width:100%; border-radius:var(--radius,12px); overflow:hidden; margin:1.5rem 0; background:#000; box-shadow:0 0 60px rgba(0,0,0,.5);">
+      </div>
+      <p style="font-size:.78rem; color:var(--muted,#8a7070); text-align:center; margin-top:.5rem; font-style:italic;">Spot vidéo WARA — 45 secondes · SAE 2.02 BUT MMI · 2026</p>
+
+      <!-- Découpage technique -->
+      <h3 style="color:var(--brand-light,#f472b6); font-size:1rem; margin:2rem 0 .75rem;">Découpage technique — 9 plans</h3>
+      <div style="overflow-x:auto; margin:0 0 1.5rem;">
+        <table class="compare-table" style="min-width:600px;">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Timecode</th>
+              <th>Type / Mouvement</th>
+              <th>Contenu visuel</th>
+              <th>Audio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="label" style="color:var(--brand,#ec4899); font-weight:700;">01</td>
+              <td>00:00–00:01</td>
+              <td>Plan fixe</td>
+              <td>Logo WARA blanc sur fond noir uni</td>
+              <td>Percussions rythmées</td>
+            </tr>
+            <tr>
+              <td class="label" style="color:var(--brand,#ec4899); font-weight:700;">02</td>
+              <td>00:01–00:02</td>
+              <td>Ensemble / Pan. droite</td>
+              <td>Plage saturée de sargasses brunes au pied d'un muret</td>
+              <td>Musique seule</td>
+            </tr>
+            <tr>
+              <td class="label" style="color:var(--brand,#ec4899); font-weight:700;">03</td>
+              <td>00:02–00:04</td>
+              <td>Ensemble / Pan. droite</td>
+              <td>Vagues d'eau marron, algues en suspension sur le rivage</td>
+              <td>Rythme percussif</td>
+            </tr>
+            <tr>
+              <td class="label" style="color:var(--brand,#ec4899); font-weight:700;">04</td>
+              <td>00:04–00:06</td>
+              <td>Ensemble / Pan. D + haut</td>
+              <td>Nappe de sargasses à perte de vue, horizon marine</td>
+              <td>Musique seule</td>
+            </tr>
+            <tr>
+              <td class="label" style="color:var(--brand,#ec4899); font-weight:700;">05</td>
+              <td>00:06–00:07</td>
+              <td>Transition</td>
+              <td>Fondu au noir rapide</td>
+              <td>Transition sonore</td>
+            </tr>
+            <tr>
+              <td class="label" style="color:var(--brand,#ec4899); font-weight:700;">06</td>
+              <td>00:07–00:19</td>
+              <td>Demi-ens. / Trav. H</td>
+              <td>Textures d'algues séchées sur le rivage, eau stagnante</td>
+              <td>Voix off : arrivée massive depuis 2011</td>
+            </tr>
+            <tr>
+              <td class="label" style="color:var(--brand,#ec4899); font-weight:700;">07</td>
+              <td>00:19–00:37</td>
+              <td>Plan moyen / Fixe</td>
+              <td>Interview d'une jeune femme avec micro sur un balcon tropical</td>
+              <td>Témoignage sur la mer autrefois bleue</td>
+            </tr>
+            <tr>
+              <td class="label" style="color:var(--brand,#ec4899); font-weight:700;">08</td>
+              <td>00:37–00:44</td>
+              <td>Gros plan / Fixe</td>
+              <td>Scientifique au microscope en laboratoire</td>
+              <td>Voix off : "turn this problem into a solution"</td>
+            </tr>
+            <tr>
+              <td class="label" style="color:var(--brand,#ec4899); font-weight:700;">09</td>
+              <td>00:44–00:45</td>
+              <td>Transition finale</td>
+              <td>Halo lumineux blanc sur fond noir</td>
+              <td>Fade out musical</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Note d'intention -->
+      <div class="projet-texte-card">
+        <p><strong>Note d'intention :</strong> La structure narrative est pensée en trois mouvements pour emmener le spectateur dans un cheminement émotionnel et logique. Le choix des percussions caribéennes en boucle n'est pas uniquement un levier de tension narrative ; c'est une célébration des racines caraïbéennes de WARA. Cette rythmique évoque l'énergie, la résilience et l'identité des territoires touchés en première ligne par le fléau des sargasses — et rappelle que la réponse à cette crise naît du cœur même des Caraïbes.</p>
+      </div>
+    </section>
+
+
+    <!-- ══ IDENTITÉ DE MARQUE ══ -->
+    <section aria-labelledby="titre-identite-wara">
+      <h2 id="titre-identite-wara">Identité de marque — La charte graphique</h2>
+      <div class="projet-texte-card">
+        <p>La charte graphique WARA a été construite comme un système de sens cohérent : chaque décision — du nom aux couleurs, de la typographie aux valeurs — est justifiée par une logique sémiotique, culturelle et marketing. WARA n'est pas seulement un nom ; c'est un programme.</p>
+      </div>
+
+      <!-- Le nom -->
+      <h3 style="color:var(--brand-light,#f472b6); font-size:1rem; margin:2rem 0 .75rem;">① Le nom — Étymologie taïno</h3>
+      <div class="projet-texte-card">
+        <p><strong>WARA</strong> est un terme issu du <strong>taïno</strong>, langue des peuples autochtones des Grandes Antilles avant la colonisation européenne. En taïno, <em>wara</em> désigne l'eau dans sa dimension physique et spirituelle — source de vie, milieu originel, vecteur de transformation.</p>
+        <p>Le choix de ce nom opère une réappropriation symbolique forte : la Guadeloupe s'appelait <em>Karukera</em> en taïno, "l'île aux belles eaux". Nommer la marque WARA, c'est ancrer l'identité dans cette mémoire pré-coloniale souvent effacée, tout en affirmant une légitimité territoriale profonde.</p>
+        <p>Sur le plan phonétique, WARA présente une structure CVCV universellement prononçable — en français, anglais, japonais et espagnol — avec des voyelles ouvertes /a/ qui évoquent l'amplitude, la chaleur naturelle et l'espace tropical.</p>
+      </div>
+
+      <!-- Palette de couleurs -->
+      <h3 style="color:var(--brand-light,#f472b6); font-size:1rem; margin:2rem 0 .75rem;">② Palette — Identité chromatique</h3>
+      <div class="info-grid">
+        <div class="info-card" style="border-left-color:#1B3D52;">
+          <h3 style="color:#5b9abf;">■ Bleu Atlantique #1B3D52</h3>
+          <p><strong>Couleur signature.</strong> Couleur de l'océan caraïbe dans sa profondeur — là où naissent les sargasses. Psychologiquement : confiance, permanence, expertise. Aucune marque éco-mode majeure n'utilise ce bleu profond — avantage différenciant immédiat.</p>
+        </div>
+        <div class="info-card" style="border-left-color:#E8845A;">
+          <h3 style="color:#E8845A;">■ Corail sargasse #E8845A</h3>
+          <p><strong>Couleur accent.</strong> Couleur des couchers de soleil caraïbes et de certaines sargasses au crépuscule. Un renversement symbolique : la couleur du "problème" devient la couleur de la "solution".</p>
+        </div>
+        <div class="info-card" style="border-left-color:#2D7A6E;">
+          <h3 style="color:#2D7A6E;">■ Turquoise caraïbe #2D7A6E</h3>
+          <p><strong>Couleur secondaire.</strong> L'image mentale universelle associée à la Guadeloupe. Pour Inès : "c'est chez moi". Pour Clara : mémoire du voyage. Pour Alexander : origine géographique précise et rare.</p>
+        </div>
+        <div class="info-card" style="border-left-color:#C4986A;">
+          <h3 style="color:#C4986A;">■ Ambre chaud #C4986A</h3>
+          <p><strong>Touche luxe.</strong> Réfère à la canne à sucre, au rhum vieux et au soleil de fin d'après-midi — trois marqueurs identitaires guadeloupéens. Valide le positionnement eco-luxury.</p>
+        </div>
+      </div>
+      <!-- Swatches visuels -->
+      <div style="display:flex; gap:.75rem; margin:1rem 0 1.5rem; flex-wrap:wrap;">
+        <div style="flex:1; min-width:80px; height:56px; border-radius:10px; background:#1B3D52; display:flex; align-items:flex-end; padding:.4rem .6rem;"><span style="font-size:.65rem; color:#fff; opacity:.7;">Signature</span></div>
+        <div style="flex:1; min-width:80px; height:56px; border-radius:10px; background:#2D7A6E; display:flex; align-items:flex-end; padding:.4rem .6rem;"><span style="font-size:.65rem; color:#fff; opacity:.7;">Secondaire</span></div>
+        <div style="flex:1; min-width:80px; height:56px; border-radius:10px; background:#E8845A; display:flex; align-items:flex-end; padding:.4rem .6rem;"><span style="font-size:.65rem; color:#fff; opacity:.7;">Accent</span></div>
+        <div style="flex:1; min-width:80px; height:56px; border-radius:10px; background:#C4986A; display:flex; align-items:flex-end; padding:.4rem .6rem;"><span style="font-size:.65rem; color:#fff; opacity:.7;">Luxe</span></div>
+        <div style="flex:1; min-width:80px; height:56px; border-radius:10px; background:#F5EDE0; border:1px solid #2a1a1a; display:flex; align-items:flex-end; padding:.4rem .6rem;"><span style="font-size:.65rem; color:#666; opacity:.9;">Fond</span></div>
+      </div>
+
+      <!-- Valeurs de marque -->
+      <h3 style="color:var(--brand-light,#f472b6); font-size:1rem; margin:2rem 0 .75rem;">③ Les 5 valeurs de marque</h3>
+      <div class="roles-grid">
+        <div class="role-card" style="border-left-color:#10b981;">
+          <span class="role-icon">🔄</span>
+          <h3>Régénération</h3>
+          <p>Valeur fondatrice. Ce qui détruit devient ce qui construit. Les sargasses, fléau du littoral, deviennent la matière première de vêtements désirables. Dans chaque communication, nommer d'abord le problème, puis montrer la transformation.</p>
+        </div>
+        <div class="role-card" style="border-left-color:#2D7A6E;">
+          <span class="role-icon">📍</span>
+          <h3>Ancrage territorial</h3>
+          <p>Valeur de légitimité. Chaque fibre WARA est traçable jusqu'à une plage, un agriculteur, une île précise. QR code sur chaque pièce menant au profil du producteur local.</p>
+        </div>
+        <div class="role-card" style="border-left-color:#E8845A;">
+          <span class="role-icon">✓</span>
+          <h3>Preuve</h3>
+          <p>Valeur de confiance. Zéro communication sans justification. Les certifications GOTS et OEKO-TEX sont visibles en page d'accueil, avant les photos produits. WARA refuse le greenwashing.</p>
+        </div>
+        <div class="role-card" style="border-left-color:#C4986A;">
+          <span class="role-icon">✨</span>
+          <h3>Désirabilité</h3>
+          <p>Valeur esthétique. Le vêtement d'abord, l'écologie comme signature — pas comme argument de vente principal. Le produit doit être désirable indépendamment de son origine éthique.</p>
+        </div>
+        <div class="role-card" style="border-left-color:#1B3D52;">
+          <span class="role-icon">🔁</span>
+          <h3>Inclusivité circulaire</h3>
+          <p>Valeur sociale. WARA refuse d'être une marque inaccessible née sur un territoire où le chômage dépasse 30 %. La cascade financière Alexander → Clara → Inès est une valeur de marque autant qu'une logique commerciale.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══ CE QUE J'AI APPRIS ══ -->
+    <section aria-labelledby="titre-bilan-wara">
+      <h2 id="titre-bilan-wara" data-fr="Ce que j'ai appris" data-en="What I learned">Ce que j'ai appris</h2>
+      <div class="apprentissages">
+        <div class="apprentissage-item">
+          <strong>Penser stratégie avant créa</strong>
+          <p>Construire un persona réel avec une carte d'empathie, des douleurs et des gains concrets, c'est radicalement différent d'une simple description de cible. Ça oblige à se mettre dans la peau de quelqu'un d'autre — et ça change tout dans les choix de communication.</p>
+        </div>
+        <div class="apprentissage-item">
+          <strong>La viabilité économique d'une innovation</strong>
+          <p>J'ai compris que pour qu'un produit écologique survive, il ne suffit pas d'être "vert" : il faut une logique financière solide derrière. Le modèle de subvention croisée de WARA m'a ouvert les yeux sur la réalité économique des projets à impact.</p>
+        </div>
+        <div class="apprentissage-item">
+          <strong>Communiquer à l'international</strong>
+          <p>Imaginer une communication pour plusieurs profils (un londonien, une guadeloupéenne, une touriste) m'a forcée à réfléchir aux codes culturels, aux canaux de diffusion et au ton à adopter pour chaque cible. La traduction ne suffit pas : il faut adapter l'angle.</p>
+        </div>
+        <div class="apprentissage-item">
+          <strong>Travailler en collectif project</strong>
+          <p>Ce projet en groupe a demandé une vraie répartition des rôles et une cohérence de discours. Apprendre à aligner nos visions — du visuel à la rédaction — sans que le résultat final ressemble à un patchwork : c'est une compétence en soi.</p>
+        </div>
+        <div class="apprentissage-item">
+          <strong>Faire désirer un produit responsable</strong>
+          <p>WARA m'a appris qu'un produit éco-conçu ne se vend pas uniquement sur ses vertus environnementales. Il doit être beau, désirable, raconter une histoire. Le design et la narration ont autant d'importance que les certifications.</p>
+        </div>
+        <div class="apprentissage-item">
+          <strong>Droit &amp; éthique en communication</strong>
+          <p>La SAE imposait de veiller au droit dans le projet (CGU, droit d'auteur, droit à l'image). J'ai compris comment ces contraintes légales s'intègrent concrètement dans la production de contenus pour une audience internationale.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <div class="cta-center">
+      <a href="projets.html" class="btn" data-fr="← Retour aux projets" data-en="← Back to projects">← Retour aux projets</a>
+      <a href="https://sae-2-02-wara.vercel.app/" class="btn btn-outline" target="_blank" rel="noopener">Visiter le site WARA →</a>
+    </div>
+
+  </main>
+
+
+  <footer>
+    <small>© <span id="annee"></span> <span data-fr="Raïssa Gradel — BUT MMI" data-en="Raïssa Gradel — BUT MMI">Raïssa Gradel — BUT MMI</span></small>
+  </footer>
+
+
+  <script>
+    var btnTheme = document.getElementById('toggle-theme');
+    var saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+    btnTheme.textContent = saved === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    btnTheme.addEventListener('click', function() {
+      var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+      btnTheme.textContent = t === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    });
+
+    var btn = document.getElementById('burger-btn');
+    var nav = document.getElementById('main-nav');
+    btn.addEventListener('click', function() {
+      if (nav.classList.contains('open')) { nav.classList.remove('open'); btn.textContent = '☰'; }
+      else { nav.classList.add('open'); btn.textContent = '✕'; }
+    });
+    nav.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() { nav.classList.remove('open'); btn.textContent = '☰'; });
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { nav.classList.remove('open'); btn.textContent = '☰'; }
+    });
+
+    document.getElementById('annee').textContent = new Date().getFullYear();
+  </script>
+
+
+  <!-- ── SYSTÈME BILINGUE FR/EN ── -->
+  <script>
+    (function() {
+      var currentLang = localStorage.getItem('lang') || 'fr';
+      var langBtn = document.getElementById('lang-btn');
+
+      function applyLang(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+        document.documentElement.setAttribute('lang', lang);
+        document.querySelectorAll('[data-fr]').forEach(function(el) {
+          el.innerHTML = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-fr');
+        });
+        if (langBtn) langBtn.textContent = lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR';
+        // Update page title
+        var titleEl = document.querySelector('title[data-fr]');
+        if (!titleEl) titleEl = document.querySelector('title');
+        if (titleEl && titleEl.getAttribute('data-en')) {
+          titleEl.textContent = lang === 'en' ? titleEl.getAttribute('data-en') : titleEl.getAttribute('data-fr');
+        }
+      }
+
+      if (langBtn) {
+        langBtn.addEventListener('click', function() {
+          applyLang(currentLang === 'fr' ? 'en' : 'fr');
+        });
+      }
+      applyLang(currentLang);
+    })();
+  </script>
+
+</body>
+</html>

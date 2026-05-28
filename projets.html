@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projets – Raïssa Gradel</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    #main-nav ul { list-style:none; margin:0; padding:0; display:flex; gap:2rem; }
+    #main-nav a { font-size:.85rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#8a7070); text-decoration:none; padding:.5rem 0; border-bottom:2px solid transparent; transition:color .2s, border-color .2s; }
+    #main-nav a:hover, #main-nav a.active { color:var(--brand-light,#f472b6); border-bottom-color:var(--brand,#ec4899); text-decoration:none; }
+    #burger-btn { display:none; background:var(--surface,#111); color:var(--text-primary,#e8d5d5); border:1px solid var(--border,#2a1a1a); font-size:1.6rem; line-height:1; padding:.3rem .75rem; border-radius:10px; cursor:pointer; }
+    #burger-btn:hover { border-color:var(--brand,#ec4899); color:var(--brand-light,#f472b6); }
+    @media (max-width: 768px) {
+      #burger-btn { display:block; }
+      #main-nav { display:none; position:fixed; top:68px; left:12px; right:12px; background:#111111; border:2px solid #ec4899; border-radius:14px; padding:.75rem; z-index:9999; box-shadow:0 8px 40px rgba(236,72,153,.4); }
+      #main-nav.open { display:block; }
+      #main-nav ul { flex-direction:column; gap:0; }
+      #main-nav li { width:100%; }
+      #main-nav a { display:block; padding:1rem 1.2rem; border-bottom:1px solid rgba(236,72,153,.2); border-radius:8px; color:#e8d5d5; font-size:1rem; }
+      #main-nav li:last-child a { border-bottom:none; }
+      #main-nav a:hover { background:rgba(236,72,153,.1); color:#f472b6; border-bottom-color:transparent; }
+      #main-nav a.active { color:#f472b6; background:rgba(236,72,153,.12); border-left:3px solid #ec4899; }
+    }
+  
+    #lang-btn {
+      background: transparent;
+      color: var(--brand-light, #f472b6);
+      border: 1px solid var(--brand, #ec4899);
+      font-size: .78rem;
+      letter-spacing: .12em;
+      padding: .3rem .7rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      font-family: inherit;
+    }
+    #lang-btn:hover { background: var(--brand, #ec4899); color: #fff; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      <img src="img/mylogo.png" alt="Logo Raïssa Gradel" />
+      <span class="logo-name" data-fr="RAÏSSA GRADEL" data-en="RAÏSSA GRADEL">RAÏSSA GRADEL</span>
+    </a>
+    <button id="lang-btn" aria-label="Switch language">🇬🇧 EN</button>
+    <button id="toggle-theme" aria-label="Basculer thème">🌙 Mode sombre</button>
+    <button id="burger-btn" aria-label="Ouvrir le menu">☰</button>
+    <nav id="main-nav">
+      <ul>
+        <li><a href="index.html" data-fr="Accueil" data-en="Home">Accueil</a></li>
+        <li><a href="projets.html" class="active" data-fr="Projets" data-en="Projects">Projets</a></li>
+        <li><a href="Apropos.html" data-fr="À propos" data-en="About">À propos</a></li>
+        <li><a href="Competence.html" data-fr="Compétences" data-en="Skills">Compétences</a></li>
+        <li><a href="contact.html" data-fr="Contact" data-en="Contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <main>
+
+    <h1 data-fr="Mes Projets" data-en="My Projects">Mes Projets</h1>
+
+    <div class="filtres" role="group" aria-label="Filtrer les projets">
+      <button class="filtre-btn actif" data-filtre="tous" data-fr="Tous" data-en="All">Tous</button>
+      <button class="filtre-btn" data-filtre="pro" data-fr="🎓 Professionnels" data-en="🎓 Academic">🎓 Professionnels</button>
+      <button class="filtre-btn" data-filtre="perso" data-fr="🎨 Personnels" data-en="🎨 Personal">🎨 Personnels</button>
+    </div>
+
+    <section aria-labelledby="titre-grille">
+      <h2 id="titre-grille" data-fr="Tous les projets" data-en="All projects">Tous les projets</h2>
+      <div class="grille-projets" id="grid">
+
+        <article class="carte" data-tag="pro">
+          <img src="img/ts.png" alt="Logo Totally Style" />
+          <h3 data-fr="Totally Style" data-en="Totally Style">Totally Style</h3>
+          <p data-fr="Création d'un logo pour une marque fictive du secteur du prêt-à-porter." data-en="Logo creation for a fictional ready-to-wear fashion brand.">Création d'un logo pour une marque fictive du secteur du prêt-à-porter.</p>
+          <p class="meta" data-fr="🎓 Pro · 2025" data-en="🎓 Academic · 2025">🎓 Pro · 2025</p>
+          <a class="btn" href="Totally_style.html" data-fr="Voir" data-en="View">Voir</a>
+        </article>
+
+        <article class="carte" data-tag="pro">
+          <img src="img/MH.co.png" alt="Logo Monster High" />
+          <h3 data-fr="Analyse Monster High" data-en="Monster High Analysis">Analyse Monster High</h3>
+          <p data-fr="Analyse et stratégie de communication de la marque Monster High." data-en="Brand analysis and communication strategy for Monster High.">Analyse et stratégie de communication de la marque Monster High.</p>
+          <p class="meta">🎓 Pro · 2025</p>
+          <a class="btn" href="Marketing_MH.html" data-fr="Voir" data-en="View">Voir</a>
+        </article>
+
+        <article class="carte" data-tag="pro">
+          <img src="img/Parfum.png" alt="Spot publicitaire parfum" />
+          <h3 data-fr="Spot publicitaire" data-en="Ad Spot">Spot publicitaire</h3>
+          <p data-fr="Conception d'un spot de 30 secondes pour un parfum. Tournage prévu en Guadeloupe." data-en="Designing a 30-second ad spot for a perfume. Shot in Guadeloupe.">Conception d'un spot de 30 secondes pour un parfum. Tournage prévu en Guadeloupe.</p>
+          <p class="meta">🎓 Pro · 2025</p>
+          <a class="btn" href="Spot_publicitaire.html" data-fr="Voir" data-en="View">Voir</a>
+        </article>
+
+        <article class="carte" data-tag="pro">
+          <img src="img/Photomancie.png" alt="Atelier Photomancie" />
+          <h3 data-fr="Photomancie" data-en="Photomancie">Photomancie</h3>
+          <p data-fr="Atelier audiovisuel conçu pour la journée portes ouvertes de l'université." data-en="Audiovisual workshop designed for the university open day.">Atelier audiovisuel conçu pour la journée portes ouvertes de l'université.</p>
+          <p class="meta" data-fr="🎓 Pro · 202)" data-en="🎓 Academic · 2025">🎓 Pro · 202)</p>
+          <a class="btn" href="Photomancie.html" data-fr="Voir" data-en="View">Voir</a>
+        </article>
+
+        <article class="carte" data-tag="pro">
+          <img src="img/GP_acc.png" alt="Site Greenpitch" />
+          <h3 data-fr="Site web — Greenpitch" data-en="Website — Greenpitch">Site web — Greenpitch</h3>
+          <p data-fr="Création d'un site web pour une association dans le cadre d'une SAE." data-en="Website creation for an association as part of a SAE project.">Création d'un site web pour une association dans le cadre d'une SAE.</p>
+          <p class="meta" data-fr="🎓 Pro · 2026" data-en="🎓 Academic · 2026">🎓 Pro · 2026</p>
+          <a class="btn" href="Greenpichtchh.html" data-fr="Voir" data-en="View">Voir</a>
+        </article>
+
+        <article class="carte" data-tag="pro">
+          <img src="img/ho1.jpg" alt="Séquence film d'horreur" />
+          <h3 data-fr="Film d'horreur — 1 minute" data-en="Horror film — 1 minute">Film d'horreur — 1 minute</h3>
+          <p data-fr="Réalisation d'une séquence d'une minute de film d'horreur à petit budget." data-en="Production of a one-minute low-budget horror film sequence.">Réalisation d'une séquence d'une minute de film d'horreur à petit budget.</p>
+          <p class="meta">🎓 Pro · 2025</p>
+          <a class="btn" href="Horreur.html" data-fr="Voir" data-en="View">Voir</a>
+        </article>
+
+  <article class="carte" data-tag="perso">
+          <img src="img/liminal_logo.png" alt="Liminal logo" />
+          <h3 data-fr="Projet Liminal" data-en="Liminal Project">Projet Liminal</h3>
+          <p data-fr="LIMINAL est un projet de direction artistique qui fusionne les codes de la haute couture d'avant-garde avec l'esthétique des bugs numériques pour explorer notre rapport déréalisé aux écrans." data-en="LIMINAL is an art direction project that fuses the codes of avant-garde haute couture with the aesthetic of digital glitches to explore our derealised relationship with screens.">LIMINAL est un projet de direction artistique qui fusionne les codes de la haute couture d'avant-garde avec l'esthétique des bugs numériques pour explorer notre rapport déréalisé aux écrans.</p>
+          <p class="meta" data-fr="🎨 Perso · 2026" data-en="🎨 Personal · 2026">🎨 Perso · 2026</p>
+          <a class="btn" href="Liminal_project.html" data-fr="Voir" data-en="View">Voir</a>
+        </article>
+
+        <article class="carte" data-tag="perso">
+          <img src="img/mylogo.png" alt="Mon logo personnel" />
+          <h3 data-fr="Création de mon logo" data-en="Creating my logo">Création de mon logo</h3>
+          <p data-fr="Création de mon identité visuelle personnelle et de mon logo de branding." data-en="Creation of my personal visual identity and branding logo.">Création de mon identité visuelle personnelle et de mon logo de branding.</p>
+          <p class="meta">🎨 Perso · 2026</p>
+          <a class="btn" href="monlogo.html" data-fr="Voir" data-en="View">Voir</a>
+        </article>
+
+           <article class="carte" data-tag="perso">
+          <img src="img/Aff_PA.png" alt="Mon logo personnel" />
+          <h3 data-fr="Création d'une affiche dans le registre POP ART" data-en="Creating a POP ART poster">Création d'une affiche dans le registre POP ART</h3>
+          <p data-fr="Je me suis inspirée du travaille de Marisol Escobar pour créer une affiche..." data-en="I drew inspiration from Marisol Escobar's work to create a poster...">Je me suis inspirée du travaille de Marisol Escobar pour créer une affiche...</p>
+          <p class="meta">🎓 Pro · 2026</p>
+          <a class="btn" href="Marisol.html" data-fr="Voir" data-en="View">Voir</a>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <footer>
+    <small>© <span id="annee"></span> <span data-fr="Raïssa Gradel — BUT MMI" data-en="Raïssa Gradel — BUT MMI">Raïssa Gradel — BUT MMI</span></small>
+  </footer>
+
+
+  <script>
+    // ── THÈME ──
+    var btnTheme = document.getElementById('toggle-theme');
+    var saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+    btnTheme.textContent = saved === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    btnTheme.addEventListener('click', function() {
+      var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+      btnTheme.textContent = t === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    });
+
+    // ── BURGER ──
+    var btn = document.getElementById('burger-btn');
+    var nav = document.getElementById('main-nav');
+    btn.addEventListener('click', function() {
+      if (nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.textContent = '☰';
+      } else {
+        nav.classList.add('open');
+        btn.textContent = '✕';
+      }
+    });
+    nav.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() { nav.classList.remove('open'); btn.textContent = '☰'; });
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { nav.classList.remove('open'); btn.textContent = '☰'; }
+    });
+
+    // ── FILTRES ──
+    var filtres = document.querySelectorAll('.filtre-btn');
+    var cartes  = document.querySelectorAll('#grid .carte');
+    filtres.forEach(function(f) {
+      f.addEventListener('click', function() {
+        filtres.forEach(function(b) { b.classList.remove('actif'); });
+        f.classList.add('actif');
+        var val = f.getAttribute('data-filtre');
+        cartes.forEach(function(c) {
+          c.style.display = (val === 'tous' || c.getAttribute('data-tag') === val) ? '' : 'none';
+        });
+      });
+    });
+
+    // ── ANNÉE ──
+    document.getElementById('annee').textContent = new Date().getFullYear();
+  </script>
+
+
+  <!-- ── SYSTÈME BILINGUE FR/EN ── -->
+  <script>
+    (function() {
+      var currentLang = localStorage.getItem('lang') || 'fr';
+      var langBtn = document.getElementById('lang-btn');
+
+      function applyLang(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+        document.documentElement.setAttribute('lang', lang);
+        document.querySelectorAll('[data-fr]').forEach(function(el) {
+          el.innerHTML = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-fr');
+        });
+        if (langBtn) langBtn.textContent = lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR';
+        // Update page title
+        var titleEl = document.querySelector('title[data-fr]');
+        if (!titleEl) titleEl = document.querySelector('title');
+        if (titleEl && titleEl.getAttribute('data-en')) {
+          titleEl.textContent = lang === 'en' ? titleEl.getAttribute('data-en') : titleEl.getAttribute('data-fr');
+        }
+      }
+
+      if (langBtn) {
+        langBtn.addEventListener('click', function() {
+          applyLang(currentLang === 'fr' ? 'en' : 'fr');
+        });
+      }
+      applyLang(currentLang);
+    })();
+  </script>
+
+</body>
+</html>

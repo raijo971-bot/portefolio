@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Photomancie — Raïssa Gradel</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    #main-nav ul { list-style:none; margin:0; padding:0; display:flex; gap:2rem; }
+    #main-nav a { font-size:.85rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#8a7070); text-decoration:none; padding:.5rem 0; border-bottom:2px solid transparent; transition:color .2s, border-color .2s; }
+    #main-nav a:hover, #main-nav a.active { color:var(--brand-light,#f472b6); border-bottom-color:var(--brand,#ec4899); text-decoration:none; }
+    #burger-btn { display:none; background:var(--surface,#111); color:var(--text-primary,#e8d5d5); border:1px solid var(--border,#2a1a1a); font-size:1.6rem; line-height:1; padding:.3rem .75rem; border-radius:10px; cursor:pointer; }
+    #burger-btn:hover { border-color:var(--brand,#ec4899); color:var(--brand-light,#f472b6); }
+    @media (max-width: 768px) {
+      #burger-btn { display:block; }
+      #main-nav { display:none; position:fixed; top:68px; left:12px; right:12px; background:#111111; border:2px solid #ec4899; border-radius:14px; padding:.75rem; z-index:9999; box-shadow:0 8px 40px rgba(236,72,153,.4); }
+      #main-nav.open { display:block; }
+      #main-nav ul { flex-direction:column; gap:0; }
+      #main-nav li { width:100%; }
+      #main-nav a { display:block; padding:1rem 1.2rem; border-bottom:1px solid rgba(236,72,153,.2); border-radius:8px; color:#e8d5d5; font-size:1rem; }
+      #main-nav li:last-child a { border-bottom:none; }
+      #main-nav a:hover { background:rgba(236,72,153,.1); color:#f472b6; border-bottom-color:transparent; }
+      #main-nav a.active { color:#f472b6; background:rgba(236,72,153,.12); border-left:3px solid #ec4899; }
+    }
+  
+    #lang-btn {
+      background: transparent;
+      color: var(--brand-light, #f472b6);
+      border: 1px solid var(--brand, #ec4899);
+      font-size: .78rem;
+      letter-spacing: .12em;
+      padding: .3rem .7rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      font-family: inherit;
+    }
+    #lang-btn:hover { background: var(--brand, #ec4899); color: #fff; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      <img src="img/mylogo.png" alt="Logo Raïssa Gradel" />
+      <span class="logo-name" data-fr="RAÏSSA GRADEL" data-en="RAÏSSA GRADEL">RAÏSSA GRADEL</span>
+    </a>
+    <button id="lang-btn" aria-label="Switch language">🇬🇧 EN</button>
+    <button id="toggle-theme" aria-label="Basculer thème">🌙 Mode sombre</button>
+    <button id="burger-btn" aria-label="Ouvrir le menu">☰</button>
+    <nav id="main-nav">
+      <ul>
+        <li><a href="index.html" data-fr="Accueil" data-en="Home">Accueil</a></li>
+        <li><a href="projets.html" class="active" data-fr="Projets" data-en="Projects">Projets</a></li>
+        <li><a href="Apropos.html" data-fr="À propos" data-en="About">À propos</a></li>
+        <li><a href="Competence.html" data-fr="Compétences" data-en="Skills">Compétences</a></li>
+        <li><a href="contact.html" data-fr="Contact" data-en="Contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="projet-detail">
+    <div class="projet-hero">
+      <p class="projet-hero__retour"><a href="projets.html" data-fr="← Retour aux projets" data-en="← Back to projects">← Retour aux projets</a></p>
+      <h1 data-fr="Photomancie — Atelier JPO" data-en="Photomancie — Open Day Workshop">Photomancie — Atelier JPO</h1>
+      <p class="projet-hero__meta" data-fr="🎓 Projet audiovisuel · Janvier 2026" data-en="🎓 Audiovisual project · January 2026">🎓 Projet audiovisuel · Janvier 2026</p>
+      <p data-fr="Lors de la Journée Portes Ouvertes du 16 janvier 2026, notre groupe audiovisuel a conçu et animé un atelier original pour présenter le BUT MMI aux visiteurs, autour de la thématique des super-héros." data-en="During the Open Day on 16 January 2026, our audiovisual group designed and ran an original workshop to introduce visitors to the BUT MMI programme, themed around superheroes.">Lors de la Journée Portes Ouvertes du 16 janvier 2026, notre groupe audiovisuel a conçu et animé un atelier original pour présenter le BUT MMI aux visiteurs, autour de la thématique des super-héros.</p>
+    </div>
+    <section aria-labelledby="titre-contexte-pm">
+      <h2 id="titre-contexte-pm" data-fr="Contexte &amp; genèse du projet" data-en="Context &amp; project genesis">Contexte &amp; genèse du projet</h2>
+      <div class="projet-texte-card">
+        <p data-fr="Nous devions réaliser des ateliers pour présenter le BUT MMI. Parmi les groupes (design graphique, développement web…), nous étions le groupe audiovisuel. L'enjeu : créer quelque chose de simple, agréable et réalisable dans les délais impartis." data-en="We had to create workshops to showcase the BUT MMI programme. Among the groups (graphic design, web development…), we were the audiovisual group. The challenge: create something simple, enjoyable and achievable within the deadline.">Nous devions réaliser des ateliers pour présenter le BUT MMI. Parmi les groupes (design graphique, développement web…), nous étions le groupe audiovisuel. L'enjeu : créer quelque chose de simple, agréable et réalisable dans les délais impartis.</p>
+        <p>Après plusieurs idées rejetées, nous avons travaillé d'abord sur le design de l'affiche, puis réfléchi au contenu. C'est ainsi qu'est née <strong data-fr="Photomancie" data-en="Photomancie">Photomancie</strong> — un nom évoquant la cartomancie, l'idée d'une divination par la photographie.</p>
+      </div>
+    </section>
+    <section aria-labelledby="titre-affiche-pm">
+      <h2 id="titre-affiche-pm" data-fr="L'affiche" data-en="The poster">L'affiche</h2>
+      <div class="projet-galerie">
+        <img src="img/Photomancie.png" alt="Affiche du projet Photomancie" width="440" height="740" loading="lazy" />
+      </div>
+      <div class="projet-texte-card">
+        <p data-fr="À l'origine, nous avions envisagé des cartes physiques à faire choisir au hasard. Ce concept n'ayant pas été validé, nous avons gardé la même idée au format numérique. Dernière surprise : le logo de l'IUT n'était pas le bon — nous avons dû retravailler le design à la dernière minute." data-en="Originally we had planned physical cards to be chosen at random. When this concept was not approved, we kept the same idea in digital format. Last-minute surprise: the IUT logo was wrong — we had to rework the design at the last minute.">À l'origine, nous avions envisagé des cartes physiques à faire choisir au hasard. Ce concept n'ayant pas été validé, nous avons gardé la même idée au format numérique. Dernière surprise : le logo de l'IUT n'était pas le bon — nous avons dû retravailler le design à la dernière minute.</p>
+      </div>
+    </section>
+    <section aria-labelledby="titre-role-pm">
+      <h2 id="titre-role-pm" data-fr="Mon rôle : photographe" data-en="My role: photographer">Mon rôle : photographe</h2>
+      <div class="projet-texte-card">
+        <p data-fr="J'étais en charge de la <strong>photographie des participants</strong>. L'appareil étant neuf, j'ai dû rapidement prendre en main ses fonctionnalités — ce qui n'a pas posé de problème : j'aime la photo et je me suis adaptée rapidement pour fournir une prestation de qualité tout au long de la journée." data-en="I was responsible for <strong>photographing the participants</strong>. The camera being new, I had to quickly get to grips with its features — which was no problem: I love photography and adapted quickly to deliver quality work throughout the day.">J'étais en charge de la <strong>photographie des participants</strong>. L'appareil étant neuf, j'ai dû rapidement prendre en main ses fonctionnalités — ce qui n'a pas posé de problème : j'aime la photo et je me suis adaptée rapidement pour fournir une prestation de qualité tout au long de la journée.</p>
+      </div>
+    </section>
+    <section aria-labelledby="titre-restitution-pm">
+      <h2 id="titre-restitution-pm" data-fr="Restitutions" data-en="Deliverables">Restitutions</h2>
+      <div class="projet-galerie">
+        <img src="img/res_jpo.png"  alt="Restitution — page 1"       width="840" height="540" loading="lazy" />
+        <img src="img/res_jpo1.png" alt="Restitution — page 2"       width="840" height="540" loading="lazy" />
+        <img src="img/res_jpo2.png" alt="Restitution — page 3"       width="840" height="540" loading="lazy" />
+        <img src="img/res_jpo3.png" alt="Restitution — participants" width="840" height="540" loading="lazy" />
+        <img src="img/res_jpo4.png" alt="Restitution — organisation" width="840" height="540" loading="lazy" />
+        <img src="img/res_jpo5.png" alt="Restitution — rôles"        width="840" height="540" loading="lazy" />
+        <img src="img/res_jpo6.png" alt="Restitution — SWOT"         width="840" height="540" loading="lazy" />
+        <img src="img/res_jpo7.png" alt="Restitution — page 8"       width="840" height="540" loading="lazy" />
+        <img src="img/res_jpo8.png" alt="Restitution — conclusion"   width="840" height="540" loading="lazy" />
+      </div>
+    </section>
+    <div class="cta-center">
+      <a href="projets.html" class="btn" data-fr="← Retour aux projets" data-en="← Back to projects">← Retour aux projets</a>
+    </div>
+  </main>
+
+  <footer>
+    <small>© <span id="annee"></span> <span data-fr="Raïssa Gradel — BUT MMI" data-en="Raïssa Gradel — BUT MMI">Raïssa Gradel — BUT MMI</span></small>
+  </footer>
+
+  <script>
+    var btnTheme = document.getElementById('toggle-theme');
+    var saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+    btnTheme.textContent = saved === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    btnTheme.addEventListener('click', function() {
+      var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+      btnTheme.textContent = t === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    });
+    var btn = document.getElementById('burger-btn');
+    var nav = document.getElementById('main-nav');
+    btn.addEventListener('click', function() {
+      if (nav.classList.contains('open')) { nav.classList.remove('open'); btn.textContent = '☰'; }
+      else { nav.classList.add('open'); btn.textContent = '✕'; }
+    });
+    nav.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() { nav.classList.remove('open'); btn.textContent = '☰'; });
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { nav.classList.remove('open'); btn.textContent = '☰'; }
+    });
+    document.getElementById('annee').textContent = new Date().getFullYear();
+  </script>
+
+
+  <!-- ── SYSTÈME BILINGUE FR/EN ── -->
+  <script>
+    (function() {
+      var currentLang = localStorage.getItem('lang') || 'fr';
+      var langBtn = document.getElementById('lang-btn');
+
+      function applyLang(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+        document.documentElement.setAttribute('lang', lang);
+        document.querySelectorAll('[data-fr]').forEach(function(el) {
+          el.innerHTML = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-fr');
+        });
+        if (langBtn) langBtn.textContent = lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR';
+        // Update page title
+        var titleEl = document.querySelector('title[data-fr]');
+        if (!titleEl) titleEl = document.querySelector('title');
+        if (titleEl && titleEl.getAttribute('data-en')) {
+          titleEl.textContent = lang === 'en' ? titleEl.getAttribute('data-en') : titleEl.getAttribute('data-fr');
+        }
+      }
+
+      if (langBtn) {
+        langBtn.addEventListener('click', function() {
+          applyLang(currentLang === 'fr' ? 'en' : 'fr');
+        });
+      }
+      applyLang(currentLang);
+    })();
+  </script>
+
+</body>
+</html>

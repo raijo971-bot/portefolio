@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projet Liminal </title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ══ NAVIGATION FONCTIONNELLE ══ */
+    #main-nav ul { list-style:none; margin:0; padding:0; display:flex; gap:2rem; }
+    #main-nav a { font-size:.85rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#8a7070); text-decoration:none; padding:.5rem 0; border-bottom:2px solid transparent; transition:color .2s, border-color .2s; }
+    #main-nav a:hover, #main-nav a.active { color:var(--brand-light,#f472b6); border-bottom-color:var(--brand,#ec4899); text-decoration:none; }
+    #burger-btn { display:none; background:var(--surface,#111); color:var(--text-primary,#e8d5d5); border:1px solid var(--border,#2a1a1a); font-size:1.6rem; line-height:1; padding:.3rem .75rem; border-radius:10px; cursor:pointer; }
+    #burger-btn:hover { border-color:var(--brand,#ec4899); color:var(--brand-light,#f472b6); }
+    @media (max-width: 768px) {
+      #burger-btn { display:block; }
+      #main-nav { display:none; position:fixed; top:68px; left:12px; right:12px; background:#111111; border:2px solid #ec4899; border-radius:14px; padding:.75rem; z-index:9999; box-shadow:0 8px 40px rgba(236,72,153,.4); }
+      #main-nav.open { display:block; }
+      #main-nav ul { flex-direction:column; gap:0; }
+      #main-nav li { width:100%; }
+      #main-nav a { display:block; padding:1rem 1.2rem; border-bottom:1px solid rgba(236,72,153,.2); border-radius:8px; color:#e8d5d5; font-size:1rem; }
+      #main-nav li:last-child a { border-bottom:none; }
+      #main-nav a:hover { background:rgba(236,72,153,.1); color:#f472b6; border-bottom-color:transparent; }
+      #main-nav a.active { color:#f472b6; background:rgba(236,72,153,.12); border-left:3px solid #ec4899; }
+    }
+
+    /* ══ GRILLE 2 colonnes pour le brief ══ */
+    .grid-2-1 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    @media (min-width: 768px) {
+      .grid-2-1 { grid-template-columns: 2fr 1fr; }
+    }
+
+    /* ══ SIDEBAR INFOS ══ */
+    .sidebar-infos {
+      background: var(--surface, #111);
+      border: 1px solid var(--border, #2a1a1a);
+      border-left: 4px solid var(--brand, #ec4899);
+      border-radius: var(--radius, 16px);
+      padding: 1.5rem;
+    }
+    .sidebar-infos h3 { margin: 0 0 1rem; color: var(--brand-light, #f472b6); font-size: 1rem; letter-spacing: .1em; text-transform: uppercase; }
+    .sidebar-infos ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .6rem; }
+    .sidebar-infos li { font-size: .9rem; color: var(--text-secondary, #c9a8a8); }
+    .sidebar-infos li strong { color: var(--text-primary, #e8d5d5); }
+
+    /* ══ TEXTE INTRO ══ */
+    .text-block { color: var(--text-secondary); margin-bottom: 1.5rem; max-width: 70ch; }
+
+    /* ══ PROCESSUS CRÉATIF ══ */
+    .process-container-fluid {
+      display: flex;
+      flex-direction: column;
+      gap: 5rem;
+      margin-top: 4rem;
+    }
+    .process-step-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+    @media (min-width: 768px) {
+      .process-step-row { grid-template-columns: 1.1fr 0.9fr; }
+      .process-step-row.reverse-layout { grid-template-columns: 0.9fr 1.1fr; }
+      .process-step-row.reverse-layout .process-step-text { grid-column: 2; grid-row: 1; }
+      .process-step-row.reverse-layout .process-step-media,
+      .process-step-row.reverse-layout .invitation-dual-grid { grid-column: 1; grid-row: 1; }
+    }
+
+    .step-badge-tag {
+      font-family: var(--font-display, serif);
+      font-size: .8rem;
+      color: var(--brand-light, #f472b6);
+      text-transform: uppercase;
+      letter-spacing: .2em;
+      display: block;
+      margin-bottom: .5rem;
+    }
+    .process-step-text h3 { margin-top: 0; font-size: 1.5rem; letter-spacing: .05em; color: var(--text-primary, #e8d5d5); }
+    .process-step-text p { color: var(--text-secondary, #c9a8a8); max-width: none; }
+    .process-step-text ul { margin: .5rem 0 1rem 1.2rem; padding-left: 0; color: var(--text-secondary, #c9a8a8); }
+    .process-step-text li { margin-bottom: .5rem; }
+
+    /* ══ MEDIA BOX ══ */
+    .process-step-media {
+      border: 1px solid var(--border, #2a1a1a);
+      border-radius: var(--radius, 16px);
+      overflow: hidden;
+      background: var(--surface, #111);
+      box-shadow: var(--shadow-sm);
+    }
+    .process-step-media img { width: 100%; height: auto; display: block; object-fit: cover; }
+
+    /* ══ GRILLE INVITATION ══ */
+    .invitation-dual-grid { display: flex; flex-direction: column; gap: 1rem; }
+
+    /* ══ BOÎTE PISTE ABANDONNÉE ══ */
+    .abandoned-design-box {
+      background: rgba(239,68,68,.04);
+      border-left: 3px solid #ef4444;
+      padding: 1.25rem;
+      margin-top: 1.5rem;
+      border-radius: 0 var(--radius, 16px) var(--radius, 16px) 0;
+    }
+    .abandoned-design-title { color: #ef4444; font-size: .85rem; text-transform: uppercase; letter-spacing: .1em; margin-bottom: .25rem; font-weight: bold; }
+
+    /* ══ AUDIO CARD ══ */
+    .audio-spotify-card {
+      background: var(--surface-2, #1a1a1a);
+      border: 1px solid var(--border, #2a1a1a);
+      border-radius: var(--radius, 16px);
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    /* ══ CE QUE J'AI APPRIS ══ */
+    .apprentissages { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.25rem; margin: 1.5rem 0; }
+    .apprentissage-item { background: var(--surface, #111); border: 1px solid var(--border, #2a1a1a); border-radius: var(--radius, 16px); padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: .4rem; }
+    .apprentissage-item .icon { font-size: 1.4rem; }
+    .apprentissage-item strong { font-size: .9rem; color: var(--brand-light, #f472b6); }
+    .apprentissage-item p { font-size: .85rem; color: var(--text-secondary, #c9a8a8); margin: 0; line-height: 1.55; max-width: none; }
+
+    /* ══ HERO LEAD ══ */
+    .hero-lead { font-size: 1.1rem; color: var(--text-secondary, #c9a8a8); max-width: 65ch; margin: 0 auto; text-align: center; }
+  
+    #lang-btn {
+      background: transparent;
+      color: var(--brand-light, #f472b6);
+      border: 1px solid var(--brand, #ec4899);
+      font-size: .78rem;
+      letter-spacing: .12em;
+      padding: .3rem .7rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      font-family: inherit;
+    }
+    #lang-btn:hover { background: var(--brand, #ec4899); color: #fff; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      <img src="img/mylogo.png" alt="Logo Raïssa Gradel" />
+      <span class="logo-name" data-fr="RAÏSSA GRADEL" data-en="RAÏSSA GRADEL">RAÏSSA GRADEL</span>
+    </a>
+    <button id="lang-btn" aria-label="Switch language">🇬🇧 EN</button>
+    <button id="toggle-theme" aria-label="Basculer thème">🌙 Mode sombre</button>
+    <button id="burger-btn" aria-label="Ouvrir le menu">☰</button>
+    <nav id="main-nav">
+      <ul>
+        <li><a href="index.html" data-fr="Accueil" data-en="Home">Accueil</a></li>
+        <li><a href="projets.html" class="active" data-fr="Projets" data-en="Projects">Projets</a></li>
+        <li><a href="Apropos.html" data-fr="À propos" data-en="About">À propos</a></li>
+        <li><a href="Competence.html" data-fr="Compétences" data-en="Skills">Compétences</a></li>
+        <li><a href="contact.html" data-fr="Contact" data-en="Contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <main class="projet-detail">
+
+    <div class="projet-hero" style="text-align:center;">
+      <p class="projet-hero__retour"><a href="projets.html" data-fr="← Retour aux projets" data-en="← Back to projects">← Retour aux projets</a></p>
+      <span class="badge badge--pro" data-fr="Direction Artistique &amp; Graphisme" data-en="Art Direction &amp; Graphic Design">Direction Artistique &amp; Graphisme</span>
+      <div style="margin: 2rem auto 1rem; max-width: 280px;">
+        <img src="img/liminal_logo-Photoroom.png" alt="LIMINAL" style="width:100%; height:auto;" />
+      </div>
+      <p style="font-family:var(--font-body); font-style:italic; color:var(--text-secondary); font-size:1.1rem; letter-spacing:.1em; text-transform:uppercase; margin-bottom:1.5rem;" data-fr="Collection AW26 — DEREALIZATION" data-en="Collection AW26 — DEREALIZATION">Collection AW26 — DEREALIZATION</p>
+      <p class="hero-lead">
+        Création d'une identité visuelle et d'une campagne de communication immersives pour une maison de haute couture d'avant-garde fictive, explorant la frontière trouble entre réalité physique et distorsion numérique.
+      </p>
+    </div>
+
+
+    <!-- ── LE BRIEF ── -->
+    <section>
+      <div class="grid-2-1">
+        <div>
+          <h2 data-fr="Le Brief &amp; l'Intention" data-en="The Brief &amp; Intention">Le Brief &amp; l'Intention</h2>
+          <p>
+            L'idée centrale de ce projet était de concevoir une campagne visuelle forte axée sur notre rapport constant aux écrans. À travers le concept de la <strong>déréalisation</strong>, le but est de retranscrire graphiquement ce trouble psychologique passager où le monde extérieur semble soudainement irréel, lointain ou virtuel.
+          </p>
+          <p>
+            Plutôt que d'adopter une esthétique technologique classique, la marque se positionne dans l'univers du luxe conceptuel pour provoquer un contraste saisissant entre l'élégance intemporelle et la brutalité d'un bug informatique.
+          </p>
+        </div>
+        <div class="sidebar-infos">
+          <h3 data-fr="Détails du Projet" data-en="Project Details">Détails du Projet</h3>
+          <ul>
+            <li><strong>Contexte :</strong> Projet d'étude (BUT MMI)</li>
+            <li><strong>Rôle :</strong> Designer Graphique &amp; DA</li>
+            <li><strong>Outils :</strong> Adobe Photoshop</li>          </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── LE PROCESSUS CRÉATIF ── -->
+    <section style="margin-top: 3rem;">
+      <h2 data-fr="Le Processus Créatif" data-en="The Creative Process">Le Processus Créatif</h2>
+      <p class="text-block">
+        La construction de ce projet s'est articulée de manière organique, laissant d'abord place à l'expérimentation plastique avant de poser l'architecture marketing de la marque.
+      </p>
+
+      <div class="process-container-fluid">
+
+        <!-- Étape 01 -->
+        <div class="process-step-row">
+          <div class="process-step-text">
+            <span class="step-badge-tag">Étape 01</span>
+            <h3 data-fr="L'Affiche Principale : Origine du Projet" data-en="The Main Poster: Origin of the Project">L'Affiche Principale : Origine du Projet</h3>
+            <p>
+              Tout a débuté par la création de l'affiche sur Photoshop. L'objectif technique était d'expérimenter sur la dualité des textures. J'ai choisi un visuel de corps drapé, rappelant la statuaire antique et l'art classique de la Haute Couture, pour ensuite lui appliquer des filtres de distorsion numérique.
+            </p>
+            <ul>
+              <li><strong>Le Glitch :</strong> Des lignes de scan horizontales fragmentent la silhouette pour transformer le vêtement en interface défectueuse.</li>
+              <li><strong>La Colorimétrie :</strong> Une palette éthérée de bleus lumineux simule la lumière émise par nos smartphones au milieu d'un brouillard onirique.</li>
+            </ul>
+          </div>
+          <div class="process-step-media">
+            <img src="img/Derealization.png" alt="Affiche principale Derealization" />
+          </div>
+        </div>
+
+        <!-- Étape 02 -->
+        <div class="process-step-row reverse-layout">
+          <div class="process-step-text">
+            <span class="step-badge-tag">Étape 02</span>
+            <h3 data-fr="L'Étude de Marché &amp; Le Diagnostic" data-en="Market Research &amp; Diagnosis">L'Étude de Marché &amp; Le Diagnostic</h3>
+            <p>
+              Une fois ce visuel puissant terminé, j'ai analysé l'écosystème de la mode contemporaine afin de définir à quel type de maison existante cette esthétique d'avant-garde pouvait correspondre. J'ai étudié le positionnement de plusieurs marques de luxe de référence :
+            </p>
+            <ul>
+              <li><strong>Balenciaga :</strong> Pour sa critique frontale de la surconsommation numérique.</li>
+              <li><strong>Maison Margiela :</strong> Pour le culte du secret et l'anonymat des mannequins aux visages masqués ou fragmentés.</li>
+              <li><strong>Iris van Herpen :</strong> Pour l'hybridation subtile entre artisanat traditionnel et innovations technologiques.</li>
+            </ul>
+            <p>
+              C'est à la suite de ce benchmark graphique et commercial que le nom final <strong>LIMINAL</strong> (le seuil, l'entre-deux) a été décidé.
+            </p>
+            <div class="abandoned-design-box">
+              <div class="abandoned-design-title" data-fr="❌ Pistes Écartées suite à l'analyse" data-en="❌ Directions Discarded after analysis">❌ Pistes Écartées suite à l'analyse</div>
+              <p style="margin: 0; font-size: .85rem; color: var(--text-secondary);">
+                <em>Virtua</em> (trop proche de l'univers du jeu vidéo grand public) et <em>Anomalie</em> (terme trop agressif détruisant la notion d'élégance inhérente à l'univers du luxe).
+              </p>
+            </div>
+          </div>
+          <div class="process-step-media">
+            <img src="img/liminality.png" alt="Recherches et inspirations d'espaces liminaux" />
+          </div>
+        </div>
+
+        <!-- Étape 03 -->
+        <div class="process-step-row">
+          <div class="process-step-text">
+            <span class="step-badge-tag">Étape 03</span>
+            <h3 data-fr="Le Logo : L'adaptation au Visuel" data-en="The Logo: Adapting to the Visual">Le Logo : L'adaptation au Visuel</h3>
+            <p>
+              Le logotype a été conçu pour répondre et s'aligner précisément à la charte graphique dictée par l'affiche. J'ai sélectionné une police à empattements (Serif) élégante et institutionnelle, respectant les codes haut de gamme du luxe.
+            </p>
+            <p>
+              Pour faire écho directement au glitch de l'image, la lettre <strong>I</strong> a été modifiée par une fracture géométrique nette. Ce détail graphique discret matérialise la rupture, indiquant que la réalité se fissure jusque dans le nom de la marque.
+            </p>
+          </div>
+          <div class="process-step-media" style="border:none; padding:2rem; background:var(--surface-2); display:flex; align-items:center; justify-content:center;">
+            <img src="img/liminal_logo.png" alt="Détail du Logo Liminal" style="max-width:85%; height:auto; margin:0 auto;" />
+          </div>
+        </div>
+
+        <!-- Étape 04 -->
+        <div class="process-step-row reverse-layout">
+          <div class="process-step-text">
+            <span class="step-badge-tag">Étape 04</span>
+            <h3>Le Carton d'Invitation</h3>
+            <p>
+              Pour étendre l'univers de la collection, j'ai décliné la charte sur un carton d'invitation au format carré, évoquant un catalogue d'art ou un livret VIP confidentiel.
+            </p>
+            <p>
+              La mise en page adopte les codes d'un manifeste éditorial rigoureux, écrit en anglais pour appuyer la portée internationale. Le texte s'appuie sur le neuro-marketing sélectif pour intriguer l'invité en instaurant des règles strictes de confidentialité (<em>"No photography permitted"</em>, <em>"Digital ID required"</em>), renforçant le sentiment d'exclusivité propre au défilé.
+            </p>
+          </div>
+          <div class="invitation-dual-grid">
+            <div class="process-step-media">
+              <img src="img/invit-liminal1.png" alt="Invitation Liminal Recto" />
+            </div>
+            <div class="process-step-media">
+              <img src="img/invit-liminal2.png" alt="Détails du texte de l'invitation" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Étape 05 -->
+        <div class="process-step-row">
+          <div class="process-step-text">
+            <span class="step-badge-tag">Étape 05</span>
+            <h3>Le Déploiement Social Media (Instagram)</h3>
+            <p>
+              Pour la publication sur les réseaux sociaux, j'ai configuré un post carrousel regroupant l'affiche, le carton d'invitation et une fiche explicative de la philosophie de la collection.
+            </p>
+            <p>
+              Afin de concevoir une expérience utilisateur multisensorielle cohérente sur le feed, la bande sonore associée au post est le morceau <em>« Free »</em> de Madison Beer. Sa voix aérienne et plane apporte une douceur mélancolique qui sublime, par contraste, la rigidité géométrique du glitch graphique.
+            </p>
+            <div class="audio-spotify-card">
+              <span style="font-size:1.8rem;">🎵</span>
+              <div style="font-size:.9rem;">
+              <div class="audio-spotify-card">
+  <audio id="liminal-audio" src="img/free.mp3"></audio>
+  
+  <button id="play-audio-btn" class="btn-secondary" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; border-radius: 30px; cursor: pointer;">
+    <span id="audio-icon">▶</span> <span id="audio-text">Écouter "Free" (Madison Beer)</span>
+  </button>
+</div>
+
+<script>
+  var audio = document.getElementById('liminal-audio');
+  var playBtn = document.getElementById('play-audio-btn');
+  var audioIcon = document.getElementById('audio-icon');
+  var audioText = document.getElementById('audio-text');
+
+  playBtn.addEventListener('click', function() {
+    if (audio.paused) {
+      audio.play();
+      audioIcon.textContent = '⏸';
+      audioText.textContent = 'Pause';
+      playBtn.style.borderColor = 'var(--brand)';
+    } else {
+      audio.pause();
+      audioIcon.textContent = '▶';
+      audioText.textContent = 'Écouter "Free" (Madison Beer)';
+      playBtn.style.borderColor = 'var(--border)';
+    }
+  });
+
+  // Remet le bouton à zéro si la musique se termine toute seule
+  audio.addEventListener('ended', function() {
+    audioIcon.textContent = '▶';
+    audioText.textContent = 'Écouter "Free" (Madison Beer)';
+    playBtn.style.borderColor = 'var(--border)';
+  });
+</script>
+              </div>
+            </div>
+          </div>
+          <div class="process-step-media">
+            <img src="img/liminal-insta.png" alt="Rendu final Instagram" />
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ── CE QUE J'AI APPRIS ── -->
+    <section aria-labelledby="titre-bilan-liminal" style="margin-top:5rem;">
+      <h2 id="titre-bilan-liminal" data-fr="Ce que j'ai appris" data-en="What I learned">Ce que j'ai appris</h2>
+      <div class="apprentissages">
+        <div class="apprentissage-item">
+         
+          <strong>De l'image au concept</strong>
+          <p>Partir d'un visuel fort avant de construire le nom et la stratégie m'a appris à laisser l'esthétique guider le sens, et non l'inverse.</p>
+        </div>
+        <div class="apprentissage-item">
+         
+          <strong>Le pouvoir du détail typographique</strong>
+          <p>Une simple fracture dans la lettre I suffit à injecter le concept de déréalisation dans le logo. Le détail discret est souvent plus puissant que l'effet spectaculaire.</p>
+        </div>
+        <div class="apprentissage-item">
+          
+          <strong>Codes du luxe</strong>
+          <p>Le luxe parle par l'absence : peu de couleurs, beaucoup d'espace, une typographie institutionnelle. J'ai appris à retenir ma main pour ne garder que l'essentiel.</p>
+        </div>
+        <div class="apprentissage-item">
+          
+          <strong>Cohérence multi-supports</strong>
+          <p>Décliner une charte de l'affiche au carton d'invitation en passant par les réseaux m'a montré l'importance d'une identité qui tient à toutes les échelles.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <div class="cta-center">
+      <a href="projets.html" class="btn" data-fr="← Retour aux projets" data-en="← Back to projects">← Retour aux projets</a>
+    </div>
+
+  </main>
+
+
+  <footer>
+    <small>© <span id="annee"></span> <span data-fr="Raïssa Gradel — BUT MMI" data-en="Raïssa Gradel — BUT MMI">Raïssa Gradel — BUT MMI</span></small>
+  </footer>
+
+
+  <script>
+    var btnTheme = document.getElementById('toggle-theme');
+    var saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+    btnTheme.textContent = saved === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    btnTheme.addEventListener('click', function() {
+      var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+      btnTheme.textContent = t === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    });
+
+    var btn = document.getElementById('burger-btn');
+    var nav = document.getElementById('main-nav');
+    btn.addEventListener('click', function() {
+      if (nav.classList.contains('open')) { nav.classList.remove('open'); btn.textContent = '☰'; }
+      else { nav.classList.add('open'); btn.textContent = '✕'; }
+    });
+    nav.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() { nav.classList.remove('open'); btn.textContent = '☰'; });
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { nav.classList.remove('open'); btn.textContent = '☰'; }
+    });
+
+    document.getElementById('annee').textContent = new Date().getFullYear();
+  </script>
+
+
+  <!-- ── SYSTÈME BILINGUE FR/EN ── -->
+  <script>
+    (function() {
+      var currentLang = localStorage.getItem('lang') || 'fr';
+      var langBtn = document.getElementById('lang-btn');
+
+      function applyLang(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+        document.documentElement.setAttribute('lang', lang);
+        document.querySelectorAll('[data-fr]').forEach(function(el) {
+          el.innerHTML = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-fr');
+        });
+        if (langBtn) langBtn.textContent = lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR';
+        // Update page title
+        var titleEl = document.querySelector('title[data-fr]');
+        if (!titleEl) titleEl = document.querySelector('title');
+        if (titleEl && titleEl.getAttribute('data-en')) {
+          titleEl.textContent = lang === 'en' ? titleEl.getAttribute('data-en') : titleEl.getAttribute('data-fr');
+        }
+      }
+
+      if (langBtn) {
+        langBtn.addEventListener('click', function() {
+          applyLang(currentLang === 'fr' ? 'en' : 'fr');
+        });
+      }
+      applyLang(currentLang);
+    })();
+  </script>
+
+</body>
+</html>

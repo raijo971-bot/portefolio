@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Compétences — Raïssa Gradel</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    #main-nav ul { list-style:none; margin:0; padding:0; display:flex; gap:2rem; }
+    #main-nav a { font-size:.85rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#8a7070); text-decoration:none; padding:.5rem 0; border-bottom:2px solid transparent; transition:color .2s, border-color .2s; }
+    #main-nav a:hover, #main-nav a.active { color:var(--brand-light,#f472b6); border-bottom-color:var(--brand,#ec4899); text-decoration:none; }
+    #burger-btn { display:none; background:var(--surface,#111); color:var(--text-primary,#e8d5d5); border:1px solid var(--border,#2a1a1a); font-size:1.6rem; line-height:1; padding:.3rem .75rem; border-radius:10px; cursor:pointer; }
+    #burger-btn:hover { border-color:var(--brand,#ec4899); color:var(--brand-light,#f472b6); }
+    @media (max-width: 768px) {
+      #burger-btn { display:block; }
+      #main-nav { display:none; position:fixed; top:68px; left:12px; right:12px; background:#111111; border:2px solid #ec4899; border-radius:14px; padding:.75rem; z-index:9999; box-shadow:0 8px 40px rgba(236,72,153,.4); }
+      #main-nav.open { display:block; }
+      #main-nav ul { flex-direction:column; gap:0; }
+      #main-nav li { width:100%; }
+      #main-nav a { display:block; padding:1rem 1.2rem; border-bottom:1px solid rgba(236,72,153,.2); border-radius:8px; color:#e8d5d5; font-size:1rem; }
+      #main-nav li:last-child a { border-bottom:none; }
+      #main-nav a:hover { background:rgba(236,72,153,.1); color:#f472b6; border-bottom-color:transparent; }
+      #main-nav a.active { color:#f472b6; background:rgba(236,72,153,.12); border-left:3px solid #ec4899; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      <img src="img/mylogo.png" alt="Logo Raïssa Gradel" />
+      <span class="logo-name">RAÏSSA GRADEL</span>
+    </a>
+    <button id="toggle-theme" aria-label="Basculer thème">🌙 Mode sombre</button>
+    <button id="burger-btn" aria-label="Ouvrir le menu">☰</button>
+    <nav id="main-nav">
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="projets.html">Projets</a></li>
+        <li><a href="Apropos.html">À propos</a></li>
+        <li><a href="Competence.html" class="active">Compétences</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <main>
+
+    <div class="page-hero">
+      <h1>Compétences</h1>
+      <p class="page-hero__sub">Mes outils, mes savoir-faire, mes niveaux</p>
+    </div>
+
+    <section aria-labelledby="titre-design">
+      <h2 id="titre-design">Design &amp; Création</h2>
+      <div class="competences-grid">
+
+        <div class="competence-card">
+          <div class="competence-card__header">
+            <span class="competence-icon" aria-hidden="true"></span>
+            <h3>Canva</h3>
+            <span class="badge badge--pro">Avancé</span>
+          </div>
+          <p>Création de visuels, affiches, présentations, moodboards et chartes graphiques.</p>
+          <div class="niveau-barre" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" aria-label="Niveau Canva : 80%">
+            <div class="niveau-barre__fill" style="width: 80%"></div>
+          </div>
+          <span class="niveau-label">80 %</span>
+        </div>
+
+        <div class="competence-card">
+          <div class="competence-card__header">
+            <span class="competence-icon" aria-hidden="true"></span>
+            <h3>Photoshop</h3>
+            <span class="badge badge--inter">Intermédiaire</span>
+          </div>
+          <p>Retouche photo, composition d'images, manipulation de calques et effets visuels.</p>
+          <div class="niveau-barre" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100" aria-label="Niveau Photoshop : 55%">
+            <div class="niveau-barre__fill" style="width: 55%"></div>
+          </div>
+          <span class="niveau-label">55 %</span>
+        </div>
+
+        <div class="competence-card">
+          <div class="competence-card__header">
+            <span class="competence-icon" aria-hidden="true">✏</span>
+            <h3>Dessin &amp; Illustration</h3>
+            <span class="badge badge--pro">Avancé</span>
+          </div>
+          <p>Illustration traditionnelle, croquis, dessin sur papier et peinture acrylique.</p>
+          <div class="niveau-barre" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="Niveau Dessin : 85%">
+            <div class="niveau-barre__fill" style="width: 85%"></div>
+          </div>
+          <span class="niveau-label">85 %</span>
+        </div>
+
+      </div>
+    </section>
+
+    <section aria-labelledby="titre-av">
+      <h2 id="titre-av">Audiovisuel</h2>
+      <div class="competences-grid">
+
+        <div class="competence-card">
+          <div class="competence-card__header">
+            <span class="competence-icon" aria-hidden="true"></span>
+            <h3>Cap Cut</h3>
+            <span class="badge badge--pro">Avancé</span>
+          </div>
+          <p>Montage vidéo, transitions, sous-titres.</p>
+          <div class="niveau-barre" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" aria-label="Niveau Cap Cut : 75%">
+            <div class="niveau-barre__fill" style="width: 75%"></div>
+          </div>
+          <span class="niveau-label">75 %</span>
+        </div>
+
+        <div class="competence-card">
+          <div class="competence-card__header">
+            <span class="competence-icon" aria-hidden="true"></span>
+            <h3>Photographie</h3>
+            <span class="badge badge--inter">Intermédiaire</span>
+          </div>
+          <p>Prise de vue, cadrage, gestion de la lumière. Expérience lors de la JPO 2026.</p>
+          <div class="niveau-barre" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" aria-label="Niveau Photographie : 60%">
+            <div class="niveau-barre__fill" style="width: 60%"></div>
+          </div>
+          <span class="niveau-label">60 %</span>
+        </div>
+
+        <div class="competence-card">
+          <div class="competence-card__header">
+            <span class="competence-icon" aria-hidden="true"></span>
+            <h3>Scénarisation</h3>
+            <span class="badge badge--inter">Intermédiaire</span>
+          </div>
+          <p>Rédaction de synopsis, pitch, elevator pitch et découpage technique.</p>
+          <div class="niveau-barre" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" aria-label="Niveau Scénarisation : 60%">
+            <div class="niveau-barre__fill" style="width: 60%"></div>
+          </div>
+          <span class="niveau-label">60 %</span>
+        </div>
+
+      </div>
+    </section>
+
+    <section aria-labelledby="titre-web">
+      <h2 id="titre-web">Web &amp; Code</h2>
+      <div class="competences-grid">
+
+        <div class="competence-card">
+          <div class="competence-card__header">
+            <span class="competence-icon" aria-hidden="true"></span>
+            <h3>HTML</h3>
+            <span class="badge badge--inter">Intermédiaire</span>
+          </div>
+          <p>Structure sémantique, accessibilité, formulaires et bonnes pratiques.</p>
+          <div class="niveau-barre" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" aria-label="Niveau HTML : 60%">
+            <div class="niveau-barre__fill" style="width: 60%"></div>
+          </div>
+          <span class="niveau-label">50 %</span>
+        </div>
+
+        <div class="competence-card">
+          <div class="competence-card__header">
+            <span class="competence-icon" aria-hidden="true"></span>
+            <h3>CSS</h3>
+            <span class="badge badge--inter">Intermédiaire</span>
+          </div>
+          <p>Mise en page, variables CSS, responsive design, animations et thèmes clair/sombre.</p>
+          <div class="niveau-barre" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100" aria-label="Niveau CSS : 55%">
+            <div class="niveau-barre__fill" style="width: 55%"></div>
+          </div>
+          <span class="niveau-label">55 %</span>
+        </div>
+
+      </div>
+    </section>
+
+    <section aria-labelledby="titre-soft">
+      <h2 id="titre-soft">Savoir-être</h2>
+      <ul class="softskills-list">
+        <li> Travail en équipe</li>
+        <li> Adaptabilité</li>
+        <li> Créativité</li>
+        <li> Rigueur</li>
+        <li> Gestion du temps</li>
+        <li>Curiosité</li>
+        <li> Autonomie</li>
+      </ul>
+    </section>
+
+    <div class="cta-center">
+      <a href="projets.html" class="btn">Voir mes projets</a>
+      <a href="Apropos.html" class="btn btn-outline">← À propos</a>
+    </div>
+
+  </main>
+
+
+  <footer>
+    <small>© <span id="annee"></span> Raïssa Gradel — BUT MMI</small>
+  </footer>
+
+
+  <script>
+    var btnTheme = document.getElementById('toggle-theme');
+    var saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+    btnTheme.textContent = saved === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    btnTheme.addEventListener('click', function() {
+      var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+      btnTheme.textContent = t === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    });
+
+    var btn = document.getElementById('burger-btn');
+    var nav = document.getElementById('main-nav');
+    btn.addEventListener('click', function() {
+      if (nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.textContent = '☰';
+      } else {
+        nav.classList.add('open');
+        btn.textContent = '✕';
+      }
+    });
+    nav.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() { nav.classList.remove('open'); btn.textContent = '☰'; });
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { nav.classList.remove('open'); btn.textContent = '☰'; }
+    });
+
+    document.getElementById('annee').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

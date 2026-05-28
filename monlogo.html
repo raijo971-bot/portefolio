@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stratégie Monster High — Raïssa Gradel</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ══ NAVIGATION FONCTIONNELLE ══ */
+    #main-nav ul { list-style:none; margin:0; padding:0; display:flex; gap:2rem; }
+    #main-nav a { font-size:.85rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#8a7070); text-decoration:none; padding:.5rem 0; border-bottom:2px solid transparent; transition:color .2s, border-color .2s; }
+    #main-nav a:hover, #main-nav a.active { color:var(--brand-light,#f472b6); border-bottom-color:var(--brand,#ec4899); text-decoration:none; }
+    #burger-btn { display:none; background:var(--surface,#111); color:var(--text-primary,#e8d5d5); border:1px solid var(--border,#2a1a1a); font-size:1.6rem; line-height:1; padding:.3rem .75rem; border-radius:10px; cursor:pointer; }
+    #burger-btn:hover { border-color:var(--brand,#ec4899); color:var(--brand-light,#f472b6); }
+    @media (max-width: 768px) {
+      #burger-btn { display:block; }
+      #main-nav { display:none; position:fixed; top:68px; left:12px; right:12px; background:#111111; border:2px solid #ec4899; border-radius:14px; padding:.75rem; z-index:9999; box-shadow:0 8px 40px rgba(236,72,153,.4); }
+      #main-nav.open { display:block; }
+      #main-nav ul { flex-direction:column; gap:0; }
+      #main-nav li { width:100%; }
+      #main-nav a { display:block; padding:1rem 1.2rem; border-bottom:1px solid rgba(236,72,153,.2); border-radius:8px; color:#e8d5d5; font-size:1rem; }
+      #main-nav li:last-child a { border-bottom:none; }
+      #main-nav a:hover { background:rgba(236,72,153,.1); color:#f472b6; border-bottom-color:transparent; }
+      #main-nav a.active { color:#f472b6; background:rgba(236,72,153,.12); border-left:3px solid #ec4899; }
+    }
+
+    /* ══ STATS ══ */
+    .stat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1rem; margin:1.5rem 0; }
+    .stat-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:1.25rem 1rem; text-align:center; position:relative; overflow:hidden; }
+    .stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--brand,#ec4899),#a855f7); }
+    .stat-card .num { display:block; font-size:1.6rem; font-weight:700; color:var(--brand,#ec4899); }
+    .stat-card .lbl { display:block; font-size:.73rem; color:var(--muted,#8a7070); text-transform:uppercase; letter-spacing:.08em; margin-top:.35rem; }
+
+    /* ══ INFO GRID ══ */
+    .info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .info-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-left:4px solid var(--brand,#ec4899); border-radius:var(--radius,12px); padding:1.25rem 1.5rem; }
+    .info-card h3 { font-size:.95rem; color:var(--brand-light,#f472b6); margin:0 0 .6rem; }
+    .info-card p { font-size:.88rem; color:var(--text-secondary,#c9a8a8); line-height:1.6; margin:0 0 .5rem; }
+    .info-card ul { padding-left:1.1rem; margin:0; }
+    .info-card li { font-size:.88rem; color:var(--text-secondary,#c9a8a8); margin-bottom:.35rem; line-height:1.5; }
+
+    /* ══ TIMELINE ══ */
+    .timeline { margin:1.5rem 0; display:flex; flex-direction:column; gap:.75rem; }
+    .tl-item { display:flex; gap:1rem; align-items:flex-start; }
+    .tl-dot { min-width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg,var(--brand,#ec4899),#a855f7); display:flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:700; color:#fff; flex-shrink:0; }
+    .tl-content { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:.75rem 1rem; flex:1; }
+    .tl-year { display:block; font-size:.72rem; color:var(--muted,#8a7070); text-transform:uppercase; letter-spacing:.08em; margin-bottom:.2rem; }
+    .tl-text { font-size:.88rem; color:var(--text-secondary,#c9a8a8); }
+
+    /* ══ AUDIT ══ */
+    .audit-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .audit-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:1.25rem 1.5rem; }
+    .audit-card.strength { border-top:3px solid #22c55e; }
+    .audit-card.weakness  { border-top:3px solid #f97316; }
+    .audit-card.concurrence { border-top:3px solid #a855f7; }
+    .audit-card h3 { font-size:.85rem; text-transform:uppercase; letter-spacing:.1em; margin:0 0 .75rem; }
+    .audit-card.strength h3  { color:#4ade80; }
+    .audit-card.weakness h3  { color:#fb923c; }
+    .audit-card.concurrence h3 { color:#c084fc; }
+    .audit-card ul { padding-left:1.1rem; margin:0; }
+    .audit-card li { font-size:.87rem; color:var(--text-secondary,#c9a8a8); margin-bottom:.4rem; }
+
+    /* ══ RÉSEAUX SOCIAUX ══ */
+    .social-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .social-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:1.25rem 1.5rem; }
+    .social-card .platform { font-size:1rem; font-weight:700; color:var(--brand,#ec4899); margin-bottom:.2rem; }
+    .social-card .followers { font-size:.8rem; color:var(--muted,#8a7070); margin-bottom:.85rem; }
+    .social-card ul { padding-left:1.1rem; margin:0; }
+    .social-card li { font-size:.87rem; color:var(--text-secondary,#c9a8a8); margin-bottom:.35rem; }
+    .social-card h4 { font-size:.78rem; text-transform:uppercase; letter-spacing:.1em; color:var(--brand-light,#f472b6); margin:1rem 0 .4rem; }
+
+    /* ══ SMART / PROBLÉMATIQUE ══ */
+    .smart-box { background:linear-gradient(135deg,rgba(236,72,153,.08),rgba(168,85,247,.08)); border:2px solid var(--brand,#ec4899); border-radius:var(--radius,12px); padding:2rem 2.5rem; text-align:center; margin:1.5rem 0; box-shadow:0 0 40px rgba(236,72,153,.18); }
+    .smart-box .label { font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--brand,#ec4899); font-weight:700; display:block; margin-bottom:.85rem; }
+    .smart-box p { font-size:1.1rem; color:var(--text-primary,#e8d5d5); line-height:1.65; margin:0; }
+    .smart-box .hl { color:var(--brand-light,#f472b6); font-weight:600; }
+
+    /* ══ PERSONA ══ */
+    .persona-wrap { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); overflow:hidden; margin:1.5rem 0; }
+    .persona-header { display:grid; grid-template-columns:auto 1fr; gap:1.5rem; align-items:center; padding:1.5rem; border-bottom:1px solid var(--border,#2a1a1a); }
+    @media (max-width:580px) { .persona-header { grid-template-columns:1fr; } }
+    .persona-photo { width:120px; height:120px; border-radius:50%; object-fit:cover; border:3px solid var(--brand,#ec4899); }
+    .persona-meta h3 { font-size:1.05rem; color:var(--brand-light,#f472b6); margin:0 0 .3rem; }
+    .persona-meta p { font-size:.87rem; color:var(--text-secondary,#c9a8a8); margin:0 0 .6rem; }
+    .tag-row { display:flex; flex-wrap:wrap; gap:.4rem; }
+    .tag { background:rgba(236,72,153,.1); border:1px solid rgba(236,72,153,.25); border-radius:100px; padding:.2rem .7rem; font-size:.73rem; color:var(--brand-light,#f472b6); }
+    .empathy-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+    .empathy-cell { padding:1.25rem 1.5rem; border-right:1px solid var(--border,#2a1a1a); border-bottom:1px solid var(--border,#2a1a1a); }
+    @media (min-width:900px) {
+      .empathy-grid { grid-template-columns:repeat(4,1fr); }
+      .empathy-cell { border-bottom:none; }
+      .empathy-cell:last-child { border-right:none; }
+    }
+    .empathy-cell h4 { font-size:.75rem; text-transform:uppercase; letter-spacing:.12em; color:var(--brand,#ec4899); margin:0 0 .6rem; }
+    .empathy-cell ul { padding-left:1rem; margin:0; }
+    .empathy-cell li { font-size:.84rem; color:var(--text-secondary,#c9a8a8); margin-bottom:.35rem; line-height:1.45; }
+
+    /* ══ DOULEURS / GAINS ══ */
+    .dg-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .dg-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:1.25rem 1.5rem; }
+    .dg-card.douleurs { border-top:3px solid #f97316; }
+    .dg-card.gains    { border-top:3px solid #22c55e; }
+    .dg-card h3 { font-size:.88rem; text-transform:uppercase; letter-spacing:.1em; margin:0 0 .75rem; }
+    .dg-card.douleurs h3 { color:#fb923c; }
+    .dg-card.gains h3    { color:#4ade80; }
+    .dg-card ul { padding-left:1.1rem; margin:0; }
+    .dg-card li { font-size:.87rem; color:var(--text-secondary,#c9a8a8); margin-bottom:.4rem; }
+
+    /* ══ PILIERS STRATÉGIQUES ══ */
+    .piliers-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .pilier-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-left:4px solid var(--brand,#ec4899); border-radius:var(--radius,12px); padding:1.25rem 1.5rem; }
+    .pilier-card .pilier-num { font-size:.7rem; text-transform:uppercase; letter-spacing:.15em; color:var(--muted,#8a7070); display:block; margin-bottom:.4rem; }
+    .pilier-card h3 { font-size:.95rem; color:var(--brand-light,#f472b6); margin:0 0 .6rem; }
+    .pilier-card ul { padding-left:1.1rem; margin:0; }
+    .pilier-card li { font-size:.87rem; color:var(--text-secondary,#c9a8a8); margin-bottom:.35rem; line-height:1.5; }
+
+    /* ══ AXE IDENTITAIRE ══ */
+    .axe-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-left:4px solid #a855f7; border-radius:var(--radius,12px); padding:1.5rem; margin:1.5rem 0; }
+    .axe-card blockquote { font-style:italic; font-size:1.15rem; color:var(--brand-light,#f472b6); border-left:3px solid var(--brand,#ec4899); padding-left:1rem; margin:0 0 1rem; line-height:1.5; }
+    .axe-card p { font-size:.88rem; color:var(--text-secondary,#c9a8a8); margin:0 0 .5rem; line-height:1.6; }
+    .benefices { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.75rem; }
+    .benefice-pill { background:rgba(236,72,153,.08); border:1px solid rgba(236,72,153,.2); border-radius:8px; padding:.35rem .85rem; font-size:.82rem; color:var(--text-primary,#e8d5d5); }
+
+    /* ══ PHASES CAMPAGNE ══ */
+    .phases-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .phase-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:1.25rem 1.5rem; }
+    .phase-badge { display:inline-block; font-size:.68rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:.2rem .75rem; border-radius:100px; background:linear-gradient(90deg,var(--brand,#ec4899),#a855f7); color:#fff; margin-bottom:.65rem; }
+    .phase-card h3 { font-size:.9rem; color:var(--brand-light,#f472b6); margin:0 0 .5rem; }
+    .phase-card ul { padding-left:1.1rem; margin:0; }
+    .phase-card li { font-size:.84rem; color:var(--text-secondary,#c9a8a8); margin-bottom:.35rem; }
+    .hashtag { color:var(--brand-light,#f472b6); font-weight:600; }
+
+    /* ══ PLAN MÉDIA ══ */
+    .media-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .media-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:1.25rem 1.5rem; }
+    .media-card .canal { font-size:.72rem; text-transform:uppercase; letter-spacing:.15em; color:var(--muted,#8a7070); display:block; margin-bottom:.3rem; }
+    .media-card .platform-name { font-size:1rem; font-weight:700; color:var(--brand,#ec4899); margin-bottom:.85rem; display:block; }
+    .media-card h4 { font-size:.8rem; text-transform:uppercase; letter-spacing:.1em; color:var(--brand-light,#f472b6); margin:.85rem 0 .4rem; }
+    .media-card ul { padding-left:1.1rem; margin:0; }
+    .media-card li { font-size:.85rem; color:var(--text-secondary,#c9a8a8); margin-bottom:.35rem; }
+    .format-tag { display:inline-block; font-size:.7rem; background:rgba(236,72,153,.1); border:1px solid rgba(236,72,153,.22); padding:.15rem .55rem; border-radius:100px; color:var(--brand-light,#f472b6); margin-bottom:.5rem; }
+
+    /* ══ FICHES DE CADRAGE ══ */
+    .fiche-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .fiche-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:1.25rem 1.5rem; }
+    .fiche-card .fiche-num { font-size:.7rem; text-transform:uppercase; letter-spacing:.14em; color:var(--muted,#8a7070); display:block; margin-bottom:.4rem; }
+    .fiche-card h3 { font-size:.95rem; color:var(--brand-light,#f472b6); margin:0 0 1rem; padding-bottom:.65rem; border-bottom:1px solid var(--border,#2a1a1a); }
+    .fiche-row { margin-bottom:.65rem; }
+    .fiche-row .key { font-size:.7rem; text-transform:uppercase; letter-spacing:.1em; color:var(--brand,#ec4899); font-weight:700; display:block; margin-bottom:.15rem; }
+    .fiche-row .val { font-size:.86rem; color:var(--text-secondary,#c9a8a8); line-height:1.5; }
+
+    /* ══ COHÉRENCE ══ */
+    .coherence-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .coherence-item { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:1.1rem 1.25rem; }
+    .coherence-item h4 { font-size:.76rem; text-transform:uppercase; letter-spacing:.1em; color:var(--brand,#ec4899); margin:0 0 .4rem; }
+    .coherence-item p { font-size:.84rem; color:var(--text-secondary,#c9a8a8); margin:0; line-height:1.55; }
+
+    /* ══ CONCLUSION ══ */
+    .conclusion-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .conclusion-item { background:var(--surface,#111); border:1px solid rgba(236,72,153,.25); border-radius:var(--radius,12px); padding:1.25rem 1.5rem; text-align:center; }
+    .conclusion-item strong { display:block; font-size:.9rem; color:var(--brand-light,#f472b6); margin-bottom:.4rem; }
+    .conclusion-item span { font-size:.84rem; color:var(--text-secondary,#c9a8a8); }
+
+    /* ══ APPRENTISSAGES ══ */
+    .apprentissages { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .apprentissage-item { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:1.25rem 1.5rem; display:flex; flex-direction:column; gap:.4rem; }
+    .apprentissage-item .icon { font-size:1.4rem; }
+    .apprentissage-item strong { font-size:.9rem; color:var(--brand-light,#f472b6); }
+    .apprentissage-item p { font-size:.85rem; color:var(--text-secondary,#c9a8a8); margin:0; line-height:1.55; }
+
+    /* ══ IMAGE COVER ══ */
+    .cover-img { width:100%; border-radius:var(--radius,12px); border:1px solid var(--border,#2a1a1a); margin:1.5rem 0; box-shadow:0 16px 50px rgba(236,72,153,.18); }
+  
+    #lang-btn {
+      background: transparent;
+      color: var(--brand-light, #f472b6);
+      border: 1px solid var(--brand, #ec4899);
+      font-size: .78rem;
+      letter-spacing: .12em;
+      padding: .3rem .7rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      font-family: inherit;
+    }
+    #lang-btn:hover { background: var(--brand, #ec4899); color: #fff; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      <img src="img/mylogo.png" alt="Logo Raïssa Gradel" />
+      <span class="logo-name" data-fr="RAÏSSA GRADEL" data-en="RAÏSSA GRADEL">RAÏSSA GRADEL</span>
+    </a>
+    <button id="lang-btn" aria-label="Switch language">🇬🇧 EN</button>
+    <button id="toggle-theme" aria-label="Basculer thème">🌙 Mode sombre</button>
+    <button id="burger-btn" aria-label="Ouvrir le menu">☰</button>
+    <nav id="main-nav">
+      <ul>
+        <li><a href="index.html" data-fr="Accueil" data-en="Home">Accueil</a></li>
+        <li><a href="projets.html" class="active" data-fr="Projets" data-en="Projects">Projets</a></li>
+        <li><a href="Apropos.html" data-fr="À propos" data-en="About">À propos</a></li>
+        <li><a href="Competence.html" data-fr="Compétences" data-en="Skills">Compétences</a></li>
+        <li><a href="contact.html" data-fr="Contact" data-en="Contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <main class="projet-detail">
+
+    <!-- ── HERO ── -->
+    <div class="projet-hero">
+      <p class="projet-hero__retour"><a href="projets.html" data-fr="← Retour aux projets" data-en="← Back to projects">← Retour aux projets</a></p>
+      <h1 data-fr="Monster High: Stratégie de communication" data-en="Monster High: Communication Strategy">Monster High: Stratégie de communication</h1>
+      <p class="projet-hero__meta" data-fr="🎓 Projet professionnel · Communication &amp; Marketing · 2025 · Nova Agency" data-en="🎓 Professional project · Communication &amp; Marketing · 2025 · Nova Agency">🎓 Projet professionnel · Communication &amp; Marketing · 2025 · Nova Agency</p>
+      <p>Mandatés par Mattel, nous avons réalisé un mini-audit de Monster High, identifié une problématique clé, défini un objectif SMART, construit un persona avec carte d'empathie, puis élaboré un axe stratégique complet pour transformer les fans adultes collectionneurs (20–30 ans) en pilier stratégique reconnu de la marque.</p>
+    </div>
+
+
+    <!-- ── NOVA AGENCY ── -->
+    <section aria-labelledby="titre-nova">
+      <h2 id="titre-nova" data-fr="Nova Agency" data-en="Nova Agency">Nova Agency</h2>
+      <div class="projet-texte-card">
+        <p><strong>La Nova Agency</strong> est une agence de communication créative qui accompagne les marques dans la construction d'une image forte et cohérente. De la stratégie à la création de contenus, nous imaginons des solutions sur mesure pour valoriser votre identité et renforcer votre visibilité.</p>
+        <p style="margin-top:.75rem; color:var(--muted,#8a7070); font-size:.85rem;">Membres : <strong style="color:var(--text-primary,#e8d5d5);">BERDIER Chrisnaël · DUPIL Clara-Marie · GRADEL Raïssa · DESCHAMPS Pierrick</strong></p>
+      </div>
+    </section>
+
+
+    <!-- ── LA FRANCHISE ── -->
+    <section aria-labelledby="titre-franchise">
+      <h2 id="titre-franchise" data-fr="La franchise Monster High" data-en="The Monster High franchise">La franchise Monster High</h2>
+
+      <img src="img/1_MH.png"
+           alt="Monster High — personnages officiels"
+           class="cover-img" loading="lazy" />
+
+      <div class="stat-grid">
+        <div class="stat-card"><span class="num">2,6 Md$</span><span class="lbl" data-fr="Ventes cumulées depuis 2010" data-en="Cumulative sales since 2010">Ventes cumulées depuis 2010</span></div>
+        <div class="stat-card"><span class="num">150 M+</span><span class="lbl" data-fr="Poupées vendues dans le monde" data-en="Dolls sold worldwide">Poupées vendues dans le monde</span></div>
+        <div class="stat-card"><span class="num">60 000</span><span class="lbl" data-fr="Exemplaires en France (1ʳᵉ année)" data-en="Units sold in France (1st year)">Exemplaires en France (1ʳᵉ année)</span></div>
+        <div class="stat-card"><span class="num">6,88 M</span><span class="lbl" data-fr="Followers toutes plateformes" data-en="Followers across all platforms">Followers toutes plateformes</span></div>
+        <div class="stat-card"><span class="num">12 k</span><span class="lbl" data-fr="Commentaires max / post Instagram" data-en="Max comments per Instagram post">Commentaires max / post Instagram</span></div>
+        <div class="stat-card"><span class="num">300 €</span><span class="lbl" data-fr="Budget mensuel max fans adultes" data-en="Max monthly budget of adult fans">Budget mensuel max fans adultes</span></div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-card">
+          <h3 data-fr="Que fait la marque ?" data-en="What does the brand do?">Que fait la marque ?</h3>
+          <p>Monster High est une franchise américaine de poupées de mode lancée par Mattel en 2010, centrée sur des adolescents monstres fréquentant un lycée surnaturel. Elle produit des poupées, dessins animés, films et produits dérivés (t-shirts, livres, collaborations).</p>
+        </div>
+        <div class="info-card">
+          <h3 data-fr="Mission de la marque" data-en="Brand mission">Mission de la marque</h3>
+          <ul>
+            <li data-fr="Encourager chacun à s'accepter tel qu'il est, même avec ses « imperfections »" data-en="Encouraging everyone to accept themselves as they are, even with their 'imperfections'">Encourager chacun à s'accepter tel qu'il est, même avec ses « imperfections »</li>
+            <li data-fr="Célébrer la diversité des identités, origines et personnalités" data-en="Celebrating the diversity of identities, origins and personalities">Célébrer la diversité des identités, origines et personnalités</li>
+            <li data-fr="Promouvoir l'inclusivité et la tolérance" data-en="Promoting inclusivity and tolerance">Promouvoir l'inclusivité et la tolérance</li>
+            <li data-fr="Inspirer la confiance en soi, surtout chez les jeunes" data-en="Inspiring self-confidence, especially in young people">Inspirer la confiance en soi, surtout chez les jeunes</li>
+            <li>Transmettre des valeurs d'amitié, de respect et d'ouverture</li>
+          </ul>
+          <p style="margin-top:.65rem; font-style:italic; color:var(--brand-light,#f472b6);">"Be Yourself. Be Unique. Be a Monster."</p>
+        </div>
+        <div class="info-card">
+          <h3>Pourquoi Mattel nous a sollicité ?</h3>
+          <p>Monster High possède une communauté adulte (20–30 ans) <strong>extrêmement engagée et créative</strong> qui dépense 50–300 €/mois, génère des millions de vues et fait vivre la marque depuis 15 ans. Mais cette communauté se sent <strong>invisibilisée, infantilisée et non légitime</strong>. Mattel veut transformer ces fans en pilier stratégique reconnu.</p>
+        </div>
+      </div>
+
+      <h3 style="font-size:.88rem; color:var(--brand-light,#f472b6); margin:2rem 0 .75rem; text-transform:uppercase; letter-spacing:.1em;">Histoire de la franchise</h3>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot">2010</div>
+          <div class="tl-content"><span class="tl-year">Lancement</span><span class="tl-text"> · Création par Mattel — univers gothique-pop, inclusivité, mode surnaturelle</span></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">2012</div>
+          <div class="tl-content"><span class="tl-year">Apogée 2012–2013</span><span class="tl-text"> · Phénomène culturel mondial — 60 000 unités vendues en France dès la première année</span></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">2016</div>
+          <div class="tl-content"><span class="tl-year">Déclin 2016–2017</span><span class="tl-text"> · Perte de vitesse face à la concurrence</span></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">2022</div>
+          <div class="tl-content"><span class="tl-year">Reboot 2022</span><span class="tl-text"> · Relance avec designs modernisés — retour massif de la communauté nostalgique adulte</span></div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── MINI AUDIT ── -->
+    <section aria-labelledby="titre-audit">
+      <h2 id="titre-audit">Mini audit</h2>
+      <div class="info-grid" style="margin-bottom:1.5rem;">
+        <div class="info-card">
+          <h3>Identité &amp; positionnement</h3>
+          <ul>
+            <li><strong>Univers :</strong> Gothique-pop, célébration de la différence</li>
+            <li><strong>Message clé :</strong> "Be Yourself, Be Unique, Be a Monster"</li>
+            <li><strong>Cible principale :</strong> Collectionneurs adultes 20–30 ans, anciens fans 2010–2013 revenus à la marque par nostalgie</li>
+            <li><strong>Valeurs :</strong> Inclusion, authenticité, acceptation des différences</li>
+          </ul>
+        </div>
+      </div>
+      <div class="audit-grid">
+        <div class="audit-card strength">
+          <h3> Forces</h3>
+          <ul>
+            <li>6,88 M followers — qualité visuelle impeccable, feed cohérent</li>
+            <li>Univers original mêlant horreur légère, mode et storytelling captivant</li>
+            <li>Inclusivité et diversité comme message central</li>
+            <li>Approche transmédia (poupées, séries, films, livres)</li>
+            <li>Collaborations prestigieuses (Wednesday, KATSEYE, Tim Burton)</li>
+            <li>Communauté engagée (jusqu'à 12 k commentaires)</li>
+          </ul>
+        </div>
+        <div class="audit-card weakness">
+          <h3> Faiblesses</h3>
+          <ul>
+            <li>Absence de reconnaissance des fans adultes comme pilier stratégique</li>
+            <li>Aucun programme dédié aux collectionneurs adultes</li>
+            <li>Communication infantilisante ne valorisant pas l'investissement émotionnel et financier des adultes</li>
+            <li>Collections limitées sans accès prioritaire pour les fans de longue date</li>
+          </ul>
+        </div>
+        <div class="audit-card concurrence">
+          <h3> Concurrence</h3>
+          <ul>
+            <li>Barbie (domination Mattel) — nostalgie, collaborations mode</li>
+            <li>LOL Surprise — unboxing, viralité TikTok</li>
+            <li>Bratz — revival Y2K, éditions limitées</li>
+            <li>Rainbow High — mode, créativité, qualité premium</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── RÉSEAUX SOCIAUX ── -->
+    <section aria-labelledby="titre-rs">
+      <h2 id="titre-rs">Analyse des réseaux sociaux</h2>
+      <div class="social-grid">
+        <div class="social-card">
+          <div class="platform">📸 Instagram</div>
+          <div class="followers">2 M abonnés</div>
+          <ul>
+            <li>Feed coloré et gothique, qualité d'image impeccable</li>
+            <li>Ton inclusif : "Be Yourself, Be Unique, Be a Monster"</li>
+            <li>Rythme : 3–5 posts/semaine + stories quotidiennes</li>
+            <li>Engagement : jusqu'à 12 k commentaires par post</li>
+            <li>Régularité maintenant l'engagement sans saturer le feed</li>
+          </ul>
+        </div>
+        <div class="social-card">
+          <div class="platform">♪ TikTok</div>
+          <div class="followers">1,6 M abonnés · 25,4 M j'aime</div>
+          <ul>
+            <li>Format court très adapté à la présentation des poupées</li>
+            <li>Unboxings, transformations, comparaisons G1 vs nouvelles versions</li>
+            <li>Collaborations avec créateurs de contenu (collectors, customizers)</li>
+          </ul>
+          <h4>Exploitation des trends</h4>
+          <ul>
+            <li>Challenges de customisation · Before/After relookings</li>
+            <li>UGC encouragé et parfois reposté</li>
+          </ul>
+        </div>
+        <div class="social-card">
+          <div class="platform">▶ YouTube</div>
+          <div class="followers">3,28 M abonnés · 6,4 k vidéos</div>
+          <ul>
+            <li>Webisodes animés reprenant l'univers des personnages</li>
+            <li>Présentation détaillée des nouvelles collections</li>
+            <li>Music videos professionnelles — ex : KATSEYE (millions de vues)</li>
+            <li>Playlists organisées par saison et par personnage</li>
+          </ul>
+          <h4>Format</h4>
+          <ul>
+            <li>Vidéos 3–15 min · Music videos 1–4 min</li>
+            <li>Production qualité professionnelle, commentaires multilingues</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── PROBLÉMATIQUE + SMART ── -->
+    <section aria-labelledby="titre-pb">
+      <h2 id="titre-pb" data-fr="Problématique" data-en="Problem statement">Problématique</h2>
+      <div class="smart-box">
+        <span class="label">Question stratégique</span>
+        <p>Comment Monster High peut-elle <span class="hl">renforcer le sentiment d'appartenance et de légitimité</span> de ses fans adultes, tout en <span class="hl">valorisant leur créativité</span> au sein de la marque ?</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="titre-smart">
+      <h2 id="titre-smart">Objectif SMART</h2>
+      <div class="smart-box" style="border-color:#a855f7; box-shadow:0 0 40px rgba(168,85,247,.18);">
+        <span class="label" style="color:#a855f7;">Objectif SMART</span>
+        <p>Augmenter de <span class="hl">35 %</span> le sentiment d'appartenance et de légitimité des fans adultes collectionneurs (20–30 ans) <span class="hl">d'ici décembre 2026</span>, en officialisant leur rôle de co-créateurs et en valorisant leur créativité au sein de la marque.</p>
+      </div>
+    </section>
+
+
+    <!-- ── PERSONA ── -->
+    <section aria-labelledby="titre-persona">
+      <h2 id="titre-persona">Persona &amp; carte d'empathie</h2>
+
+      <div class="persona-wrap">
+        <div class="persona-header">
+          <img src="img/11_MH.png" alt="Héléna García, 24 ans" class="persona-photo" />
+          <div class="persona-meta">
+            <h3>Héléna García, 24 ans, Mexico City</h3>
+            <p>Graphiste freelance / content creator · Ancienne fan (2010–2013), collectionne à nouveau</p>
+            <div class="tag-row">
+              <span class="tag">Budget MH : 50–150 €/mois</span>
+              <span class="tag">TikTok</span>
+              <span class="tag" data-fr="Instagram" data-en="Instagram">Instagram</span>
+              <span class="tag">YouTube</span>
+            </div>
+          </div>
+        </div>
+        <div class="empathy-grid">
+          <div class="empathy-cell">
+            <h4>Ce qu'elle voit</h4>
+            <ul>
+              <li>Contenu officiel ignorant son statut de collectionneuse adulte</li>
+              <li>Ses customs ignorés malgré des milliers de vues</li>
+              <li>Produits « pour enfants » alors qu'elle dépense 150 €/mois</li>
+              <li>Poupées vintage à prix élevés sur Vinted/eBay</li>
+              <li>Collections limitées sans accès prioritaire</li>
+            </ul>
+          </div>
+          <div class="empathy-cell">
+            <h4> Ce qu'elle entend</h4>
+            <ul>
+              <li>« Tu collectionnes encore des poupées à ton âge ? »</li>
+              <li>« Mattel ne reconnaît même pas notre travail créatif »</li>
+              <li>« Les fans adultes font vivre la marque mais sont invisibles »</li>
+              <li>« Impossible de trouver cette édition en Amérique latine »</li>
+            </ul>
+          </div>
+          <div class="empathy-cell">
+            <h4>Ce qu'elle pense / ressent</h4>
+            <ul>
+              <li>Nostalgie intense, fierté de sa collection</li>
+              <li>Frustration face à la barrière linguistique (90 % anglais)</li>
+              <li>FOMO pour les éditions limitées inaccessibles</li>
+              <li>« Ma passion mérite d'être respectée, pas infantilisée »</li>
+            </ul>
+          </div>
+          <div class="empathy-cell">
+            <h4>Ce qu'elle dit / fait</h4>
+            <ul>
+              <li>Commente en espagnol sous posts officiels (ignorée)</li>
+              <li>2h/jour sur TikTok — customs, unboxings</li>
+              <li>Traduit bénévolement pour la communauté hispanophone</li>
+              <li>Crée du contenu artistique sur Instagram</li>
+              <li>Surveille les sites de revente constamment</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <img src="img/12_MH.png"
+           alt="Carte d'empathie Héléna — douleurs et gains"
+           class="cover-img" loading="lazy"
+           style="margin-top:1.5rem;" />
+
+      <div class="dg-grid">
+        <div class="dg-card douleurs">
+          <h3>Douleurs</h3>
+          <ul>
+            <li>Barrière linguistique (contenu 90 % anglais)</li>
+            <li>Produits introuvables en Amérique latine</li>
+            <li>Prix marché secondaire (50–300 €)</li>
+            <li>Jugement social (« hobby immature »)</li>
+            <li>Shipping international coûteux (+30–50 €)</li>
+            <li>Sentiment d'exploitation : la marque profite de l'UGC sans reconnaissance</li>
+          </ul>
+        </div>
+        <div class="dg-card gains">
+          <h3>Gains recherchés</h3>
+          <ul>
+            <li>Contenu en espagnol / multilingue</li>
+            <li>Accessibilité produits sans frais exorbitants</li>
+            <li>Communauté hispanophone structurée</li>
+            <li>Reconnaissance de sa passion sans jugement</li>
+            <li>Programme de co-création officiel avec Mattel</li>
+            <li>Certification « Creator » ou badge officiel</li>
+            <li>Reposts officiels, collaborations rémunérées</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── AXE STRATÉGIQUE ── -->
+    <section aria-labelledby="titre-axe">
+      <h2 id="titre-axe">Axe stratégique</h2>
+      <div class="smart-box" style="margin-bottom:1.75rem;">
+        <span class="label">Message central</span>
+        <p style="font-size:1rem; font-style:italic;">"The Monster Legacy : Collectionneurs Reconnus, Créativité Célébrée"</p>
+      </div>
+
+      <h3 style="font-size:.88rem; color:var(--brand-light,#f472b6); margin:0 0 .75rem; text-transform:uppercase; letter-spacing:.1em;">4 piliers</h3>
+      <div class="piliers-grid">
+        <div class="pilier-card">
+          <span class="pilier-num">Pilier 1</span>
+          <h3>Double légitimité</h3>
+          <ul>
+            <li>Programme <strong>"Monster High Creators"</strong> : certification officielle pour créateurs adultes</li>
+            <li>Badge vérifié sur réseaux sociaux pour collectionneurs reconnus</li>
+            <li>Carte de collection officielle avec avantages exclusifs</li>
+            <li>Slogan : "Votre passion mérite d'être reconnue"</li>
+          </ul>
+        </div>
+        <div class="pilier-card">
+          <span class="pilier-num">Pilier 2</span>
+          <h3>Co-création avec Mattel</h3>
+          <ul>
+            <li><strong>"Monster Lab"</strong> : plateforme de co-création avec Mattel</li>
+            <li>Concours design de poupées (gagnants produits en édition limitée)</li>
+            <li>Programme ambassadeurs pour customizers reconnus</li>
+            <li>Galerie officielle des créations communautaires sur site MH</li>
+            <li>Collaborations rémunérées avec créateurs adultes</li>
+          </ul>
+        </div>
+        <div class="pilier-card">
+          <span class="pilier-num">Pilier 3</span>
+          <h3>Co-création communautaire</h3>
+          <ul>
+            <li><strong>"The Vault"</strong> : espace membre premium pour collectionneurs 20–30 ans</li>
+            <li>Programme <strong>"Monster Mentor"</strong> : collectionneurs expérimentés = experts reconnus</li>
+            <li>Rencontres IRL dans 6 pays : Mexico City, Paris, Londres, Tokyo, São Paulo, NYC</li>
+          </ul>
+        </div>
+        <div class="pilier-card">
+          <span class="pilier-num">Pilier 4</span>
+          <h3>Expérience premium différenciée</h3>
+          <ul>
+            <li>Ligne <strong>"Heritage Collection"</strong> : rééditions ultra-qualitatives G1 (80–150 €)</li>
+            <li>Marchés prioritaires : Angleterre, France, Mexique, Brésil, Tokyo, Afrique du Sud</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── AXE IDENTITAIRE ── -->
+    <section aria-labelledby="titre-identitaire">
+      <h2 id="titre-identitaire">Axe identitaire</h2>
+      <div class="axe-card">
+        <blockquote>"Arrête de te cacher, et commence à briller"</blockquote>
+        <p><strong style="color:var(--text-primary,#e8d5d5);">Approche :</strong> Touche le cœur, crée une connexion affective immédiate avec la cible.</p>
+        <p>Cet axe s'attaque directement à la culpabilité et à l'auto-censure que ressentent les fans face à leur différence. Il transforme la honte en fierté, l'excuse en affirmation. Pour les nostalgiques, il rappelle ce moment libérateur où Monster High leur a permis de s'accepter. Pour les plus anciens fans, c'est un moyen d'arrêter de culpabiliser leurs passions.</p>
+        <div class="benefices">
+          <span class="benefice-pill"> Libération émotionnelle</span>
+          <span class="benefice-pill"> Sentiment d'appartenance à une communauté bienveillante</span>
+          <span class="benefice-pill"> Transformation de la perception de soi</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── POSITIONNEMENT ── -->
+    <section aria-labelledby="titre-positionnement">
+      <h2 id="titre-positionnement" data-fr="Positionnement" data-en="Positioning">Positionnement</h2>
+      <div class="projet-texte-card">
+        <p><strong>Monster High</strong> se positionne comme une marque de poupées de collection accessibles et fortement identitaires, qui permet aux collectionneurs issus de cultures diverses de se reconnaître dans des personnages valorisant la différence et l'inclusivité.</p>
+        <p>Grâce à son univers narratif alternatif et à ses codes esthétiques contraires aux normes, la marque offre bien plus qu'un simple objet : <strong>un sentiment d'appartenance, de représentation et de connexion</strong> à une communauté qui accepte les singularités culturelles et personnelles.</p>
+        <p>Elle se distingue ainsi des marques de collection plus élitistes, en proposant une <strong>expérience inclusive, expressive et émotionnellement engageante</strong>.</p>
+      </div>
+    </section>
+
+
+    <!-- ── CAMPAGNE ── -->
+    <section aria-labelledby="titre-campagne">
+      <h2 id="titre-campagne">Campagne de lancement</h2>
+      <div class="smart-box" style="margin-bottom:1.75rem; padding:1.5rem;">
+        <span class="label">Nom de la campagne</span>
+        <p style="font-size:.95rem; font-style:italic;">"From Fan to Creator : Monster High Vous Reconnaît"</p>
+      </div>
+      <div class="phases-grid">
+        <div class="phase-card">
+          <div class="phase-badge">Phase 1 · S1–3</div>
+          <h3>Teasing</h3>
+          <ul>
+            <li>S1 · Teaser mystérieux ciblé 20–30 ans</li>
+            <li>S2 · Compte à rebours Stories</li>
+            <li>S3 · Trailer YouTube 2 min — "Collectionneurs Reconnus : L'Histoire Continue"</li>
+          </ul>
+        </div>
+        <div class="phase-card">
+          <div class="phase-badge">Phase 2 · S4–6</div>
+          <h3>Lancement</h3>
+          <ul>
+            <li>S4 · Annonce officielle tous canaux</li>
+            <li>Hub "Monster High Creators Club : Votre Créativité Reconnue"</li>
+            <li>S5 · Challenge <span class="hashtag">#MyMonsterLegacy</span> (10 influenceurs)</li>
+            <li>S6 · YouTube Épisode 1 "Creator's Vault"</li>
+          </ul>
+        </div>
+        <div class="phase-card">
+          <div class="phase-badge">Phase 3 · S7–9</div>
+          <h3>Preuve sociale</h3>
+          <ul>
+            <li>S7 · Compilation UGC Instagram Reels (20+ créations internationales)</li>
+            <li>S8 · Live YouTube "Monster Legacy Talk" : 3 collectionneurs + Designer Mattel</li>
+            <li>S9 · Stories "From Shame to Pride"</li>
+          </ul>
+        </div>
+        <div class="phase-card">
+          <div class="phase-badge">Phase 4 · S10–12</div>
+          <h3>Conversion</h3>
+          <ul>
+            <li>S10 · Annonce "Monster Legacy Summit" (6 pays)</li>
+            <li>S11 · Drop "Heritage Collection" G1 (80–120 €/poupée)</li>
+            <li>S12 · Vidéo bilan + Annonce "Monster Creators Residency"</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── PLAN MÉDIA ── -->
+    <section aria-labelledby="titre-media">
+      <h2 id="titre-media">Plan média</h2>
+      <div class="media-grid">
+        <div class="media-card">
+          <span class="canal">Canal 1</span>
+          <span class="platform-name">📸 Instagram</span>
+          <span class="format-tag">Format 1 · Reels "Creator Spotlight" (60 sec)</span>
+          <ul>
+            <li>Portrait d'1 créateur adulte MH/semaine</li>
+            <li>Collection + customs + histoire personnelle</li>
+            <li>Message final : "Rejoins le Creators Club"</li>
+            <li>1 reel/semaine — 6 langues (EN, ES, FR, PT, JP, DE)</li>
+          </ul>
+          <h4>Format 2 · Carrousels "From Shame to Pride" (10 slides)</h4>
+          <ul>
+            <li>Slide 1 : "On m'a dit que j'étais trop vieille pour Monster High"</li>
+            <li>Slides 2–8 : Déconstruction des préjugés + témoignages</li>
+            <li>Slides 9–10 : Présentation Creators Club + CTA inscription</li>
+            <li>2 carrousels/mois</li>
+          </ul>
+        </div>
+        <div class="media-card">
+          <span class="canal">Canal 3</span>
+          <span class="platform-name">▶ YouTube</span>
+          <span class="format-tag">Format 1 · "Creator's Vault" (15–20 min)</span>
+          <ul>
+            <li>Documentaire mensuel sur 1 créateur adulte MH</li>
+            <li>Visite de sa collection + process créatif + histoire perso</li>
+            <li>Production Netflix-quality · Sous-titres 10 langues</li>
+            <li>1 épisode/mois</li>
+          </ul>
+          <h4>Format 2 · Podcast "Monster Legacy"</h4>
+          <ul>
+            <li>Interviews approfondies de collectionneurs (30–45 min)</li>
+            <li>Thèmes : légitimité sociale, créativité, communauté</li>
+            <li>Invités : psychologues, designers, influenceurs</li>
+            <li>2 épisodes/mois</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── FICHES DE CADRAGE ── -->
+    <section aria-labelledby="titre-fiches">
+      <h2 id="titre-fiches">Fiches de cadrage</h2>
+      <div class="fiche-grid">
+        <div class="fiche-card">
+          <span class="fiche-num">Support 1 · Instagram</span>
+          <h3>Carrousels « From Shame to Pride »</h3>
+          <div class="fiche-row"><span class="key">Objectif</span><span class="val">Déconstruire le jugement social autour de la passion adulte et créer une connexion émotionnelle avec les collectionneurs internationaux</span></div>
+          <div class="fiche-row"><span class="key">Cible</span><span class="val">Fans collectionneurs 20–30 ans — marchés clés : Mexique, France, Brésil, UK, Japon, Afrique du Sud</span></div>
+          <div class="fiche-row"><span class="key" data-fr="Message" data-en="Message">Message</span><span class="val">"Ta passion pour Monster High n'a jamais eu besoin d'excuses. Rejoins une communauté où tu es respecté(e) et célébré(e)."</span></div>
+          <div class="fiche-row"><span class="key">Axe / Ton</span><span class="val">Émancipateur, inclusif et multiculturel — narration émotionnelle validant la légitimité de la passion adulte</span></div>
+          <div class="fiche-row"><span class="key">Rôle stratégique</span><span class="val">Point d'entrée émotionnel : déconstruction des préjugés, preuve sociale internationale, préparation au lancement du Creators Club</span></div>
+        </div>
+        <div class="fiche-card">
+          <span class="fiche-num">Support 2 · YouTube</span>
+          <h3>Mini-documentaire « Creator's Vault »</h3>
+          <div class="fiche-row"><span class="key">Objectif</span><span class="val">Valoriser la créativité et l'investissement émotionnel des collectionneurs adultes en leur offrant une plateforme de reconnaissance officielle</span></div>
+          <div class="fiche-row"><span class="key">Cible</span><span class="val">Fans collectionneurs 20–30 ans — focus créateurs actifs : customizers, photographes, storytellers</span></div>
+          <div class="fiche-row"><span class="key">Message</span><span class="val">"Votre talent mérite d'être célébré. Votre collection raconte une histoire. Monster High vous offre la scène que vous méritez."</span></div>
+          <div class="fiche-row"><span class="key">Axe / Ton</span><span class="val">Valorisant, respectueux, cinématographique</span></div>
+          <div class="fiche-row"><span class="key">Rôle stratégique</span><span class="val">Transformer la perception : de "hobby immature" à "passion artistique légitime"</span></div>
+        </div>
+      </div>
+
+      <h3 style="font-size:.88rem; color:var(--brand-light,#f472b6); margin:2rem 0 .75rem; text-transform:uppercase; letter-spacing:.1em;">Complémentarité &amp; cohérence des supports</h3>
+      <div class="coherence-grid">
+        <div class="coherence-item">
+          <h4> Progression d'engagement</h4>
+          <p>Reconnaissance (Instagram) → Validation créative (YouTube) → Conversion (Creators Club)</p>
+        </div>
+        <div class="coherence-item">
+          <h4> Couverture géographique</h4>
+          <p>Carrousels : ambassadeurs régionaux · Documentaires : 6 épisodes × 6 pays</p>
+        </div>
+        <div class="coherence-item">
+          <h4> Synergie cross-plateforme</h4>
+          <p>Instagram → YouTube → Instagram (extraits) → Conversion = boucle virale complète</p>
+        </div>
+        <div class="coherence-item">
+          <h4># Hashtags</h4>
+          <p><span class="hashtag">#GénérationsMonstrueuses</span> · <span class="hashtag">#BacktoOGMH</span> · <span class="hashtag">#CreatorsVault</span></p>
+        </div>
+        <div class="coherence-item">
+          <h4> Identité visuelle</h4>
+          <p>Gothique-pop — violet/noir/rose, typographie Monster High iconique sur tous supports</p>
+        </div>
+        <div class="coherence-item">
+          <h4> Multilingue</h4>
+          <p>Carrousels bilingues (langue locale + anglais) · Documentaires sous-titrés en 10 langues</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── CONCLUSION STRATÉGIQUE ── -->
+    <section aria-labelledby="titre-conclusion">
+      <h2 id="titre-conclusion">Conclusion stratégique</h2>
+      <div class="projet-texte-card">
+        <p>Face à la problématique de renforcer le sentiment d'appartenance et de légitimité des fans adultes tout en valorisant leur créativité, Monster High doit passer de l'ignorance à la <strong>reconnaissance institutionnelle</strong>. Notre stratégie "The Monster Legacy" répond à trois besoins fondamentaux.</p>
+      </div>
+      <div class="conclusion-grid">
+        <div class="conclusion-item">
+          <strong>Légitimité</strong>
+          <span>Votre passion est précieuse</span>
+        </div>
+        <div class="conclusion-item">
+          <strong>Créativité valorisée</strong>
+          <span>Reconnaissance officielle de vos créations</span>
+        </div>
+        <div class="conclusion-item">
+          <strong>Appartenance</strong>
+          <span>Communauté structurée et respectée</span>
+        </div>
+      </div>
+      <div class="projet-texte-card" style="margin-top:1.25rem;">
+        <p>Via le Creators Club, la co-création avec Mattel et une expérience premium, nous transformons les fans adultes en pilier stratégique de la marque. <strong>Objectif : +35 % d'engagement d'ici décembre 2026.</strong></p>
+        <p style="margin-top:.5rem; font-style:italic; color:var(--brand-light,#f472b6);">"Monster High a toujours célébré la différence. En 2026, elle prouve qu'une marque peut respecter la passion, quel que soit l'âge."</p>
+      </div>
+    </section>
+
+
+    <!-- ══ CE QUE J'AI APPRIS ══ -->
+    <section aria-labelledby="titre-bilan-mh">
+      <h2 id="titre-bilan-mh" data-fr="Ce que j'ai appris" data-en="What I learned">Ce que j'ai appris</h2>
+      <div class="apprentissages">
+        <div class="apprentissage-item">
+          
+          <strong>L'importance du mini-audit</strong>
+          <p>Avant de proposer quoi que ce soit, il faut vraiment prendre le temps d'analyser ce qui existe : les forces, les failles, la concurrence. J'ai réalisé que le diagnostic est la base de tout. Sans lui, on ne sait pas vraiment pourquoi on communique ni pour qui.</p>
+        </div>
+        <div class="apprentissage-item">
+         
+          <strong>Construire un objectif SMART</strong>
+          <p>Ce projet m'a appris à formuler un objectif vraiment mesurable, et pas juste une intention vague. Trouver le bon chiffre, le bon délai, le bon indicateur, ça m'a semblé très technique au départ, mais maintenant je vois à quel point ça structure toute la stratégie.</p>
+        </div>
+        <div class="apprentissage-item">
+          
+          <strong>Créer un persona convaincant</strong>
+          <p>J'avais déjà fais persona, mais le faire vraiment avec une carte d'empathie, des douleurs concrètes, des envies précises c'est complètement différent. Ça oblige à se mettre dans la peau de quelqu'un d'autre et à ne plus penser depuis soi.</p>
+        </div>
+        <div class="apprentissage-item">
+         
+          <strong>Penser stratégie avant créa</strong>
+          <p>J'avais tendance à vouloir passer directement au visuel ou au contenu. Ce projet m'a montré que sans axe stratégique solide derrière, les idées créatives ne tiennent pas. L'ordre — problématique → SMART → persona → axe → supports — fait vraiment sens.</p>
+        </div>
+        <div class="apprentissage-item">
+          
+          <strong>Penser la communication à l'international</strong>
+          <p>Travailler sur une marque mondiale comme Monster High m'a obligée à penser la diversité des publics : langue, accès aux produits, barrières culturelles. Ce n'est pas la même chose de communiquer pour une communauté française et pour une communauté hispanophone invisible de la marque.</p>
+        </div>
+        <div class="apprentissage-item">
+          
+          <strong>Travailler en format agence</strong>
+          <p>C'était ma première expérience dans un format "agence", avec une vraie répartition des rôles. J'ai beaucoup appris sur la cohérence du travail collectif. S'assurer que tout le monde parle du même projet, avec le même ton, la même vision stratégique. Ce n'est pas si évident que ça en a l'air.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <div class="cta-center">
+      <a href="projets.html" class="btn" data-fr="← Retour aux projets" data-en="← Back to projects">← Retour aux projets</a>
+      <a href="MonLogo.html" class="btn btn-outline">Mon logo perso →</a>
+    </div>
+
+  </main>
+
+
+  <footer>
+    <small>© <span id="annee"></span> <span data-fr="Raïssa Gradel — BUT MMI" data-en="Raïssa Gradel — BUT MMI">Raïssa Gradel — BUT MMI</span></small>
+  </footer>
+
+
+  <script>
+    var btnTheme = document.getElementById('toggle-theme');
+    var saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+    btnTheme.textContent = saved === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    btnTheme.addEventListener('click', function() {
+      var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+      btnTheme.textContent = t === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    });
+
+    var btn = document.getElementById('burger-btn');
+    var nav = document.getElementById('main-nav');
+    btn.addEventListener('click', function() {
+      if (nav.classList.contains('open')) { nav.classList.remove('open'); btn.textContent = '☰'; }
+      else { nav.classList.add('open'); btn.textContent = '✕'; }
+    });
+    nav.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() { nav.classList.remove('open'); btn.textContent = '☰'; });
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { nav.classList.remove('open'); btn.textContent = '☰'; }
+    });
+
+    document.getElementById('annee').textContent = new Date().getFullYear();
+  </script>
+
+
+  <!-- ── SYSTÈME BILINGUE FR/EN ── -->
+  <script>
+    (function() {
+      var currentLang = localStorage.getItem('lang') || 'fr';
+      var langBtn = document.getElementById('lang-btn');
+
+      function applyLang(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+        document.documentElement.setAttribute('lang', lang);
+        document.querySelectorAll('[data-fr]').forEach(function(el) {
+          el.innerHTML = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-fr');
+        });
+        if (langBtn) langBtn.textContent = lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR';
+        // Update page title
+        var titleEl = document.querySelector('title[data-fr]');
+        if (!titleEl) titleEl = document.querySelector('title');
+        if (titleEl && titleEl.getAttribute('data-en')) {
+          titleEl.textContent = lang === 'en' ? titleEl.getAttribute('data-en') : titleEl.getAttribute('data-fr');
+        }
+      }
+
+      if (langBtn) {
+        langBtn.addEventListener('click', function() {
+          applyLang(currentLang === 'fr' ? 'en' : 'fr');
+        });
+      }
+      applyLang(currentLang);
+    })();
+  </script>
+
+</body>
+</html>

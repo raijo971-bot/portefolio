@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio – Raïssa Gradel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    #main-nav ul { list-style:none; margin:0; padding:0; display:flex; gap:2rem; }
+    #main-nav a { font-size:.85rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#8a7070); text-decoration:none; padding:.5rem 0; border-bottom:2px solid transparent; transition:color .2s, border-color .2s; }
+    #main-nav a:hover, #main-nav a.active { color:var(--brand-light,#f472b6); border-bottom-color:var(--brand,#ec4899); text-decoration:none; }
+    #burger-btn { display:none; background:var(--surface,#111); color:var(--text-primary,#e8d5d5); border:1px solid var(--border,#2a1a1a); font-size:1.6rem; line-height:1; padding:.3rem .75rem; border-radius:10px; cursor:pointer; }
+    #burger-btn:hover { border-color:var(--brand,#ec4899); color:var(--brand-light,#f472b6); }
+    @media (max-width: 768px) {
+      #burger-btn { display:block; }
+      #main-nav { display:none; position:fixed; top:68px; left:12px; right:12px; background:#111111; border:2px solid #ec4899; border-radius:14px; padding:.75rem; z-index:9999; box-shadow:0 8px 40px rgba(236,72,153,.4); }
+      #main-nav.open { display:block; }
+      #main-nav ul { flex-direction:column; gap:0; }
+      #main-nav li { width:100%; }
+      #main-nav a { display:block; padding:1rem 1.2rem; border-bottom:1px solid rgba(236,72,153,.2); border-radius:8px; color:#e8d5d5; font-size:1rem; }
+      #main-nav li:last-child a { border-bottom:none; }
+      #main-nav a:hover { background:rgba(236,72,153,.1); color:#f472b6; border-bottom-color:transparent; }
+      #main-nav a.active { color:#f472b6; background:rgba(236,72,153,.12); border-left:3px solid #ec4899; }
+    }
+    .section-sep { border:none; height:1px; background:linear-gradient(90deg,transparent,var(--border),transparent); margin:3.5rem 0; }
+    .btn-cv {
+      display:inline-flex; align-items:center; gap:.5rem;
+      background: linear-gradient(135deg, #be185d, #ec4899);
+      color:#fff !important; border:none;
+      padding:.65rem 1.4rem; border-radius:999px;
+      font-size:.85rem; letter-spacing:.06em; text-transform:uppercase;
+      text-decoration:none; font-weight:600;
+      box-shadow: 0 0 18px rgba(236,72,153,.45);
+      transition: transform .2s, box-shadow .2s, filter .2s;
+      position:relative; overflow:hidden;
+    }
+    .btn-cv::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg, rgba(255,255,255,.15), transparent); border-radius:inherit; }
+    .btn-cv:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(236,72,153,.7); filter: brightness(1.1); text-decoration:none; }
+    .btn-cv:active { transform:translateY(0); }
+    .cv-icon { font-size:1rem; animation: bounce-dl 1.8s ease-in-out infinite; display:inline-block; }
+    @keyframes bounce-dl { 0%,100% { transform:translateY(0); } 50% { transform:translateY(3px); } }
+
+    /* ===== CURSEUR ÉTOILE ===== */
+    body { cursor: none; }
+    a, button { cursor: none; }
+    #star-cursor {
+      position: fixed; pointer-events: none; z-index: 9999;
+      width: 22px; height: 22px;
+      transform: translate(-50%, -50%);
+      transition: transform .15s ease;
+      filter: drop-shadow(0 0 6px rgba(236,72,153,.9));
+    }
+    #star-cursor.big { transform: translate(-50%, -50%) scale(1.7) rotate(20deg); }
+
+    /* ===== SPLASH MAGAZINE ===== */
+    #splash {
+      position: fixed; inset: 0; z-index: 9000; background: #0a0a0a;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 1.2s ease;
+    }
+    #splash.out { opacity: 0; pointer-events: none; }
+    .mag-top {
+      font-size: .65rem; letter-spacing: .45em; text-transform: uppercase;
+      color: #5a3a4a; margin-bottom: 2.5rem;
+      opacity: 0; animation: fadeUp .6s ease .3s forwards;
+    }
+    .mag-rule {
+      width: 0; height: 1px; background: #ec4899;
+      animation: growRule .9s ease .6s forwards; margin-bottom: 2.5rem;
+    }
+    @keyframes growRule { to { width: 180px; } }
+    .mag-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 8vw, 3.8rem);
+      letter-spacing: .18em; text-transform: uppercase;
+      color: #e8d5d5; font-weight: 400; text-align: center; line-height: 1.05;
+      clip-path: inset(0 100% 0 0);
+      animation: revealTitle 1.1s cubic-bezier(.77,0,.175,1) .9s forwards;
+    }
+    @keyframes revealTitle { to { clip-path: inset(0 0% 0 0); } }
+    .mag-sub {
+      font-size: .72rem; letter-spacing: .35em; text-transform: uppercase;
+      color: #ec4899; margin-top: 2rem;
+      opacity: 0; animation: fadeUp .6s ease 1.8s forwards;
+    }
+    .mag-rule2 {
+      width: 0; height: 1px; background: #3a1a2a;
+      animation: growRule2 .8s ease 2.2s forwards; margin-top: 2rem;
+    }
+    @keyframes growRule2 { to { width: 120px; } }
+    .mag-issue {
+      font-size: .6rem; letter-spacing: .3em; text-transform: uppercase;
+      color: #4a2a3a; margin-top: 1.5rem;
+      opacity: 0; animation: fadeUp .5s ease 2.6s forwards;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== TYPEWRITER ===== */
+    .tw-cursor {
+      display: inline-block; width: 1px; height: .9em;
+      background: #ec4899; vertical-align: middle; margin-left: 2px;
+      animation: blink .9s steps(1) infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ===== POLAROÏDS — index.html uniquement ===== */
+    .grille-projets {
+      position: relative !important;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      height: 500px;
+      margin: 3rem 0 2rem;
+    }
+    .carte {
+      position: absolute !important;
+      background: #fff !important;
+      border: none !important;
+      border-radius: 0 !important;
+      padding: .75rem .75rem .5rem !important;
+      box-shadow: 0 12px 40px rgba(0,0,0,.65) !important;
+      width: 210px !important;
+      cursor: pointer !important;
+      display: block !important;
+      flex-direction: unset !important;
+      transition: transform .38s cubic-bezier(.34,1.56,.64,1), box-shadow .38s ease !important;
+    }
+    .carte:nth-child(1) { transform: rotate(-7deg) translate(-160px, 25px); z-index: 1; }
+    .carte:nth-child(2) { transform: rotate(2deg) translate(10px, -20px); z-index: 3; }
+    .carte:nth-child(3) { transform: rotate(9deg) translate(170px, 30px); z-index: 1; }
+    .carte:hover {
+      transform: rotate(0deg) translateY(-28px) scale(1.1) !important;
+      z-index: 10 !important;
+      box-shadow: 0 24px 60px rgba(0,0,0,.8), 0 0 35px rgba(236,72,153,.35) !important;
+    }
+    .carte::before { display: none !important; }
+    .carte .img-wrap { width: 100%; overflow: hidden; }
+    .carte img {
+      width: 100% !important;
+      height: 160px !important;
+      object-fit: cover !important;
+      aspect-ratio: unset !important;
+      filter: saturate(.8) !important;
+      transition: filter .38s ease !important;
+    }
+    .carte:hover img { filter: saturate(1.1) grayscale(0%) !important; }
+    .carte .img-overlay { display: none !important; }
+    .carte .meta {
+      font-size: .58rem !important;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #ec4899 !important;
+      margin: .6rem 0 .15rem !important;
+      padding: 0 !important;
+    }
+    .carte h3 {
+      font-size: .85rem !important;
+      color: #1a0a10 !important;
+      margin: 0 0 .35rem !important;
+    }
+    .carte p { display: none !important; }
+    .carte .btn { display: none !important; }
+    @media (max-width: 640px) {
+      .grille-projets { height: 380px; }
+      .carte { width: 155px !important; }
+      .carte img { height: 118px !important; }
+      .carte:nth-child(1) { transform: rotate(-7deg) translate(-110px, 20px); }
+      .carte:nth-child(3) { transform: rotate(9deg) translate(115px, 25px); }
+    }
+  
+    #lang-btn {
+      background: transparent;
+      color: var(--brand-light, #f472b6);
+      border: 1px solid var(--brand, #ec4899);
+      font-size: .78rem;
+      letter-spacing: .12em;
+      padding: .3rem .7rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      font-family: inherit;
+    }
+    #lang-btn:hover { background: var(--brand, #ec4899); color: #fff; }
+
+  </style>
+</head>
+<body>
+
+  <!-- CURSEUR ÉTOILE -->
+  <svg id="star-cursor" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="11,1 13.5,8.5 21,8.5 15,13.5 17,21 11,16.5 5,21 7,13.5 1,8.5 8.5,8.5"
+      fill="none" stroke="#ec4899" stroke-width="1.2" stroke-linejoin="round"/>
+  </svg>
+
+  <!-- SPLASH MAGAZINE -->
+  <div id="splash">
+    <div class="mag-top" data-fr="Édition · 2026" data-en="Edition · 2026">Édition · 2026</div>
+    <div class="mag-rule"></div>
+    <div class="mag-title">Raïssa<br/>Gradel</div>
+    <div class="mag-sub" data-fr="Design &amp; Créativité" data-en="Design &amp; Creativity">Design &amp; Créativité</div>
+    <div class="mag-rule2"></div>
+    <div class="mag-issue" data-fr="Portfolio · BUT MMI · Guadeloupe" data-en="Portfolio · BUT MMI · Guadeloupe">Portfolio · BUT MMI · Guadeloupe</div>
+  </div>
+
+  <header>
+    <a href="index.html" class="logo">
+      <img src="img/mylogo.png" alt="Logo Raïssa Gradel" />
+      <span class="logo-name" data-fr="RAÏSSA GRADEL" data-en="RAÏSSA GRADEL">RAÏSSA GRADEL</span>
+    </a>
+    <button id="lang-btn" aria-label="Switch language">🇬🇧 EN</button>
+    <button id="toggle-theme" aria-label="Basculer thème">🌙 Mode sombre</button>
+    <button id="burger-btn" aria-label="Ouvrir le menu">☰</button>
+    <nav id="main-nav">
+      <ul>
+        <li><a href="index.html" class="active" data-fr="Accueil" data-en="Home">Accueil</a></li>
+        <li><a href="projets.html" data-fr="Projets" data-en="Projects">Projets</a></li>
+        <li><a href="Apropos.html" data-fr="À propos" data-en="About">À propos</a></li>
+        <li><a href="Competence.html" data-fr="Compétences" data-en="Skills">Compétences</a></li>
+        <li><a href="contact.html" data-fr="Contact" data-en="Contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="contenu">
+
+    <section class="hero" aria-label="Introduction">
+      <p class="section-title" data-fr="Portfolio BUT MMI · 2026" data-en="Portfolio BUT MMI · 2026">Portfolio BUT MMI · 2026</p>
+      <h1 class="hero-tagline">
+        Design &amp; <em data-fr="Créativité" data-en="Creativity">Créativité</em><br />au service du visuel
+      </h1>
+      <p class="hero-sub"><span id="tw-text"></span><span class="tw-cursor"></span></p>
+      <div class="cta-center" style="margin-top:0;">
+        <a href="projets.html" class="btn" data-fr="Voir mes projets" data-en="View my projects">Voir mes projets</a>
+        <a href="contact.html" class="btn btn-outline" data-fr="Me contacter" data-en="Contact me">Me contacter</a>
+        <a href="img/CV_GRADEL.RAISSA.png" target="_blank" class="btn btn-cv">
+  <span class="cv-icon">👁</span> Voir mon CV
+</a>
+        </a>
+      </div>
+    </section>
+
+    <hr class="section-sep" />
+
+    <section aria-labelledby="titre-apropos">
+      <p class="section-title" data-fr="Qui suis-je ?" data-en="Who am I?">Qui suis-je ?</p>
+      <h2 id="titre-apropos" data-fr="À propos" data-en="About">À propos</h2>
+      <div class="apropos-layout">
+        <figure class="apropos-figure">
+          <img src="img/moi.png" alt="Portrait de Raïssa Gradel" width="240" height="240" />
+        </figure>
+        <div class="apropos-texte">
+          <p>Je m'appelle Raïssa Gradel, étudiante en <strong>BUT Métiers du Multimédia et de
+            l'Internet (MMI)</strong> à l'IUT de Guadeloupe. Passionnée par tout ce qui touche
+            à l'esthétisme, dessin, peinture, design, photographie. Je mets la
+            <strong>créativité visuelle</strong> au cœur de chacun de mes projets.</p>
+          <p>Je maîtrise <strong data-fr="Canva" data-en="Canva">Canva</strong> pour la création graphique, <strong>CapCut &amp;
+            Photoshop</strong> pour le montage photo et vidéo, et je développe mes compétences
+            en <strong data-fr="HTML / CSS" data-en="HTML / CSS">HTML / CSS</strong>. Curieuse et adaptable, je m'approprie facilement
+            de nouveaux outils.</p>
+          <p>Mon objectif principal est de devenir <strong>infographiste ou designer</strong>,
+            tout en restant ouverte à tout métier en rapport avec le
+            <strong>design ou l'audiovisuel</strong>.</p>
+          <div style="margin-top:1.5rem;">
+            <a href="Apropos.html" class="btn btn-outline" data-fr="En savoir plus →" data-en="Learn more →">En savoir plus →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-sep" />
+
+    <section aria-labelledby="titre-competences">
+      <p class="section-title" data-fr="Ce que je sais faire" data-en="What I can do">Ce que je sais faire</p>
+      <h2 id="titre-competences" data-fr="Compétences" data-en="Skills">Compétences</h2>
+      <div class="competences-grid">
+        <div class="competence-card">
+          <div class="competence-card__header">
+           
+            <span class="badge badge--inter" data-fr="Intermédiaire" data-en="Intermediate">Intermédiaire</span>
+          </div>
+          <div class="niveau-barre"><div class="niveau-barre__fill" style="width:65%;"></div></div>
+          <p class="niveau-label" data-fr="Identité visuelle, charte graphique, mise en page" data-en="Visual identity, brand guidelines, layout">Identité visuelle, charte graphique, mise en page</p>
+        </div>
+        <div class="competence-card">
+          <div class="competence-card__header">
+          
+            <h3>HTML / CSS</h3>
+            <span class="badge badge--inter">Intermédiaire</span>
+          </div>
+          <div class="niveau-barre"><div class="niveau-barre__fill" style="width:55%;"></div></div>
+          <p class="niveau-label" data-fr="Intégration web, responsive design, accessibilité" data-en="Web integration, responsive design, accessibility">Intégration web, responsive design, accessibilité</p>
+        </div>
+        <div class="competence-card">
+          <div class="competence-card__header">
+            
+            <h3 data-fr="Montage vidéo" data-en="Video editing">Montage vidéo</h3>
+            <span class="badge badge--inter">Intermédiaire</span>
+          </div>
+          <div class="niveau-barre"><div class="niveau-barre__fill" style="width:60%;"></div></div>
+          <p class="niveau-label" data-fr="CapCut, Photoshop — spots publicitaires, reels" data-en="CapCut, Photoshop — ads, reels">CapCut, Photoshop — spots publicitaires, reels</p>
+        </div>
+        <div class="competence-card">
+          <div class="competence-card__header">
+            
+            <h3 data-fr="Dessin &amp; illustration" data-en="Drawing &amp; illustration">Dessin &amp; illustration</h3>
+            <span class="badge badge--pro" data-fr="Avancé" data-en="Advanced">Avancé</span>
+          </div>
+          <div class="niveau-barre"><div class="niveau-barre__fill" style="width:80%;"></div></div>
+          <p class="niveau-label" data-fr="Croquis, illustration numérique, logotype" data-en="Sketching, digital illustration, logotype">Croquis, illustration numérique, logotype</p>
+        </div>
+      </div>
+      <p class="section-title" style="margin-top:2rem;" data-fr="Qualités" data-en="Qualities">Qualités</p>
+      <ul class="softskills-list">
+        <li>Créativité</li>
+        <li data-fr="Curiosité" data-en="Curiosity">Curiosité</li>
+        <li data-fr="Adaptabilité" data-en="Adaptability">Adaptabilité</li>
+        <li data-fr="Sens du détail" data-en="Attention to detail">Sens du détail</li>
+        <li data-fr="Autonomie" data-en="Autonomy">Autonomie</li>
+      </ul>
+    </section>
+
+    <hr class="section-sep" />
+
+    <section aria-labelledby="titre-projets-apercu">
+      <p class="section-title" data-fr="Sélection" data-en="Selection">Sélection</p>
+      <h2 id="titre-projets-apercu" data-fr="Projets récents" data-en="Recent projects">Projets récents</h2>
+      <div class="grille-projets">
+        <article class="carte" onclick="location.href='Totally_style.html'" role="link" tabindex="0" aria-label="Voir le projet Totally Style">
+          <div class="img-wrap">
+            <img src="img/ts.png" alt="Aperçu Totally Style — logo et charte graphique" />
+          </div>
+          <p class="meta" data-fr="Design graphique · 2025" data-en="Graphic design · 2025">Design graphique · 2025</p>
+          <h3 data-fr="Totally Style" data-en="Totally Style">Totally Style</h3>
+        </article>
+        <article class="carte" onclick="location.href='projets.html'" role="link" tabindex="0" aria-label="Voir le projet Spot publicitaire">
+          <div class="img-wrap">
+            <img src="img/Parfum.png" alt="Spot publicitaire parfum" />
+          </div>
+          <p class="meta" data-fr="Audiovisuel · 2025" data-en="Audiovisual · 2025">Audiovisuel · 2025</p>
+          <h3 data-fr="Spot publicitaire" data-en="Ad Spot">Spot publicitaire</h3>
+        </article>
+        <article class="carte" onclick="location.href='projets.html'" role="link" tabindex="0" aria-label="Voir le projet Photomancie">
+          <div class="img-wrap">
+            <img src="img/Photomancie.png" alt="Photomancie — atelier audiovisuel" />
+          </div>
+          <p class="meta">Audiovisuel · 2025</p>
+          <h3 data-fr="Photomancie" data-en="Photomancie">Photomancie</h3>
+        </article>
+      </div>
+      <div class="cta-center">
+        <a href="projets.html" class="btn" data-fr="Voir tous les projets →" data-en="View all projects →">Voir tous les projets →</a>
+      </div>
+    </section>
+
+    <hr class="section-sep" />
+
+    <section aria-labelledby="titre-contact">
+      <p class="section-title" data-fr="Travaillons ensemble" data-en="Let's work together">Travaillons ensemble</p>
+      <h2 id="titre-contact" data-fr="Contact" data-en="Contact">Contact</h2>
+      <div class="contact-info">
+        <div class="contact-card">
+          <h3 data-fr="Email" data-en="Email">Email</h3>
+          <p><a href="mailto:raissagrd971@gmail.com">raissagrd971@gmail.com</a></p>
+        </div>
+        <div class="contact-card">
+          <h3 data-fr="LinkedIn" data-en="LinkedIn">LinkedIn</h3>
+          <p><a href="https://www.linkedin.com/in/raissa-gradel" target="_blank" rel="noopener noreferrer">Raïssa Gradel</a></p>
+        </div>
+         <div class="contact-card">
+          <h3 data-fr="Instagram" data-en="Instagram">Instagram</h3>
+          <p><a href="https://www.instagram.com/gradel_raissa?igsh=ZXl3bDVlcjdncm5x" target="_blank" rel="noopener noreferrer">Raïssa Gradel</a></p>
+        </div>
+        <div class="contact-card">
+          <h3 data-fr="Localisation" data-en="Location">Localisation</h3>
+          <p data-fr="Guadeloupe, France" data-en="Guadeloupe, France">Guadeloupe, France</p>
+        </div>
+      </div>
+      <form aria-label="Formulaire de contact" action="#" method="post">
+        <label for="sujet" data-fr="Sujet" data-en="Subject">Sujet</label>
+        <input id="sujet" name="sujet" type="text" placeholder="Votre sujet…" required />
+        <label for="message" data-fr="Message" data-en="Message">Message</label>
+        <textarea id="message" name="message" rows="5" placeholder="Votre message…" required></textarea>
+        <button type="submit" data-fr="Envoyer le message" data-en="Send message">Envoyer le message</button>
+      </form>
+    </section>
+
+  </main>
+
+  <footer>
+    <small>© <span id="annee"></span> <span data-fr="Raïssa Gradel — BUT MMI" data-en="Raïssa Gradel — BUT MMI">Raïssa Gradel — BUT MMI</span></small>
+  </footer>
+
+  <script>
+    var btnTheme = document.getElementById('toggle-theme');
+    var saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+    var themeLabels = { fr: { dark: '☀️ Mode clair', light: '🌙 Mode sombre' }, en: { dark: '☀️ Light mode', light: '🌙 Dark mode' } };
+    var _lang = localStorage.getItem('lang') || 'fr';
+    btnTheme.textContent = saved === 'dark' ? themeLabels[_lang].dark : themeLabels[_lang].light;
+    btnTheme.addEventListener('click', function() {
+      var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+      btnTheme.textContent = t === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    });
+
+    var btn = document.getElementById('burger-btn');
+    var nav = document.getElementById('main-nav');
+    btn.addEventListener('click', function() {
+      if (nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        btn.textContent = '☰';
+      } else {
+        nav.classList.add('open');
+        btn.textContent = '✕';
+      }
+    });
+    nav.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() { nav.classList.remove('open'); btn.textContent = '☰'; });
+    });
+    document.getElementById('annee').textContent = new Date().getFullYear();
+  </script>
+
+  <script>
+    /* ===== CURSEUR ÉTOILE ===== */
+    (function() {
+      var star = document.getElementById('star-cursor');
+      var mx = -100, my = -100, cx = -100, cy = -100;
+      document.addEventListener('mousemove', function(e) { mx = e.clientX; my = e.clientY; });
+      (function loop() {
+        cx += (mx - cx) * .14;
+        cy += (my - cy) * .14;
+        star.style.left = cx + 'px';
+        star.style.top  = cy + 'px';
+        requestAnimationFrame(loop);
+      })();
+      document.querySelectorAll('a, button').forEach(function(el) {
+        el.addEventListener('mouseenter', function() { star.classList.add('big'); });
+        el.addEventListener('mouseleave', function() { star.classList.remove('big'); });
+      });
+    })();
+
+    /* ===== SPLASH + TYPEWRITER ===== */
+    (function() {
+      var splash = document.getElementById('splash');
+      setTimeout(function() {
+        splash.classList.add('out');
+        setTimeout(function() {
+          splash.style.display = 'none';
+          var el = document.getElementById('tw-text');
+          if (el) {
+            var lang = localStorage.getItem('lang') || 'fr';
+            var text = lang === 'en'
+              ? 'Raïssa Gradel · MMI Student · Guadeloupe'
+              : 'Raïssa Gradel · Étudiante en MMI · Guadeloupe';
+            var i = 0;
+            var iv = setInterval(function() {
+              el.textContent += text[i++];
+              if (i >= text.length) clearInterval(iv);
+            }, 55);
+          }
+        }, 1200);
+      }, 3200);
+    })();
+  </script>
+
+
+  <!-- ── SYSTÈME BILINGUE FR/EN ── -->
+  <script>
+    (function() {
+      var currentLang = localStorage.getItem('lang') || 'fr';
+      var langBtn = document.getElementById('lang-btn');
+
+      function applyLang(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+        document.documentElement.setAttribute('lang', lang);
+        document.querySelectorAll('[data-fr]').forEach(function(el) {
+          el.innerHTML = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-fr');
+        });
+        if (langBtn) langBtn.textContent = lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR';
+        // Update page title
+        var titleEl = document.querySelector('title[data-fr]');
+        if (!titleEl) titleEl = document.querySelector('title');
+        if (titleEl && titleEl.getAttribute('data-en')) {
+          titleEl.textContent = lang === 'en' ? titleEl.getAttribute('data-en') : titleEl.getAttribute('data-fr');
+        }
+      }
+
+      if (langBtn) {
+        langBtn.addEventListener('click', function() {
+          applyLang(currentLang === 'fr' ? 'en' : 'fr');
+        });
+      }
+      applyLang(currentLang);
+    })();
+  </script>
+
+</body>
+</html>

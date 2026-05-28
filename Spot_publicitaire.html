@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Spot publicitaire — Raïssa Gradel</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ══ NAVIGATION ══ */
+    #main-nav ul { list-style:none; margin:0; padding:0; display:flex; gap:2rem; }
+    #main-nav a { font-size:.85rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#8a7070); text-decoration:none; padding:.5rem 0; border-bottom:2px solid transparent; transition:color .2s, border-color .2s; }
+    #main-nav a:hover, #main-nav a.active { color:var(--brand-light,#f472b6); border-bottom-color:var(--brand,#ec4899); text-decoration:none; }
+    #burger-btn { display:none; background:var(--surface,#111); color:var(--text-primary,#e8d5d5); border:1px solid var(--border,#2a1a1a); font-size:1.6rem; line-height:1; padding:.3rem .75rem; border-radius:10px; cursor:pointer; }
+    #burger-btn:hover { border-color:var(--brand,#ec4899); color:var(--brand-light,#f472b6); }
+    @media (max-width: 768px) {
+      #burger-btn { display:block; }
+      #main-nav { display:none; position:fixed; top:68px; left:12px; right:12px; background:#111111; border:2px solid #ec4899; border-radius:14px; padding:.75rem; z-index:9999; box-shadow:0 8px 40px rgba(236,72,153,.4); }
+      #main-nav.open { display:block; }
+      #main-nav ul { flex-direction:column; gap:0; }
+      #main-nav li { width:100%; }
+      #main-nav a { display:block; padding:1rem 1.2rem; border-bottom:1px solid rgba(236,72,153,.2); border-radius:8px; color:#e8d5d5; font-size:1rem; }
+      #main-nav li:last-child a { border-bottom:none; }
+      #main-nav a:hover { background:rgba(236,72,153,.1); color:#f472b6; border-bottom-color:transparent; }
+      #main-nav a.active { color:#f472b6; background:rgba(236,72,153,.12); border-left:3px solid #ec4899; }
+    }
+
+    /* ══ CONTEXTE GRID ══ */
+    .contexte-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1.1rem; margin:1.5rem 0; }
+    .contexte-card {
+      background:var(--surface,#111); border:1px solid var(--border,#2a1a1a);
+      border-radius:var(--radius,12px); padding:1.1rem 1.3rem;
+      border-left:4px solid var(--brand,#ec4899);
+    }
+    .contexte-card h3 { font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--brand,#ec4899); font-weight:700; margin:0 0 .4rem; }
+    .contexte-card p { font-size:.86rem; color:var(--text-secondary,#c9a8a8); margin:0; line-height:1.55; }
+    .contexte-card strong { color:var(--text-primary,#e8d5d5); }
+
+    /* ══ PITCH STATS ══ */
+    .pitch-stat-row { display:flex; gap:1rem; flex-wrap:wrap; margin:1.25rem 0; }
+    .pitch-stat {
+      background:var(--surface,#111); border:1px solid var(--border,#2a1a1a);
+      border-radius:var(--radius,12px); padding:.85rem 1.25rem; flex:1; min-width:130px;
+      position:relative; overflow:hidden; text-align:center;
+    }
+    .pitch-stat::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#ec4899,#a855f7); }
+    .pitch-stat .num { font-size:1.35rem; font-weight:700; color:var(--brand-light,#f472b6); display:block; }
+    .pitch-stat .lbl { font-size:.72rem; color:var(--muted,#8a7070); letter-spacing:.07em; text-transform:uppercase; margin-top:.15rem; display:block; }
+
+    /* ══ TIMELINE DÉCOUPAGE ══ */
+    .timeline { display:flex; flex-direction:column; gap:.85rem; margin:1.5rem 0; }
+    .timeline-item {
+      background:var(--surface,#111); border:1px solid var(--border,#2a1a1a);
+      border-radius:var(--radius,12px); padding:1.1rem 1.4rem;
+      display:grid; grid-template-columns:auto 1fr; gap:1.1rem; align-items:start;
+    }
+    .timeline-badge {
+      background:linear-gradient(135deg,#be185d,#a855f7); color:#fff;
+      font-size:.62rem; font-weight:700; padding:.4rem .7rem;
+      border-radius:8px; text-align:center; white-space:nowrap; letter-spacing:.04em; min-width:54px;
+    }
+    .timeline-item h3 { font-size:.88rem; color:var(--brand-light,#f472b6); margin:0 0 .3rem; font-weight:700; }
+    .timeline-item p { font-size:.83rem; color:var(--text-secondary,#c9a8a8); margin:0; line-height:1.6; }
+    .timeline-item .details { display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.55rem; }
+    .timeline-item .tag {
+      font-size:.68rem; letter-spacing:.06em; text-transform:uppercase;
+      background:rgba(236,72,153,.1); color:#f472b6; border:1px solid rgba(236,72,153,.25);
+      border-radius:6px; padding:.2rem .55rem;
+    }
+
+    /* ══ CHOIX CRÉATIFS ══ */
+    .choix-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.1rem; margin:1.5rem 0; }
+    .choix-card {
+      background:var(--surface,#111); border:1px solid var(--border,#2a1a1a);
+      border-radius:var(--radius,12px); padding:1.25rem 1.4rem;
+    }
+    .choix-card .icon { font-size:1.3rem; display:block; margin-bottom:.5rem; }
+    .choix-card h3 { font-size:.85rem; font-weight:700; color:var(--brand-light,#f472b6); margin:0 0 .5rem; }
+    .choix-card p { font-size:.84rem; color:var(--text-secondary,#c9a8a8); margin:0; line-height:1.6; }
+
+    /* ══ BILAN ══ */
+    .bilan-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1.1rem; margin:1.5rem 0; }
+    .bilan-item {
+      background:var(--surface,#111); border:1px solid var(--border,#2a1a1a);
+      border-radius:var(--radius,12px); padding:1.2rem 1.4rem;
+      display:flex; flex-direction:column; gap:.35rem;
+    }
+    .bilan-item .icon { font-size:1.3rem; }
+    .bilan-item strong { font-size:.88rem; color:var(--brand-light,#f472b6); }
+    .bilan-item p { font-size:.83rem; color:var(--text-secondary,#c9a8a8); margin:0; line-height:1.55; }
+
+    /* ══ DIVIDER ══ */
+    .pink-divider { border:none; border-top:1px solid var(--border,#2a1a1a); margin:2.5rem 0; }
+  
+    #lang-btn {
+      background: transparent;
+      color: var(--brand-light, #f472b6);
+      border: 1px solid var(--brand, #ec4899);
+      font-size: .78rem;
+      letter-spacing: .12em;
+      padding: .3rem .7rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      font-family: inherit;
+    }
+    #lang-btn:hover { background: var(--brand, #ec4899); color: #fff; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      <img src="img/mylogo.png" alt="Logo Raïssa Gradel" />
+      <span class="logo-name" data-fr="RAÏSSA GRADEL" data-en="RAÏSSA GRADEL">RAÏSSA GRADEL</span>
+    </a>
+    <button id="lang-btn" aria-label="Switch language">🇬🇧 EN</button>
+    <button id="toggle-theme" aria-label="Basculer thème">🌙 Mode sombre</button>
+    <button id="burger-btn" aria-label="Ouvrir le menu">☰</button>
+    <nav id="main-nav">
+      <ul>
+        <li><a href="index.html" data-fr="Accueil" data-en="Home">Accueil</a></li>
+        <li><a href="projets.html" class="active" data-fr="Projets" data-en="Projects">Projets</a></li>
+        <li><a href="Apropos.html" data-fr="À propos" data-en="About">À propos</a></li>
+        <li><a href="Competence.html" data-fr="Compétences" data-en="Skills">Compétences</a></li>
+        <li><a href="contact.html" data-fr="Contact" data-en="Contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="projet-detail">
+
+    <!-- HERO -->
+    <div class="projet-hero">
+      <p class="projet-hero__retour"><a href="projets.html" data-fr="← Retour aux projets" data-en="← Back to projects">← Retour aux projets</a></p>
+      <h1 data-fr="Concevoir un spot publicitaire" data-en="Designing an ad spot">Concevoir un spot publicitaire</h1>
+      <p class="projet-hero__meta" data-fr="🎓 Projet professionnel · Publicité audiovisuelle · 2025" data-en="🎓 Professional project · Audiovisual advertising · 2025">🎓 Projet professionnel · Publicité audiovisuelle · 2025</p>
+      <p>Conception complète d'un spot publicitaire de 30 secondes pour le parfum <strong>Angel de Mugler</strong> :
+        elevator pitch, pitch écrit, synopsis narratif, moodboard et découpage technique plan par plan.</p>
+    </div>
+
+    <!-- CONTEXTE -->
+    <section aria-labelledby="titre-contexte">
+      <h2 id="titre-contexte" data-fr="Contexte du projet" data-en="Project context">Contexte du projet</h2>
+      <div class="contexte-grid">
+        <div class="contexte-card">
+          <h3>Marque</h3>
+          <p><strong>Angel de Mugler</strong> — parfum iconique lancé en 1992, premier parfum gourmand de l'histoire de la parfumerie. Reconnaissable à son flacon étoile.</p>
+        </div>
+        <div class="contexte-card">
+          <h3>Cible</h3>
+          <p>Jeunes adultes <strong>18–28 ans</strong>, sensibles à l'esthétique cinématographique, à la puissance symbolique et aux univers fantasy/dark glamour.</p>
+        </div>
+        <div class="contexte-card">
+          <h3>Format</h3>
+          <p>Spot TV / digital de <strong>30 secondes</strong> — contrainte forte qui impose une narration dense, chaque plan devant servir l'émotion.</p>
+        </div>
+        <div class="contexte-card">
+          <h3>Ton</h3>
+          <p><strong>Sensuel et dramatique</strong> — univers nocturne, tension narrative, résolution par le pouvoir du parfum. Proche du registre de la publicité de luxe.</p>
+        </div>
+      </div>
+
+      <div class="pitch-stat-row">
+        <div class="pitch-stat"><span class="num">30 s</span><span class="lbl" data-fr="Durée du spot" data-en="Spot duration">Durée du spot</span></div>
+        <div class="pitch-stat"><span class="num">18–28</span><span class="lbl" data-fr="Tranche d'âge cible" data-en="Target age group">Tranche d'âge cible</span></div>
+        <div class="pitch-stat"><span class="num">1992</span><span class="lbl" data-fr="Création Angel Mugler" data-en="Angel Mugler creation">Création Angel Mugler</span></div>
+        <div class="pitch-stat"><span class="num">5 étapes</span><span class="lbl" data-fr="Livrables produits" data-en="Produced deliverables">Livrables produits</span></div>
+      </div>
+    </section>
+
+    <hr class="pink-divider"/>
+
+    <!-- ELEVATOR PITCH -->
+    <section aria-labelledby="titre-elevator">
+      <h2 id="titre-elevator" data-fr="L'Elevator pitch" data-en="The Elevator pitch">L'Elevator pitch</h2>
+      <div class="projet-texte-card">
+        <p>Et si vous aviez le pouvoir d'envoûter tout ce que vous voulez, même des loups ? Imaginez un parfum qui peut mettre le monde à vos pieds. Nous visons un public de jeunes entre 18 et 28 ans et misons sur un ton sensuel et dramatique. Laissez-vous séduire par l'odeur envoûtante de <em>Angel de Mugler</em>.</p>
+      </div>
+      <div class="choix-grid" style="margin-top:1.1rem;">
+        <div class="choix-card">
+         
+          <h3 data-fr="Accroche immédiate" data-en="Immediate hook">Accroche immédiate</h3>
+          <p>La question rhétorique ("Et si vous aviez le pouvoir…") engage directement le spectateur et crée une promesse fantasmée dès les premières secondes.</p>
+        </div>
+        <div class="choix-card">
+         
+          <h3 data-fr="Métaphore des loups" data-en="The wolf metaphor">Métaphore des loups</h3>
+          <p>Les loups incarnent la sauvagerie, le pouvoir collectif et la fascination. Les dompter symbolise la séduction irrésistible — ADN même d'Angel de Mugler.</p>
+        </div>
+        <div class="choix-card">
+         
+          <h3 data-fr="Promesse de marque" data-en="Brand promise">Promesse de marque</h3>
+          <p>Mettre le monde à vos pieds. Une promesse universelle, ambitieuse, qui dépasse le parfum et touche au désir de puissance et de liberté.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="pink-divider"/>
+
+    <!-- PITCH ÉCRIT -->
+    <section aria-labelledby="titre-pitch">
+      <h2 id="titre-pitch" data-fr="Le Pitch écrit" data-en="The written pitch">Le Pitch écrit</h2>
+      <div class="projet-texte-card">
+        <p>Une espionne en pleine mission se fait poursuivre par des loups en pleine nuit, puis encercler. Elle sort le parfum de son sac et le pointe vers le ciel. Les loups, admiratifs devant leur nouveau leader, se prosternent et la suivent. L'espionne marche avec confiance vers une falaise, main levée, le flacon reflétant le ciel étoilé.</p>
+      </div>
+    </section>
+
+    <hr class="pink-divider"/>
+
+    <!-- SYNOPSIS -->
+    <section aria-labelledby="titre-synopsis">
+      <h2 id="titre-synopsis">Le Synopsis</h2>
+      <div class="projet-texte-card">
+        <p>La nuit est tombée sur une forêt épaisse. Une espionne court entre les arbres, le cœur battant. Une meute de loups la poursuit. Piégée dans une clairière, elle sort le flacon de parfum et le brandit vers le ciel. Les loups, fascinés, se prosternent. Elle marche avec assurance vers une falaise dominant une ville illuminée. Le nom du parfum s'inscrit en lettres lumineuses dans le ciel étoilé.</p>
+      </div>
+
+      <!-- Structure narrative en 3 actes -->
+      <h3 style="font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brand,#ec4899);margin:1.75rem 0 .75rem;font-weight:700;">Structure narrative — 3 actes en 30 secondes</h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-badge">Acte 1<br/>0–10 s</div>
+          <div>
+            <h3>La tension — fuite nocturne</h3>
+            <p>L'espionne court dans la forêt obscure, poursuivie par une meute. Le rythme est haché, la musique monte. Le spectateur est plongé dans un danger immédiat et ressent l'urgence.</p>
+            <div class="details">
+              <span class="tag">Plans serrés</span>
+              <span class="tag">Rythme rapide</span>
+              <span class="tag">Tension maximale</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-badge">Acte 2<br/>10–22 s</div>
+          <div>
+            <h3>Le pivot — le parfum comme arme</h3>
+            <p>Encerclée, l'espionne sort le flacon. Plan rapproché sur le geste — le bras qui se lève, le flacon qui capte la lumière de la lune. La musique se transforme. Les loups s'arrêtent, subjugués.</p>
+            <div class="details">
+              <span class="tag">Gros plan flacon</span>
+              <span class="tag">Lumière dramatique</span>
+              <span class="tag">Rupture de rythme</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-badge">Acte 3<br/>22–30 s</div>
+          <div>
+            <h3>La résolution — la souveraineté</h3>
+            <p>L'espionne marche vers la falaise, meute prosternée derrière elle, ville illuminée en contrebas. Le parfum s'affiche. Le slogan clôt le spot sur une image de puissance absolue.</p>
+            <div class="details">
+              <span class="tag">Plan large</span>
+              <span class="tag">Majesté visuelle</span>
+              <span class="tag">Logo &amp; tagline</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="pink-divider"/>
+
+    <!-- CHOIX CRÉATIFS -->
+    <section aria-labelledby="titre-choix">
+      <h2 id="titre-choix">Choix créatifs</h2>
+      <div class="choix-grid">
+        <div class="choix-card">
+          
+          <h3>Univers nocturne</h3>
+          <p>La nuit amplifie le mystère et le sensuel. Elle est associée à la liberté, au danger assumé et à la transgression — valeurs portées par Angel de Mugler depuis 1992.</p>
+        </div>
+        <div class="choix-card">
+          
+          <h3>Registre cinématographique</h3>
+          <p>Référence directe aux films d'espionnage et aux thrillers de luxe (James Bond, Nikita). Ce registre élève le produit et crédibilise la puissance promise.</p>
+        </div>
+        <div class="choix-card">
+          
+          <h3>Symbolique animale</h3>
+          <p>Les loups évoquent l'instinct, le collectif et la hiérarchie. Les dompter sans violence — juste avec un parfum — illustre une séduction qui dépasse la force physique.</p>
+        </div>
+        <div class="choix-card">
+          
+          <h3>Le flacon-étoile</h3>
+          <p>Le flacon iconique d'Angel reflète le ciel étoilé — continuité symbolique entre l'objet et l'univers cosmique/céleste de la marque. Un détail de cohérence visuelle fort.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="pink-divider"/>
+
+    <!-- MOODBOARD -->
+    <section aria-labelledby="titre-moodboard">
+      <h2 id="titre-moodboard">Moodboard</h2>
+      <div class="projet-texte-card" style="margin-bottom:1.25rem;">
+        <p>Le moodboard réunit les références visuelles qui ont guidé la direction artistique : palette sombre et contrastée, lumières de nuit froide et bleue, esthétique forêt mystique, flacon étoile en vedette, et une présence animale sauvage mais magnifiée.</p>
+      </div>
+      <div class="projet-galerie">
+        <img src="img/Angel.png" alt="Moodboard Angel de Mugler" width="840" height="540" loading="lazy" />
+      </div>
+    </section>
+
+    <hr class="pink-divider"/>
+
+    <!-- DÉCOUPAGE TECHNIQUE -->
+    <section aria-labelledby="titre-decoupage">
+      <h2 id="titre-decoupage" data-fr="Découpage technique" data-en="Technical breakdown">Découpage technique</h2>
+      <div class="projet-texte-card" style="margin-bottom:1.25rem;">
+        <p>Le découpage technique traduit le synopsis en une succession de plans précis, chacun annoté de son cadrage, son mouvement de caméra, sa durée et les indications sonores associées. Il sert de feuille de route pour une équipe de tournage.</p>
+      </div>
+      <div class="projet-galerie">
+        <img src="img/F_T1.png" alt="Découpage technique — planche 1" width="740" height="540" loading="lazy" />
+        <img src="img/F_T2.png" alt="Découpage technique — planche 2" width="740" height="540" loading="lazy" />
+        <img src="img/F_T3.png" alt="Découpage technique — planche 3" width="740" height="540" loading="lazy" />
+        <img src="img/F_T4.png" alt="Découpage technique — planche 4" width="740" height="540" loading="lazy" />
+      </div>
+    </section>
+
+    <hr class="pink-divider"/>
+
+    <!-- BILAN -->
+    <section aria-labelledby="titre-bilan">
+      <h2 id="titre-bilan" data-fr="Ce que j'ai appris" data-en="What I learned">Ce que j'ai appris</h2>
+      <div class="bilan-grid">
+        <div class="bilan-item">
+          <span class="icon">✦</span>
+          <strong>Les pitchs</strong>
+          <p>Un pitch efficace repose sur une accroche émotionnelle immédiate et une promesse claire. En 30 mots, on doit installer un univers entier.</p>
+        </div>
+        <div class="bilan-item">
+         <span class="icon">✦</span>
+          <strong>Narration en 30 secondes</strong>
+          <p>La contrainte du format court oblige à choisir : chaque plan, chaque seconde doit servir l'émotion ou la progression narrative. Rien n'est décoratif.</p>
+        </div>
+        <div class="bilan-item">
+         <span class="icon">✦</span>
+          <strong>Cohérence visuelle</strong>
+          <p>Le moodboard n'est pas une collection d'images — c'est une démonstration de la cohérence d'un univers. Chaque élément doit pouvoir coexister naturellement.</p>
+        </div>
+        <div class="bilan-item">
+         <span class="icon">✦</span>
+          <strong>Le découpage technique</strong>
+          <p>Passer de l'idée au plan technique est un exercice de précision. Nommer chaque plan, anticiper les mouvements de caméra, ça se travaille.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="cta-center">
+      <a href="projets.html" class="btn" data-fr="← Retour aux projets" data-en="← Back to projects">← Retour aux projets</a>
+    </div>
+
+  </main>
+
+  <footer>
+    <small>© <span id="annee"></span> <span data-fr="Raïssa Gradel — BUT MMI" data-en="Raïssa Gradel — BUT MMI">Raïssa Gradel — BUT MMI</span></small>
+  </footer>
+
+  <script>
+    var btnTheme = document.getElementById('toggle-theme');
+    var saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+    btnTheme.textContent = saved === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    btnTheme.addEventListener('click', function() {
+      var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+      btnTheme.textContent = t === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    });
+    var btn = document.getElementById('burger-btn');
+    var nav = document.getElementById('main-nav');
+    btn.addEventListener('click', function() {
+      if (nav.classList.contains('open')) { nav.classList.remove('open'); btn.textContent = '☰'; }
+      else { nav.classList.add('open'); btn.textContent = '✕'; }
+    });
+    nav.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() { nav.classList.remove('open'); btn.textContent = '☰'; });
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { nav.classList.remove('open'); btn.textContent = '☰'; }
+    });
+    document.getElementById('annee').textContent = new Date().getFullYear();
+  </script>
+
+
+  <!-- ── SYSTÈME BILINGUE FR/EN ── -->
+  <script>
+    (function() {
+      var currentLang = localStorage.getItem('lang') || 'fr';
+      var langBtn = document.getElementById('lang-btn');
+
+      function applyLang(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+        document.documentElement.setAttribute('lang', lang);
+        document.querySelectorAll('[data-fr]').forEach(function(el) {
+          el.innerHTML = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-fr');
+        });
+        if (langBtn) langBtn.textContent = lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR';
+        // Update page title
+        var titleEl = document.querySelector('title[data-fr]');
+        if (!titleEl) titleEl = document.querySelector('title');
+        if (titleEl && titleEl.getAttribute('data-en')) {
+          titleEl.textContent = lang === 'en' ? titleEl.getAttribute('data-en') : titleEl.getAttribute('data-fr');
+        }
+      }
+
+      if (langBtn) {
+        langBtn.addEventListener('click', function() {
+          applyLang(currentLang === 'fr' ? 'en' : 'fr');
+        });
+      }
+      applyLang(currentLang);
+    })();
+  </script>
+
+</body>
+</html>

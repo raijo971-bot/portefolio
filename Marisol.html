@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Affiche Marisol Escobar — Raïssa Gradel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ══ NAVIGATION FONCTIONNELLE ══ */
+    #main-nav ul { list-style:none; margin:0; padding:0; display:flex; gap:2rem; }
+    #main-nav a { font-size:.85rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted,#8a7070); text-decoration:none; padding:.5rem 0; border-bottom:2px solid transparent; transition:color .2s, border-color .2s; }
+    #main-nav a:hover, #main-nav a.active { color:var(--brand-light,#f472b6); border-bottom-color:var(--brand,#ec4899); text-decoration:none; }
+    #burger-btn { display:none; background:var(--surface,#111); color:var(--text-primary,#e8d5d5); border:1px solid var(--border,#2a1a1a); font-size:1.6rem; line-height:1; padding:.3rem .75rem; border-radius:10px; cursor:pointer; }
+    #burger-btn:hover { border-color:var(--brand,#ec4899); color:var(--brand-light,#f472b6); }
+    @media (max-width: 768px) {
+      #burger-btn { display:block; }
+      #main-nav { display:none; position:fixed; top:68px; left:12px; right:12px; background:#111111; border:2px solid #ec4899; border-radius:14px; padding:.75rem; z-index:9999; box-shadow:0 8px 40px rgba(236,72,153,.4); }
+      #main-nav.open { display:block; }
+      #main-nav ul { flex-direction:column; gap:0; }
+      #main-nav li { width:100%; }
+      #main-nav a { display:block; padding:1rem 1.2rem; border-bottom:1px solid rgba(236,72,153,.2); border-radius:8px; color:#e8d5d5; font-size:1rem; }
+      #main-nav li:last-child a { border-bottom:none; }
+      #main-nav a:hover { background:rgba(236,72,153,.1); color:#f472b6; border-bottom-color:transparent; }
+      #main-nav a.active { color:#f472b6; background:rgba(236,72,153,.12); border-left:3px solid #ec4899; }
+    }
+
+    /* ══ PALETTE POP ART ══ */
+    .pa-palette { display:flex; gap:1.25rem; flex-wrap:wrap; margin:1.5rem 0; }
+    .pa-swatch { flex:1; min-width:130px; border-radius:var(--radius,12px); overflow:hidden; border:1px solid var(--border,#2a1a1a); }
+    .pa-swatch__color { height:72px; }
+    .pa-swatch__info { background:var(--surface,#111); padding:.75rem 1rem; }
+    .pa-swatch__info strong { display:block; font-size:.88rem; color:var(--text-primary,#e8d5d5); margin-bottom:.2rem; }
+    .pa-swatch__info span { font-size:.76rem; color:var(--muted,#8a7070); }
+
+    /* ══ CHOIX DE CONCEPTION ══ */
+    .choix-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .choix-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-left:4px solid var(--brand,#ec4899); border-radius:var(--radius,12px); padding:1.25rem 1.5rem; }
+    .choix-card h3 { font-size:.95rem; color:var(--brand-light,#f472b6); margin:0 0 .5rem; }
+    .choix-card p { font-size:.88rem; color:var(--text-secondary,#c9a8a8); margin:0; line-height:1.6; }
+
+    /* ══ ŒUVRES CLÉS ══ */
+    .oeuvres-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .oeuvre-card { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:1.25rem 1.5rem; display:flex; flex-direction:column; gap:.4rem; }
+    .oeuvre-card .annee { font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; color:var(--brand,#ec4899); }
+    .oeuvre-card strong { font-size:.9rem; color:var(--brand-light,#f472b6); }
+    .oeuvre-card p { font-size:.84rem; color:var(--text-secondary,#c9a8a8); margin:0; line-height:1.55; }
+
+    /* ══ APPRENTISSAGES ══ */
+    .apprentissages { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1.25rem; margin:1.5rem 0; }
+    .apprentissage-item { background:var(--surface,#111); border:1px solid var(--border,#2a1a1a); border-radius:var(--radius,12px); padding:1.25rem 1.5rem; display:flex; flex-direction:column; gap:.4rem; }
+    .apprentissage-item .icon { font-size:1.4rem; }
+    .apprentissage-item strong { font-size:.9rem; color:var(--brand-light,#f472b6); }
+    .apprentissage-item p { font-size:.85rem; color:var(--text-secondary,#c9a8a8); margin:0; line-height:1.55; }
+
+    /* ══ CITATION ══ */
+    .citation-block {
+      border-left: 4px solid var(--brand, #ec4899);
+      padding: 1.25rem 1.75rem;
+      background: var(--surface, #111);
+      border-radius: 0 var(--radius, 12px) var(--radius, 12px) 0;
+      margin: 1.5rem 0 2.5rem;
+      font-style: italic;
+    }
+    .citation-block p { color: var(--text-primary, #e8d5d5); font-size: 1.05rem; line-height: 1.7; max-width: none; margin-bottom: .5rem; }
+    .citation-block cite { font-size: .82rem; letter-spacing:.1em; text-transform:uppercase; color: var(--brand, #ec4899); font-style:normal; }
+
+    /* ══ CONTEXTE INFOS ══ */
+    .expo-infos { display:flex; gap:1rem; flex-wrap:wrap; margin:1.5rem 0 2rem; }
+    .expo-info-badge {
+      display:flex; align-items:center; gap:.5rem;
+      background:var(--surface,#111); border:1px solid var(--border,#2a1a1a);
+      border-radius:999px; padding:.5rem 1.1rem;
+      font-size:.84rem; color:var(--text-secondary,#c9a8a8);
+    }
+    .expo-info-badge span { color:var(--brand-light,#f472b6); font-weight:600; }
+
+    /* ══ GALERIE DEUX COLONNES ══ */
+    .projet-galerie--two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.5rem 0 3rem;
+      align-items: start;
+    }
+    @media (max-width: 600px) {
+      .projet-galerie--two-col { grid-template-columns: 1fr; }
+    }
+    .projet-galerie--two-col img {
+      border-radius: var(--radius, 12px);
+      box-shadow: var(--shadow-sm);
+      max-width: 100%;
+      height: auto;
+      transition: box-shadow .25s;
+    }
+    .projet-galerie--two-col img:hover { box-shadow: var(--shadow-md); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      <img src="img/mylogo.png" alt="Logo Raïssa Gradel" />
+      <span class="logo-name">RAÏSSA GRADEL</span>
+    </a>
+    <button id="toggle-theme" aria-label="Basculer thème">🌙 Mode sombre</button>
+    <button id="burger-btn" aria-label="Ouvrir le menu">☰</button>
+    <nav id="main-nav">
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="projets.html" class="active">Projets</a></li>
+        <li><a href="Apropos.html">À propos</a></li>
+        <li><a href="Competence.html">Compétences</a></li>
+        <li><a href="contact_php.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+  <main class="projet-detail">
+
+    <div class="projet-hero">
+      <p class="projet-hero__retour"><a href="projets.html">← Retour aux projets</a></p>
+      <h1>Affiche Pop Art — Marisol Escobar</h1>
+      <p class="projet-hero__meta">🎓 Projet pro · R2.09 Culture artistique · 2026</p>
+      <p>Création d'une affiche au format A3 vertical (29,7 × 42 cm, CMJN) pour une exposition
+        fictive de Marisol Escobar au musée d'art contemporain de Marseille — du 06 juin 2026
+        au 04 janvier 2027. L'affiche s'inscrit dans les codes du Pop Art tout en mettant en
+        valeur l'œuvre sculpturale unique de l'artiste.</p>
+    </div>
+
+
+    <!-- ── L'ARTISTE ── -->
+    <section aria-labelledby="titre-artiste">
+      <h2 id="titre-artiste">L'artiste : Marisol Escobar</h2>
+      <div class="projet-texte-card">
+        <p>María Sol Escobar, connue sous le seul prénom <strong>Marisol</strong> (1930–2016),
+          est une sculptrice d'avant-garde née à Paris de parents vénézuéliens. Installée à
+          New York dans les années 1950, elle s'impose rapidement aux côtés d'Andy Warhol et
+          Leo Castelli comme <strong>l'une des rares femmes reconnues dans le Pop Art</strong>
+          ,un mouvement alors largement dominé par les hommes.</p>
+        <p>Ses sculptures mêlent bois taillé, plâtre, objets trouvés, photographies et
+          éléments autobiographiques pour créer des figures polymorphes à mi-chemin entre
+          la critique sociale et la fascination pop. Elle représente familles américaines,
+          figures politiques (Kennedy, De Gaulle) et scènes mondaines avec un regard
+          simultanément tendre et satirique.</p>
+        <p>Ses œuvres sont exposées au MoMA, au Whitney Museum et au Guggenheim de New York.</p>
+      </div>
+
+      <div class="citation-block">
+        <p>« Je me sens plus proche de la sculpture que de la peinture, car elle occupe l'espace réel du spectateur. »</p>
+        <cite>— Marisol Escobar</cite>
+      </div>
+    </section>
+
+
+    <!-- ── ŒUVRES CLÉS ── -->
+    <section aria-labelledby="titre-oeuvres">
+      <h2 id="titre-oeuvres">Œuvres majeures</h2>
+      <div class="oeuvres-grid">
+        <div class="oeuvre-card">
+          <span class="annee">1962</span>
+          <strong>The Family</strong>
+          <p>Sculpture en bois représentant une famille américaine typique : critique de la banalité bourgeoise du quotidien.</p>
+        </div>
+        <div class="oeuvre-card">
+          <span class="annee">1964</span>
+          <strong>Women and Dog</strong>
+          <p>Groupe de femmes accompagnées d'un chien, commentaire sur les rôles féminins dans la société américaine des années 60.</p>
+        </div>
+        <div class="oeuvre-card">
+          <span class="annee">1965–66</span>
+          <strong>The Party</strong>
+          <p>15 personnages grandeur nature mêlant photos réelles et bois peint : une satire de la vie mondaine new-yorkaise.</p>
+        </div>
+        <div class="oeuvre-card">
+          <span class="annee">1967</span>
+          <strong>De Gaulle</strong>
+          <p>Sculpture monumentale du président français, dans le style caricatural et critique propre à Marisol.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── DOCUMENTATION ── -->
+    <section aria-labelledby="titre-doc">
+      <h2 id="titre-doc">Documentation</h2>
+      <div class="projet-texte-card">
+        <p>Avant de concevoir l'affiche, une phase de recherche documentaire a permis de
+          rassembler des images des sculptures de Marisol comme<em>The Party</em>
+          (1965–66) et des portraits photographiques de l'artiste, ainsi que des références
+          stylistiques au mouvement Pop Art (trames de points, couleurs saturées, typographie
+          expressive).</p>
+      </div>
+      <div class="projet-galerie">
+        <img src="img/PA_affiche1.png"
+             alt="Documentation : œuvres de Marisol Escobar et références Pop Art"
+             width="500" height="900" loading="lazy" />
+      </div>
+    </section>
+
+
+    <!-- ── ESQUISSE ── -->
+    <section aria-labelledby="titre-esquisse">
+      <h2 id="titre-esquisse">Esquisse</h2>
+      <div class="projet-texte-card">
+        <p>L'esquisse au crayon pose les bases de la composition : la date en arc de cercle
+          en haut, les photographies des sculptures au centre, un bandeau central accueillant
+          le titre de l'exposition (<strong>POPSOL</strong>), le lieu en dessous, et une
+          bande de logos partenaires en pied de page. La structure reprend le schéma
+          classique de l'affiche d'exposition tout en laissant place aux codes visuels
+          du Pop Art.</p>
+      </div>
+      <div class="projet-galerie">
+        <img src="img/Esquisse_PA.png"
+             alt="Esquisse au crayon — composition de l'affiche Pop Art"
+             width="900" height="1200" loading="lazy"
+             style="max-width:440px;" />
+      </div>
+    </section>
+
+
+    <!-- ── EXÉCUTION FINALE ── -->
+    <section aria-labelledby="titre-execution">
+      <h2 id="titre-execution">Affiche finale</h2>
+      <div class="projet-texte-card">
+        <p>L'affiche finale pour l'exposition fictive <strong>POPSOL</strong> reprend
+          fidèlement l'esquisse initiale. Le fond rayonnant multicolore (jaune, bleu,
+          rose, rouge, orange) rappelle immédiatement l'énergie Pop Art ; la trame de
+          points cyan sur fond magenta évoque les impressions sérigraphiques de Warhol.
+          Le titre POPSOL: contraction de Pop Art et de Marisol est mis en valeur
+          par un bandeau rose pâle avec une typographie en relief bleue.
+          Les logos des partenaires institutionnels (FRAEME, Ville de Marseille, [mac],
+          Musées de Marseille…) viennent crédibiliser la mise en page en bas de l'affiche.</p>
+      </div>
+      <div class="projet-galerie">
+        <img src="img/Aff_PA.png"
+             alt="Affiche finale POPSOL — Exposition Marisol Escobar au [mac] Marseille"
+             width="900" height="1273" loading="lazy"
+             style="max-width:480px;" />
+      </div>
+    </section>
+
+
+    <!-- ── CHOIX DE CONCEPTION ── -->
+    <section aria-labelledby="titre-choix">
+      <h2 id="titre-choix">Choix de conception</h2>
+      <div class="choix-grid">
+        <div class="choix-card">
+          <h3> Le fond rayonnant</h3>
+          <p>Les rayons multicolores sont une signature visuelle du Pop Art, évoquant
+            l'énergie, le dynamisme et la culture populaire des années 60. Ils créent
+            un fond immédiatement reconnaissable.</p>
+        </div>
+        <div class="choix-card">
+          <h3> La trame de points</h3>
+          <p>La trame Ben-Day (points cyan sur magenta) est directement inspirée des
+            techniques d'impression sérigraphique chères à Andy Warhol et Roy
+            Lichtenstein est un clin d'œil aux origines du mouvement.</p>
+        </div>
+        <div class="choix-card">
+          <h3> Le titre POPSOL</h3>
+          <p>Contraction de <em>Pop Art</em> et <em>Marisol</em>, ce nom d'exposition
+            inventé joue sur l'identité forte de l'artiste tout en ancrant l'affiche
+            dans le mouvement dont elle est issue.</p>
+        </div>
+        <div class="choix-card">
+          <h3> Les photographies</h3>
+          <p>L'intégration de vrais clichés des sculptures de Marisol (notamment
+            <em>The Party</em>) donne une dimension documentaire à l'affiche et permet
+            au spectateur de découvrir l'œuvre en avant première.</p>
+        </div>
+        <div class="choix-card">
+          <h3> Format CMJN</h3>
+          <p>L'affiche a été conçue dès le départ en mode couleur CMJN (quadrichromie)
+            pour l'impression offset A3, avec des couleurs saturées pensées pour
+            conserver leur impact une fois imprimées.</p>
+        </div>
+        <div class="choix-card">
+          <h3> Logos partenaires</h3>
+          <p>FRAEME, Ville de Marseille, Standart, [mac], et Musées de Marseille :
+            les logos institutionnels en bas de l'affiche renforcent sa crédibilité
+            et s'inscrivent dans les conventions de la communication muséale.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ── CE QUE J'AI APPRIS ── -->
+    <section aria-labelledby="titre-bilan">
+      <h2 id="titre-bilan">Ce que j'ai appris</h2>
+      <div class="apprentissages">
+        <div class="apprentissage-item">
+          <span class="icon"></span>
+          <strong>Codes visuels d'un mouvement</strong>
+          <p>Concevoir une affiche Pop Art m'a obligée à décoder ses codes graphiques
+            (trame, saturation, typographie expressive) et à les réinterpréter de manière
+            cohérente plutôt que de les copier mécaniquement.</p>
+        </div>
+        <div class="apprentissage-item">
+          <span class="icon"></span>
+          <strong>Conception pour l'impression</strong>
+          <p>Travailler en CMJN dès la création (et non convertir en fin de projet)
+            évite les surprises à l'impression.</p>
+        </div>
+        <div class="apprentissage-item">
+          <span class="icon"></span>
+          <strong>De l'esquisse au rendu</strong>
+          <p>Dessiner d'abord à la main m'a aidée à organiser la hiérarchie visuelle
+            sans me laisser distraire par les outils numériques. L'esquisse est devenue
+            un vrai guide de mise en page.</p>
+        </div>
+        <div class="apprentissage-item">
+          <span class="icon"></span>
+          <strong>Recherche documentaire</strong>
+          <p>Étudier Marisol Escobar en profondeur — son parcours, ses œuvres, son
+            rapport au Pop Art a influencé la plupart de mes décisions graphiques plutôt que de
+            produire une affiche générique « style Pop Art ».</p>
+        </div>
+      </div>
+    </section>
+
+
+    <div class="cta-center">
+      <a href="projets.html" class="btn">← Retour aux projets</a>
+      <a href="Totally_style.html" class="btn btn-outline">Totally Style →</a>
+    </div>
+
+  </main>
+
+
+  <footer>
+    <small>© <span id="annee"></span> Raïssa Gradel — BUT MMI</small>
+  </footer>
+
+
+  <script>
+    var btnTheme = document.getElementById('toggle-theme');
+    var saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+    btnTheme.textContent = saved === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    btnTheme.addEventListener('click', function() {
+      var t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      localStorage.setItem('theme', t);
+      btnTheme.textContent = t === 'dark' ? '☀️ Mode clair' : '🌙 Mode sombre';
+    });
+
+    var btn = document.getElementById('burger-btn');
+    var nav = document.getElementById('main-nav');
+    btn.addEventListener('click', function() {
+      if (nav.classList.contains('open')) { nav.classList.remove('open'); btn.textContent = '☰'; }
+      else { nav.classList.add('open'); btn.textContent = '✕'; }
+    });
+    nav.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() { nav.classList.remove('open'); btn.textContent = '☰'; });
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { nav.classList.remove('open'); btn.textContent = '☰'; }
+    });
+
+    document.getElementById('annee').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
